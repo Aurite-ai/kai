@@ -1,6 +1,6 @@
 {
   "name": "@aurite-ai/kai",
-  "version": "0.1.11",
+  "version": "0.2.0",
   "description": "Kai MCP server - context management tools for coding copilots",
   "type": "module",
   "license": "MIT",

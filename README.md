@@ -216,6 +216,8 @@ Kai is not a replacement for built-in copilot memory — it's what copilot memor
 | `kai_list_integrations` | List all discovered integrations and their status |
 | `kai_use_integration` | Execute operations on discovered integrations |
 | `kai_verify_integration` | Verify integration credentials and connectivity |
+| `kai_discover_integration` | Discover and add a connector for a new service, API, or tool |
+| `kai_update_connector` | Update or refresh an existing integration connector |
 | `health_check` | Verify MCP server connectivity |
 
 ---

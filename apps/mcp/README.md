@@ -78,7 +78,7 @@ Example: After learning a file with PostgreSQL connection strings, you can say:
 
 </details>
 
-**Additional tools:** `kai_provide_context`, `kai_verify_integration`, `kai_list_integrations`. See [Advanced Documentation](https://github.com/Aurite-ai/kai/blob/main/apps/mcp/docs/ADVANCED.md) for complete reference.
+**Additional tools:** `kai_provide_context`, `kai_verify_integration`, `kai_list_integrations`, `kai_update_connector`, `health_check`. See [Advanced Documentation](https://github.com/Aurite-ai/kai/blob/main/apps/mcp/docs/ADVANCED.md) for complete reference.
 
 ---
 

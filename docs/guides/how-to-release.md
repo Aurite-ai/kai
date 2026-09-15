@@ -6,8 +6,8 @@ This guide covers the two release tracks for the `@aurite-ai/kai` npm package: *
 
 | Track | Branch | npm tag | Trigger | Version format |
 |-------|--------|---------|---------|----------------|
-| Dev | `develop` | `dev` | Push to `develop` | `0.1.11-dev.0` |
-| Stable | `main` | `latest` | Manual `workflow_dispatch` | `0.1.11` |
+| Dev | `develop` | `dev` | Push to `develop` | `0.2.0-dev.0` |
+| Stable | `main` | `latest` | Manual `workflow_dispatch` | `0.2.0` |
 
 The version source of truth is [apps/mcp/package.json](../../apps/mcp/package.json). The CI workflows read this file to determine base versions.
 
@@ -26,9 +26,9 @@ git commit -m "chore: update README [skip ci]"
 When merging a PR into `develop` via GitHub, you can also add `[skip ci]` at the time of merge — edit the merge commit message in the merge dialog before confirming.
 
 **What happens:**
-1. CI reads the base version from `apps/mcp/package.json` (e.g. `0.1.11`)
-2. CI queries npm for existing `0.1.11-dev.X` versions and increments X
-3. A git tag `v0.1.11-dev.X` is created and pushed
+1. CI reads the base version from `apps/mcp/package.json` (e.g. `0.2.0`)
+2. CI queries npm for existing `0.2.0-dev.X` versions and increments X
+3. A git tag `v0.2.0-dev.X` is created and pushed
 4. The package is built, bundled, and published to npm with the `dev` tag
 5. No GitHub release is created
 
@@ -49,7 +49,7 @@ Update the version in [apps/mcp/package.json](../../apps/mcp/package.json):
 
 ```sh
 cd apps/mcp
-npm version patch   # 0.1.11 → 0.1.12
+npm version patch   # 0.2.0 → 0.2.1
 # or: npm version minor / major
 ```
 

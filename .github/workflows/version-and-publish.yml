@@ -47,7 +47,9 @@ jobs:
             echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
           else
             BASE_VERSION=$(node -p "require('./apps/mcp/package.json').version")
-            VERSIONS=$(npm view @aurite-ai/kai versions --json 2>/dev/null || echo '[]')
+            # npm prints an error JSON on stdout for a package with no versions yet,
+            # so fall back to [] instead of appending it to that output
+            VERSIONS=$(npm view @aurite-ai/kai versions --json 2>/dev/null) || VERSIONS='[]'
             NEXT_X=$(node -e "
               const versions = $VERSIONS;
               const base = '$BASE_VERSION';
