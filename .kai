@@ -1,0 +1,12 @@
+{
+  "tester": {
+    "name": "ryan"
+  },
+  "defaults": {
+    "copilot": "claude-code",
+    "framework": "langgraph"
+  },
+  "api": {
+    "url": "http://localhost:3000"
+  }
+}

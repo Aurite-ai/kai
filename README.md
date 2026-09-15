@@ -1,13 +1,13 @@
 <div align="center">
-<h1>🧠 Kahuna</h1>
+<h1>🌊 Kai</h1>
 <p><strong>Your AI copilot's memory. Persistent context across sessions, projects, and teams.</strong></p>
 <p>Give your coding agent the context it needs — automatically.</p>
 <p>
-<a href="https://github.com/Aurite-ai/kahuna/stargazers"><img src="https://img.shields.io/github/stars/Aurite-ai/kahuna?style=social" alt="GitHub stars"></a>
-<a href="https://www.npmjs.com/package/@aurite-ai/kahuna"><img src="https://img.shields.io/npm/v/@aurite-ai/kahuna" alt="npm version"></a>
+<a href="https://github.com/Aurite-ai/kai/stargazers"><img src="https://img.shields.io/github/stars/Aurite-ai/kai?style=social" alt="GitHub stars"></a>
+<a href="https://www.npmjs.com/package/@aurite-ai/kai"><img src="https://img.shields.io/npm/v/@aurite-ai/kai" alt="npm version"></a>
 <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a>
-<a href="https://github.com/Aurite-ai/kahuna/pulls"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs Welcome"></a>
-<a href="https://github.com/Aurite-ai/kahuna/commits"><img src="https://img.shields.io/github/last-commit/Aurite-ai/kahuna" alt="Last commit"></a>
+<a href="https://github.com/Aurite-ai/kai/pulls"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs Welcome"></a>
+<a href="https://github.com/Aurite-ai/kai/commits"><img src="https://img.shields.io/github/last-commit/Aurite-ai/kai" alt="Last commit"></a>
 </p>
 <p>Works with <strong>Claude Code</strong> · more copilots coming soon</p>
 </div>
@@ -27,16 +27,16 @@ Copilots are powerful — but they have amnesia.
 
 ## The Solution
 
-Kahuna gives your copilot a persistent memory that grows smarter over time.
+Kai gives your copilot a persistent memory that grows smarter over time.
 
-| Without Kahuna | With Kahuna |
+| Without Kai | With Kai |
 |---|---|
 | Copilot starts fresh every session | Copilot remembers what it learned |
 | You repeat context manually | Context surfaces automatically |
 | Knowledge lives in your head | Knowledge lives in a structured KB |
 | Decisions are forgotten | Decisions persist across sessions |
 
-**How it works:** Kahuna runs as an [MCP server](https://modelcontextprotocol.io/) alongside your copilot. You teach it your context once — policies, specs, decisions, patterns — and it proactively surfaces the right knowledge for each task.
+**How it works:** Kai runs as an [MCP server](https://modelcontextprotocol.io/) alongside your copilot. You teach it your context once — policies, specs, decisions, patterns — and it proactively surfaces relevant information when you need it.
 
 > 🔒 All data stays local. Your code and context never leave your machine.
 
@@ -44,10 +44,10 @@ Kahuna gives your copilot a persistent memory that grows smarter over time.
 
 ## Quickstart (Claude Code)
 
-**Step 1:** Add Kahuna to Claude Code
+**Step 1:** Add Kai to Claude Code
 
 ```bash
-claude mcp add kahuna -s user -e ANTHROPIC_API_KEY="your-anthropic-api-key" -- npx @aurite-ai/kahuna
+claude mcp add kai -s user -e ANTHROPIC_API_KEY="your-anthropic-api-key" -- npx @aurite-ai/kai
 ```
 
 > **Scope options:**
@@ -56,7 +56,7 @@ claude mcp add kahuna -s user -e ANTHROPIC_API_KEY="your-anthropic-api-key" -- n
 
 **Step 2:** In any project, tell your copilot:
 
-> **"Set up Kahuna"**
+> **"Set up Kai"**
 
 This deploys copilot rules and runs onboarding. The copilot asks a few questions to understand your context — this only happens once.
 
@@ -66,11 +66,11 @@ This deploys copilot rules and runs onboarding. The copilot asks a few questions
 >
 > **"learn the docs/ folder"**
 
-**Step 4:** Start working — Kahuna surfaces the right context automatically.
+**Step 4:** Start working — Kai surfaces the right context automatically.
 
 > **"build a customer support agent"**
 >
-> Kahuna feeds your copilot your API conventions, auth patterns, and related context. No reminders needed.
+> Kai feeds your copilot your API conventions, auth patterns, and related context. No reminders needed.
 
 <details>
 <summary>📦 More installation options (npm global, Docker, from source)</summary>
@@ -80,32 +80,32 @@ This deploys copilot rules and runs onboarding. The copilot asks a few questions
 **npm (Global Install)**
 
 ```bash
-npm install -g @aurite-ai/kahuna
+npm install -g @aurite-ai/kai
 ```
 
-Configure your MCP client to use `kahuna-mcp` as the command.
+Configure your MCP client to use `kai-mcp` as the command.
 
 **npx (No Install)**
 
 ```bash
-npx @aurite-ai/kahuna
+npx @aurite-ai/kai
 ```
 
 **Docker**
 
 ```bash
-docker pull kahuna/mcp
-docker run -i kahuna/mcp
+docker pull kai/mcp
+docker run -i kai/mcp
 ```
 
 **From Source**
 
 ```bash
-git clone https://github.com/Aurite-ai/kahuna.git
-cd kahuna
+git clone https://github.com/Aurite-ai/kai.git
+cd kai
 pnpm install
-pnpm --filter @aurite-ai/kahuna build
-pnpm --filter @aurite-ai/kahuna bundle
+pnpm --filter @aurite-ai/kai build
+pnpm --filter @aurite-ai/kai bundle
 ```
 
 </details>
@@ -114,7 +114,7 @@ pnpm --filter @aurite-ai/kahuna bundle
 
 ## What It Looks Like
 
-You teach Kahuna your company's context:
+You teach Kai your company's context:
 
 > "learn ~/docs/api-guidelines.pdf"
 >
@@ -124,7 +124,7 @@ Later, you start a task:
 
 > "build a customer support agent"
 
-Kahuna automatically surfaces the relevant context to your copilot:
+Kai automatically surfaces the relevant context to your copilot:
 
 - ✅ Your API conventions and auth patterns
 - ✅ Customer data models and access policies
@@ -138,25 +138,25 @@ Your copilot builds it right the first time — no reminders needed.
 ## How It Works
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│  YOU                          COPILOT                  KAHUNA   │
+┌────────────────────────────────────────────────────────────────┐
+│  YOU                          COPILOT                  KAI     │
 │                                                                 │
-│  "set up Kahuna"  ─────────►  deploys rules  ─────►  .claude/   │
+│  "set up Kai"     ─────────►  deploys rules  ─────►  .kai/    │
 │                               asks questions          stores    │
 │                                                       context   │
 │                                                                 │
-│  "learn these docs" ───────►  kahuna_learn   ─────►  knowledge  │
+│  "learn these docs" ───────►  kai_learn      ─────►  knowledge │
 │                                                       base      │
 │                                                                 │
-│  "build feature X" ────────►  kahuna_prepare ─────►  surfaces   │
+│  "build feature X" ────────►  kai_prepare    ─────►  surfaces  │
 │                               _context                relevant  │
 │                                                       files     │
-└─────────────────────────────────────────────────────────────────┘
+└────────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-> 💡 **If Kahuna saves you from repeating yourself, consider [giving it a ⭐](https://github.com/Aurite-ai/kahuna/stargazers).** It helps others discover the project.
+> 💡 **If Kai saves you from repeating yourself, consider [giving it a ⭐](https://github.com/Aurite-ai/kai/stargazers).** It helps others discover the project.
 
 ---
 
@@ -178,7 +178,7 @@ Your copilot builds it right the first time — no reminders needed.
 
 ## How It Compares
 
-| Feature | Kahuna | Copilot Memory | RAG Tools | Manual Context |
+| Feature | Kai | Copilot Memory | RAG Tools | Manual Context |
 |---|---|---|---|---|
 | Persists across sessions | ✅ | Partial | ✅ | ❌ |
 | Learns from files & conversations | ✅ | ❌ | Files only | N/A |
@@ -188,13 +188,13 @@ Your copilot builds it right the first time — no reminders needed.
 | Zero-config for copilot | ✅ | ✅ | ❌ | ❌ |
 | Data stays local | ✅ | ❌ | Varies | ✅ |
 
-Kahuna is not a replacement for built-in copilot memory — it's what copilot memory should have been.
+Kai is not a replacement for built-in copilot memory — it's what copilot memory should have been.
 
 ---
 
 ## Features
 
-- 🧠 **Knowledge Base** — Store, categorize, and retrieve context from markdown files
+- 🌊 **Knowledge Base** — Store, categorize, and retrieve context from markdown files
 - 🎯 **Smart Context Surfacing** — Automatically surface relevant knowledge for your task
 - 🔗 **Integration Management** — Discover, verify, and use external service integrations
 - 🔐 **Secure Credential Vault** — Store and manage secrets with multiple provider support
@@ -205,16 +205,16 @@ Kahuna is not a replacement for built-in copilot memory — it's what copilot me
 
 | Tool | Description |
 |------|-------------|
-| `kahuna_initialize` | Deploys copilot rules, runs onboarding |
-| `kahuna_learn` | Adds files to knowledge base with classification |
-| `kahuna_prepare_context` | Surfaces relevant knowledge for a task |
-| `kahuna_ask` | Quick Q&A against the knowledge base |
-| `kahuna_delete` | Remove outdated files from the knowledge base |
-| `kahuna_provide_context` | Store org or user context in the knowledge base |
-| `kahuna_usage` | View token usage and cost summary for the project |
-| `kahuna_list_integrations` | List all discovered integrations and their status |
-| `kahuna_use_integration` | Execute operations on discovered integrations |
-| `kahuna_verify_integration` | Verify integration credentials and connectivity |
+| `kai_initialize` | Deploys copilot rules, runs onboarding |
+| `kai_learn` | Adds files to knowledge base with classification |
+| `kai_prepare_context` | Surfaces relevant knowledge for a task |
+| `kai_ask` | Quick Q&A against the knowledge base |
+| `kai_delete` | Remove outdated files from the knowledge base |
+| `kai_provide_context` | Store org or user context in the knowledge base |
+| `kai_usage` | View token usage and cost summary for the project |
+| `kai_list_integrations` | List all discovered integrations and their status |
+| `kai_use_integration` | Execute operations on discovered integrations |
+| `kai_verify_integration` | Verify integration credentials and connectivity |
 | `health_check` | Verify MCP server connectivity |
 
 ---
@@ -236,9 +236,9 @@ Kahuna is not a replacement for built-in copilot memory — it's what copilot me
 
 We welcome contributions of all kinds!
 
-- 🐛 **Found a bug?** [Open an issue](https://github.com/Aurite-ai/kahuna/issues)
-- 💡 **Have an idea?** [Open a feature request](https://github.com/Aurite-ai/kahuna/issues/new)
-- 🔧 **Want to contribute code?** [Open a PR](https://github.com/Aurite-ai/kahuna/pulls)
+- 🐛 **Found a bug?** [Open an issue](https://github.com/Aurite-ai/kai/issues)
+- 💡 **Have an idea?** [Open a feature request](https://github.com/Aurite-ai/kai/issues/new)
+- 🔧 **Want to contribute code?** [Open a PR](https://github.com/Aurite-ai/kai/pulls)
 
 <details>
 <summary>🛠️ Developer Setup</summary>
@@ -282,7 +282,7 @@ pnpm test
 
 | Command              | Description                                |
 | -------------------- | ------------------------------------------ |
-| `pnpm kahuna-test`   | Run testing CLI                            |
+| `pnpm kai-test`      | Run testing CLI                            |
 | `pnpm test:create`   | Create a test project from a scenario      |
 | `pnpm test:list`     | List available scenarios and test projects |
 | `pnpm test:collect`  | Collect results from a test session        |
@@ -290,7 +290,7 @@ pnpm test
 **Project Structure**
 
 ```
-kahuna/
+kai/
 ├── apps/
 │   └── mcp/                # MCP server (stdio) — context management tools
 │       ├── src/

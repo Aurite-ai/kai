@@ -1,18 +1,18 @@
 {
-  "name": "@aurite-ai/kahuna",
+  "name": "@aurite-ai/kai",
   "version": "0.1.11",
-  "description": "Kahuna MCP server - context management tools for coding copilots",
+  "description": "Kai MCP server - context management tools for coding copilots",
   "type": "module",
   "license": "MIT",
-  "author": "Kahuna Team",
+  "author": "Kai Team",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Aurite-ai/kahuna.git",
+    "url": "git+https://github.com/Aurite-ai/kai.git",
     "directory": "apps/mcp"
   },
-  "homepage": "https://github.com/Aurite-ai/kahuna#readme",
+  "homepage": "https://github.com/Aurite-ai/kai#readme",
   "bugs": {
-    "url": "https://github.com/Aurite-ai/kahuna/issues"
+    "url": "https://github.com/Aurite-ai/kai/issues"
   },
   "publishConfig": {
     "access": "public"
@@ -26,13 +26,13 @@
     "claude",
     "anthropic"
   ],
-  "main": "./dist/kahuna-mcp.cjs",
+  "main": "./dist/kai-mcp.cjs",
   "bin": {
-    "kahuna-mcp": "dist/kahuna-mcp.cjs"
+    "kai-mcp": "dist/kai-mcp.cjs"
   },
   "files": [
-    "dist/kahuna-mcp.cjs",
-    "dist/kahuna-mcp.cjs.map",
+    "dist/kai-mcp.cjs",
+    "dist/kai-mcp.cjs.map",
     "dist/templates",
     "README.md"
   ],
@@ -44,7 +44,7 @@
     "bundle": "tsx scripts/bundle.ts",
     "dev": "tsx watch src/index.ts",
     "start": "node dist/index.js",
-    "start:bundle": "node dist/kahuna-mcp.cjs",
+    "start:bundle": "node dist/kai-mcp.cjs",
     "test": "vitest run",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",
