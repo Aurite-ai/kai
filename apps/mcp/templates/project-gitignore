@@ -23,4 +23,4 @@ dist/
 # OS
 .DS_Store
 Thumbs.db
-.kahuna-test.json
+.kai-test.json

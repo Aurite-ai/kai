@@ -16,13 +16,13 @@ import { type MCPToolResponse, type ToolContext, markdownResponse } from './type
  * Tool definition for MCP registration
  */
 export const listIntegrationsToolDefinition = {
-  name: 'kahuna_list_integrations',
+  name: 'kai_list_integrations',
   description: `List all discovered integrations and their status.
 
 Use this tool to see what integrations are available for use. Shows integration names, types, 
 available operations, and current status (discovered, configured, verified, error).
 
-Use this before kahuna_use_integration to know what integrations are available.`,
+Use this before kai_use_integration to know what integrations are available.`,
   inputSchema: {
     type: 'object' as const,
     properties: {
@@ -66,7 +66,7 @@ export async function listIntegrationsToolHandler(
 
 *No integrations discovered yet.*
 
-Use \`kahuna_learn\` on files that describe your external services, APIs, or databases to discover integrations.`);
+Use \`kai_learn\` on files that describe your external services, APIs, or databases to discover integrations.`);
       }
 
       // Apply filters
@@ -87,7 +87,7 @@ Use \`kahuna_learn\` on files that describe your external services, APIs, or dat
 - Type: ${typeFilter ?? 'all'}
 - Status: ${statusFilter ?? 'all'}
 
-Try removing filters or use \`kahuna_learn\` to discover more integrations.`);
+Try removing filters or use \`kai_learn\` to discover more integrations.`);
       }
 
       // Generate detailed markdown using the filtered list
@@ -102,7 +102,7 @@ Try removing filters or use \`kahuna_learn\` to discover more integrations.`);
 
 *No integrations discovered yet.*
 
-Use \`kahuna_learn\` on files that describe your external services, APIs, or databases to discover integrations.`);
+Use \`kai_learn\` on files that describe your external services, APIs, or databases to discover integrations.`);
     }
 
     // Apply filters
@@ -123,7 +123,7 @@ Use \`kahuna_learn\` on files that describe your external services, APIs, or dat
 - Type: ${typeFilter ?? 'all'}
 - Status: ${statusFilter ?? 'all'}
 
-Try removing filters or use \`kahuna_learn\` to discover more integrations.`);
+Try removing filters or use \`kai_learn\` to discover more integrations.`);
     }
 
     // Build summary markdown
@@ -152,7 +152,7 @@ ${filtered.map((i) => `| ${i.displayName} | ${i.type} | ${i.operationNames.join(
 
 To use an integration:
 \`\`\`
-kahuna_use_integration(
+kai_use_integration(
   integration: "<integration-id>",
   operation: "<operation-name>",
   params: { ... }
@@ -161,7 +161,7 @@ kahuna_use_integration(
 
 To verify an integration works:
 \`\`\`
-kahuna_verify_integration(integration: "<integration-id>")
+kai_verify_integration(integration: "<integration-id>")
 \`\`\``;
 
     return markdownResponse(markdown);

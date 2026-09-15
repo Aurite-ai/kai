@@ -7,7 +7,7 @@
  * - Target Node 20 LTS for broad compatibility
  * - Inject version from package.json at build time
  * - Add shebang for CLI execution
- * - Output to dist/kahuna-mcp.cjs
+ * - Output to dist/kai-mcp.cjs
  * - Copy templates to dist/templates/
  *
  * Usage: pnpm bundle
@@ -58,7 +58,7 @@ async function bundle() {
 
       // Output - use .cjs extension so Node recognizes it as CommonJS
       // (package.json has "type": "module" which would make .js be ESM)
-      outfile: path.join(rootDir, 'dist/kahuna-mcp.cjs'),
+      outfile: path.join(rootDir, 'dist/kai-mcp.cjs'),
       bundle: true,
 
       // Target Node 20 LTS
@@ -117,7 +117,7 @@ async function bundle() {
     console.log('   Copied templates/ to dist/templates/');
 
     // Calculate bundle size
-    const bundlePath = path.join(rootDir, 'dist/kahuna-mcp.cjs');
+    const bundlePath = path.join(rootDir, 'dist/kai-mcp.cjs');
     const stats = fs.statSync(bundlePath);
     const sizeKB = (stats.size / 1024).toFixed(1);
     const sizeMB = (stats.size / 1024 / 1024).toFixed(2);
@@ -125,12 +125,12 @@ async function bundle() {
     const elapsed = ((Date.now() - startTime) / 1000).toFixed(2);
 
     console.log('\n✅ Bundle created successfully!\n');
-    console.log('   Output: dist/kahuna-mcp.cjs');
+    console.log('   Output: dist/kai-mcp.cjs');
     console.log('   Assets: dist/templates/');
     console.log(`   Size:   ${sizeKB} KB (${sizeMB} MB)`);
     console.log(`   Time:   ${elapsed}s`);
-    console.log('\n   Run with: node dist/kahuna-mcp.cjs');
-    console.log('   Or:       ./dist/kahuna-mcp.cjs (after chmod +x)');
+    console.log('\n   Run with: node dist/kai-mcp.cjs');
+    console.log('   Or:       ./dist/kai-mcp.cjs (after chmod +x)');
   } catch (error) {
     console.error('❌ Bundle failed:', error);
     process.exit(1);

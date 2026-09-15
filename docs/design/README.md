@@ -1,4 +1,4 @@
-# Kahuna MCP - Product Design
+# Kai MCP - Product Design
 
 **Status:** Final
 **Date:** 2026-02-05
@@ -16,15 +16,15 @@
 | [user-journey.md](./user-journey.md) | Everyone | Day 1 → Month 2 user scenarios |
 | [tool-specifications.md](./tool-specifications.md) | Implementers | Detailed MCP tool specs |
 | [knowledge-architecture.md](./knowledge-architecture.md) | Implementers | Knowledge base structure and flows |
-| [copilot-configuration.md](./copilot-configuration.md) | Implementers | Files created by `kahuna_initialize` |
+| [copilot-configuration.md](./copilot-configuration.md) | Implementers | Files created by `kai_initialize` |
 
 ---
 
 ## 1. Product Overview
 
-### What Is Kahuna MCP?
+### What Is Kai MCP?
 
-Kahuna MCP is an MCP server that transforms empty folders into structured agent development environments for "vibe coders" building AI agents (LangGraph or OpenAI Agents SDK) with Claude Code.
+Kai MCP is an MCP server that transforms empty folders into structured agent development environments for "vibe coders" building AI agents (LangGraph or OpenAI Agents SDK) with Claude Code.
 
 **Target Users:** Non-developer "vibe coders" - employees building business agents without formal developer training.
 
@@ -32,17 +32,17 @@ Kahuna MCP is an MCP server that transforms empty folders into structured agent 
 
 **Core Value Proposition:** "Surfacing information instead of querying for it."
 
-Unlike tools like Context7 that expect copilots to know what to query, Kahuna's agents determine what context is relevant and surface it proactively. The copilot doesn't ask "what do I need?" - Kahuna tells it.
+Unlike tools like Context7 that expect copilots to know what to query, Kai's agents determine what context is relevant and surface it proactively. The copilot doesn't ask "what do I need?" - Kai tells it.
 
-### What Kahuna Is NOT
+### What Kai Is NOT
 
-- **Not a RAG system** - RAG retrieves code snippets based on queries. Kahuna proactively surfaces synthesized knowledge at the right time.
-- **Not just storage** - Traditional knowledge bases store and retrieve. Kahuna's agents synthesize, organize, and surface.
-- **Not a memory feature** - Built-in copilot memory is shallow (preferences, names). Kahuna captures deep context: decisions, policies, requirements, project-specific patterns.
+- **Not a RAG system** - RAG retrieves code snippets based on queries. Kai proactively surfaces synthesized knowledge at the right time.
+- **Not just storage** - Traditional knowledge bases store and retrieve. Kai's agents synthesize, organize, and surface.
+- **Not a memory feature** - Built-in copilot memory is shallow (preferences, names). Kai captures deep context: decisions, policies, requirements, project-specific patterns.
 
-### What Kahuna IS
+### What Kai IS
 
-**Kahuna is an agent-powered documentation generator.** Its agents:
+**Kai is an agent-powered documentation generator.** Its agents:
 1. **Ingest** files and conversation logs
 2. **Synthesize** structured markdown capturing the relevant knowledge
 3. **Organize** the knowledge base structure (agents decide how)
@@ -54,7 +54,7 @@ Unlike tools like Context7 that expect copilots to know what to query, Kahuna's 
 
 ### 2.1 Two Knowledge Input Channels
 
-Kahuna accepts knowledge from two sources:
+Kai accepts knowledge from two sources:
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
@@ -73,7 +73,7 @@ Kahuna accepts knowledge from two sources:
 │   • Lessons learned                      • Technical constraints             │
 │   • User preferences                     • Reference documentation           │
 │                                                                              │
-│   Kahuna EXTRACTS this knowledge         Kahuna CLASSIFIES and STORES       │
+│   Kai EXTRACTS this knowledge         Kai CLASSIFIES and STORES       │
 │   from conversation patterns             for appropriate retrieval           │
 │                                                                              │
 └─────────────────────────────────────────────────────────────────────────────┘
@@ -82,25 +82,25 @@ Kahuna accepts knowledge from two sources:
                     ┌─────────────────────┐
                     │   KNOWLEDGE BASE    │
                     │                     │
-                    │   .kahuna/context-guide.md  │
+                    │   .kai/context-guide.md  │
                     │   (single file with │
                     │    all knowledge)   │
                     └─────────────────────┘
 ```
 
-**The "Throw Files at Kahuna" Pattern:**
+**The "Throw Files at Kai" Pattern:**
 
-The copilot can send any file to Kahuna with minimal explanation:
+The copilot can send any file to Kai with minimal explanation:
 
 > "Here's our company's API design guidelines"
 
-Kahuna's agents:
+Kai's agents:
 1. Classify what kind of knowledge this is (policy, spec, reference, etc.)
 2. Determine if/how it should affect the knowledge base
 3. Store it appropriately for later surfacing
 4. Report back what was done
 
-The copilot MAY provide context ("this is our security policy"), but the goal is for Kahuna to figure it out.
+The copilot MAY provide context ("this is our security policy"), but the goal is for Kai to figure it out.
 
 ### 2.2 Conversations as Semantic Changelog
 
@@ -114,7 +114,7 @@ The copilot MAY provide context ("this is our security policy"), but the goal is
 
 A git diff shows "added timeout variable." The conversation reveals: the user was experiencing timeouts on large queries, Promise.all with timeout fallback was chosen over other approaches, and how to verify the fix works.
 
-**Application:** Kahuna agents extract the "why" and "how" from conversations, not just the "what" from files.
+**Application:** Kai agents extract the "why" and "how" from conversations, not just the "what" from files.
 
 ### 2.3 Surfacing, Not Storage
 
@@ -123,20 +123,20 @@ A git diff shows "added timeout variable." The conversation reveals: the user wa
 **Wrong:** User manually queries a knowledge base
 **Right:** Copilot automatically receives relevant context for the current task
 
-The copilot describes what it's doing, and Kahuna's agents determine what's relevant. This is the inverse of RAG-style "query and retrieve."
+The copilot describes what it's doing, and Kai's agents determine what's relevant. This is the inverse of RAG-style "query and retrieve."
 
 ### 2.4 Files as Interface
 
-The `.kahuna/context-guide.md` file is the interface between Kahuna and the copilot.
+The `.kai/context-guide.md` file is the interface between Kai and the copilot.
 
 ```
 project/
-└── .kahuna/context-guide.md        # Single markdown file with all relevant knowledge
+└── .kai/context-guide.md        # Single markdown file with all relevant knowledge
 ```
 
-**Initial structure:** `kahuna_initialize` creates a starter `.kahuna/context-guide.md` with curated patterns (e.g., LangGraph best practices). This provides Day 1 value.
+**Initial structure:** `kai_initialize` creates a starter `.kai/context-guide.md` with curated patterns (e.g., LangGraph best practices). This provides Day 1 value.
 
-**Subsequent updates:** `kahuna_prepare_context` regenerates the entire file with task-relevant knowledge from the knowledge base.
+**Subsequent updates:** `kai_prepare_context` regenerates the entire file with task-relevant knowledge from the knowledge base.
 
 **Why files?** Copilots already know how to read files and follow links. No special retrieval protocol needed. The knowledge base is structured markdown that copilots navigate naturally.
 
@@ -157,7 +157,7 @@ All tool responses include actionable hints guiding what to do next:
 <hints>
 ## What You Can Do Next
 
-- **Read the full decision**: Check the Search Approach section in `.kahuna/context-guide.md`
+- **Read the full decision**: Check the Search Approach section in `.kai/context-guide.md`
 - **Check the policy**: The API guidelines affect how you should implement this
 - **Start implementation**: The decision above provides the rationale you need
 </hints>
@@ -171,9 +171,9 @@ Four active tools (plus one deferred) in three categories. See [tool-specificati
 
 | Category | Tools | Purpose |
 |----------|-------|---------|
-| **Building Knowledge Base** | `kahuna_learn`, `kahuna_sync` (deferred) | Populate ~/.kahuna with knowledge |
-| **Environment Setup** | `kahuna_initialize`, `kahuna_prepare_context` | Prepare project for development |
-| **Assistance** | `kahuna_ask` | Use context + KB to help copilot |
+| **Building Knowledge Base** | `kai_learn`, `kai_sync` (deferred) | Populate ~/.kai with knowledge |
+| **Environment Setup** | `kai_initialize`, `kai_prepare_context` | Prepare project for development |
+| **Assistance** | `kai_ask` | Use context + KB to help copilot |
 
 > **Note:** Verification/review is handled through a copilot skill rather than an MCP tool. See [copilot-configuration.md](./copilot-configuration.md) for skill details.
 
@@ -187,7 +187,7 @@ Four active tools (plus one deferred) in three categories. See [tool-specificati
 
 | Layer | Source | Day 1? | Description |
 |-------|--------|--------|-------------|
-| 1. Curated Patterns | Kahuna-provided | ✅ Yes | LangGraph/OpenAI Agents SDK best practices |
+| 1. Curated Patterns | Kai-provided | ✅ Yes | LangGraph/OpenAI Agents SDK best practices |
 | 2. Project Structure | Init template | ✅ Yes | Boilerplate that embodies patterns |
 | 3. User Files | Policies, specs | ✅ Yes | Immediate if user has existing docs |
 | 4. Project Decisions | Extracted from work | After first task | Specific to this project |
@@ -204,7 +204,7 @@ Four active tools (plus one deferred) in three categories. See [tool-specificati
 
 ### 5.1 Two Input Channels (Conversations + Files)
 
-**Decision:** Kahuna accepts knowledge from both conversation logs AND user-provided files.
+**Decision:** Kai accepts knowledge from both conversation logs AND user-provided files.
 
 **Rationale:**
 - Conversations capture implicit knowledge (decisions, rationale, lessons)
@@ -214,7 +214,7 @@ Four active tools (plus one deferred) in three categories. See [tool-specificati
 
 ### 5.2 Files as Interface
 
-**Decision:** Request Task Context writes to `.kahuna/context-guide.md` rather than returning content directly.
+**Decision:** Request Task Context writes to `.kai/context-guide.md` rather than returning content directly.
 
 **Rationale:**
 - Copilots already know how to read files
@@ -233,7 +233,7 @@ Four active tools (plus one deferred) in three categories. See [tool-specificati
 
 ### 5.4 Agent-Determined Structure
 
-**Decision:** Agents determine the `.kahuna/context-guide.md` content structure based on relevance, rather than predefined categories.
+**Decision:** Agents determine the `.kai/context-guide.md` content structure based on relevance, rather than predefined categories.
 
 **Rationale:**
 - Fits "agents figure it out" philosophy
@@ -243,7 +243,7 @@ Four active tools (plus one deferred) in three categories. See [tool-specificati
 
 ### 5.5 Automatic Classification
 
-**Decision:** Kahuna classifies incoming files automatically; copilot provides optional hints.
+**Decision:** Kai classifies incoming files automatically; copilot provides optional hints.
 
 **Rationale:**
 - Reduces copilot cognitive load
@@ -253,7 +253,7 @@ Four active tools (plus one deferred) in three categories. See [tool-specificati
 
 ### 5.6 Curated Patterns for Cold Start
 
-**Decision:** Init pre-populates `.kahuna/context-guide.md` with framework-specific starter content (LangGraph or OpenAI Agents SDK).
+**Decision:** Init pre-populates `.kai/context-guide.md` with framework-specific starter content (LangGraph or OpenAI Agents SDK).
 
 **Rationale:**
 - Users need Day 1 value
@@ -289,10 +289,10 @@ Four active tools (plus one deferred) in three categories. See [tool-specificati
 
 - v1.0 (2026-02-05): Initial authoritative design consolidating documents 00-08
 - v1.1 (2026-02-05): Added file-based knowledge input; restructured as overview document
-- v1.2 (2026-02-05): Clarified Kahuna as agent-powered documentation generator; adopted agent-determined structure for .kahuna/context-guide.md
+- v1.2 (2026-02-05): Clarified Kai as agent-powered documentation generator; adopted agent-determined structure for .kai/context-guide.md
 - v1.3 (2026-02-05): Finalized tool names: setup, learn, prepare_context, ask, review, sync
 - v1.4 (2026-02-05): Two-stage architecture; tool categories; assistance tools use context + KB
 - v1.5 (2026-02-05): Added 09d-copilot-configuration.md to document index; updated 09b/09c status
-- v1.6 (2026-02-05): Clarified .kahuna/context-guide.md structure (single file approach); fixed ~/.kahuna as global; aligned status terminology
+- v1.6 (2026-02-05): Clarified .kai/context-guide.md structure (single file approach); fixed ~/.kai as global; aligned status terminology
 - v2.0 (2026-02-05): Promoted to docs/design/; restructured as conceptual overview (technical details moved to companion docs)
-- v2.1 (2026-02-09): Renamed kahuna_setup → kahuna_initialize; removed kahuna_review (now skill-based); updated tool table
+- v2.1 (2026-02-09): Renamed kai_setup → kai_initialize; removed kai_review (now skill-based); updated tool table

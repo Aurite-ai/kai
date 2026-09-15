@@ -8,7 +8,7 @@
 
 ## Overview
 
-The integrations system enables Kahuna to discover, verify, and execute operations on external services (databases, APIs, messaging platforms, etc.). It follows a key principle: store **capabilities** (what a service can do) in integration descriptors, store **credentials** (secrets) in the vault.
+The integrations system enables Kai to discover, verify, and execute operations on external services (databases, APIs, messaging platforms, etc.). It follows a key principle: store **capabilities** (what a service can do) in integration descriptors, store **credentials** (secrets) in the vault.
 
 All domain logic lives in the `integrations/` module under `apps/mcp/src/`. MCP tool handlers are thin wrappers that validate input, delegate to `integrations/`, and format markdown responses.
 
@@ -21,7 +21,7 @@ All domain logic lives in the `integrations/` module under `apps/mcp/src/`. MCP 
                     │                MCP Tool Handlers                     │
                     │            thin wrappers, markdown output            │
                     ├───────────────┬──────────────────┬───────────────────┤
-                    │ kahuna_list_  │ kahuna_use_      │ kahuna_verify_    │
+                    │ kai_list_  │ kai_use_      │ kai_verify_    │
                     │ integrations  │ integration      │ integration       │
                     └───────┬───────┴────────┬─────────┴─────────┬─────────┘
                             │                │                   │
@@ -50,21 +50,21 @@ All domain logic lives in the `integrations/` module under `apps/mcp/src/`. MCP 
 
 ```
                     ┌───────────────┐
-  User files ──────►│ kahuna_learn  │──── Pattern Matching ────► ~/.kahuna/integrations/*.json
+  User files ──────►│ kai_learn  │──── Pattern Matching ────► ~/.kai/integrations/*.json
   (with service     └───────────────┘     + LLM Extraction
    mentions)                │
                            ▼
                     1Password refs (op://) ──► infer integration type ──► create descriptor
 
                     ┌─────────────────────────┐
-  Integration ID ──►│ kahuna_verify_          │──► resolve credentials from vault
+  Integration ID ──►│ kai_verify_          │──► resolve credentials from vault
                     │ integration             │──► health check operation
                     └─────────────────────────┘         │
                                                        ▼
                                                update status: discovered → configured → verified
 
                     ┌─────────────────────────┐
-  Operation ───────►│ kahuna_use_integration  │──► resolve credentials
+  Operation ───────►│ kai_use_integration  │──► resolve credentials
   Params            └─────────────────────────┘──► circuit breaker check
                                                 ──► execute with retry ──► result
 ```
@@ -73,9 +73,9 @@ All domain logic lives in the `integrations/` module under `apps/mcp/src/`. MCP 
 
 | Tool | When Called | Side Effects | Key Operations |
 |------|------------|--------------|----------------|
-| `kahuna_list_integrations` | Browse available services | None (read-only) | List, filter by type/status |
-| `kahuna_use_integration` | Execute operation on service | May update circuit breaker state | Credential resolution, retry, circuit breaker |
-| `kahuna_verify_integration` | Test credentials work | Updates integration status | Health check, status update |
+| `kai_list_integrations` | Browse available services | None (read-only) | List, filter by type/status |
+| `kai_use_integration` | Execute operation on service | May update circuit breaker state | Credential resolution, retry, circuit breaker |
+| `kai_verify_integration` | Test credentials work | Updates integration status | Health check, status update |
 
 ---
 
@@ -88,7 +88,7 @@ All domain logic lives in the `integrations/` module under `apps/mcp/src/`. MCP 
 | D3 | **25+ known integration patterns** | Cover common services (Slack, Stripe, PostgreSQL, etc.) without user configuration. |
 | D4 | **1Password reference parsing** | `op://vault/item/field` URIs auto-discover integrations from existing secrets. |
 | D5 | **Vault references, not values** | Credentials stored as `vault://env/SLACK_BOT_TOKEN`, resolved at execution time. |
-| D6 | **JSON file per integration** | `~/.kahuna/integrations/{id}.json`. Human-readable, easy to debug. |
+| D6 | **JSON file per integration** | `~/.kai/integrations/{id}.json`. Human-readable, easy to debug. |
 | D7 | **Merge logic for duplicates** | Same integration from multiple sources merges operations and vault refs. |
 | D8 | **Circuit breaker pattern** | Prevents cascading failures. CLOSED → OPEN (after failures) → HALF_OPEN (recovery test). |
 | D9 | **Exponential backoff with jitter** | Retries use increasing delays + randomization to avoid thundering herd. |
@@ -104,7 +104,7 @@ All domain logic lives in the `integrations/` module under `apps/mcp/src/`. MCP 
 
 ### Storage Location
 
-- **Default:** `~/.kahuna/integrations/`
+- **Default:** `~/.kai/integrations/`
 - **Layout:** One JSON file per integration: `{id}.json`
 
 ### Descriptor Format
@@ -163,7 +163,7 @@ interface IntegrationAuth {
 
 ## Supported Integrations
 
-Kahuna includes 25+ built-in integration patterns. These are auto-detected when you run `kahuna_learn` on files mentioning these services.
+Kai includes 25+ built-in integration patterns. These are auto-detected when you run `kai_learn` on files mentioning these services.
 
 ### Databases (6 integrations)
 
@@ -357,7 +357,7 @@ When credentials are missing, `generateCredentialPrompt()` produces actionable m
 apps/mcp/src/integrations/
 ├── types.ts                     # IntegrationDescriptor, IntegrationType, etc.
 ├── extraction.ts                # Pattern matching, 1Password parsing, LLM extraction
-├── storage.ts                   # CRUD for ~/.kahuna/integrations/
+├── storage.ts                   # CRUD for ~/.kai/integrations/
 ├── integration-templates.ts     # CREDENTIAL_INFO for 25+ services
 ├── credential-prompts.ts        # Generate setup instructions
 ├── index.ts                     # Public exports (barrel)
@@ -376,9 +376,9 @@ apps/mcp/src/integrations/
     └── index.ts                 # Public exports
 
 apps/mcp/src/tools/
-├── list-integrations.ts         # kahuna_list_integrations handler
-├── use-integration.ts           # kahuna_use_integration handler
-└── verify-integration.ts        # kahuna_verify_integration handler
+├── list-integrations.ts         # kai_list_integrations handler
+├── use-integration.ts           # kai_use_integration handler
+└── verify-integration.ts        # kai_verify_integration handler
 ```
 
 ---

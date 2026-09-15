@@ -13,7 +13,7 @@ vi.mock('../../knowledge/agents/run-agent.js', () => ({
 vi.mock('../../knowledge/surfacing/context-writer.js', () => ({
   clearContextDir: vi.fn(),
   writeContextReadme: vi.fn(),
-  getKBPath: vi.fn((slug) => `/home/user/.kahuna/knowledge/${slug}.mdc`),
+  getKBPath: vi.fn((slug) => `/home/user/.kai/knowledge/${slug}.mdc`),
   hasLocalSource: vi.fn().mockResolvedValue(false), // Default: no local source
   getLocalSourcePath: vi.fn((entry) => entry.source?.path || ''),
 }));
@@ -84,7 +84,7 @@ function mockRetrievalResult(selections: Array<{ slug: string; reason: string }>
 
 describe('prepareContextToolDefinition', () => {
   it('has the correct name', () => {
-    expect(prepareContextToolDefinition.name).toBe('kahuna_prepare_context');
+    expect(prepareContextToolDefinition.name).toBe('kai_prepare_context');
   });
 
   it('requires task', () => {
@@ -133,7 +133,7 @@ describe('prepareContextToolHandler', () => {
       expect(text).toContain('No Context Available');
       expect(text).toContain('knowledge base is empty');
       expect(text).toContain('<hints>');
-      expect(text).toContain('kahuna_learn');
+      expect(text).toContain('kai_learn');
       // Agent should NOT be called
       expect(mockRunAgent).not.toHaveBeenCalled();
     });
@@ -191,7 +191,7 @@ describe('prepareContextToolHandler', () => {
       const text = result.content[0].text;
       expect(text).toContain('# Context Ready');
       expect(text).toContain('API Guidelines');
-      expect(text).toContain('.kahuna/knowledge');
+      expect(text).toContain('.kai/knowledge');
       expect(text).toContain('<hints>');
     });
   });

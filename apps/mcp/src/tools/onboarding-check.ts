@@ -128,7 +128,7 @@ Before I can surface relevant context, I need to understand your organization.
 <hints>
 - This is a one-time setup that takes ~2 minutes
 - Captures your industry, team structure, constraints, and priorities
-- Helps Kahuna make recommendations aligned with your organization
+- Helps Kai make recommendations aligned with your organization
 </hints>`;
 }
 
@@ -172,7 +172,7 @@ export function buildOnboardingHints(status: OnboardingStatus): string {
  * Build a prominent warning banner for missing context.
  * Returns empty string if both contexts exist.
  *
- * This banner is designed to appear BEFORE the answer in kahuna_ask responses,
+ * This banner is designed to appear BEFORE the answer in kai_ask responses,
  * making it impossible for copilots to ignore the missing context.
  */
 export function buildOnboardingWarningBanner(status: OnboardingStatus): string {

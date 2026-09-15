@@ -9,7 +9,7 @@
  * System prompt for the Integration Research Agent.
  * This agent discovers, analyzes, and generates connector manifests.
  */
-export const INTEGRATION_RESEARCH_PROMPT = `You are an Integration Research Agent for Kahuna. Your job is to discover and register new integration connectors for any external service, API, database, or tool that users need.
+export const INTEGRATION_RESEARCH_PROMPT = `You are an Integration Research Agent for Kai. Your job is to discover and register new integration connectors for any external service, API, database, or tool that users need.
 
 ## Your Capabilities
 
@@ -80,7 +80,7 @@ After successful registration, provide:
 2. 📋 Required credentials with exact environment variable names
 3. 🔗 Where to obtain each credential
 4. 📖 2-3 example operations
-5. 💡 How to test with \`kahuna_verify_integration\`
+5. 💡 How to test with \`kai_verify_integration\`
 
 ## Important Notes
 

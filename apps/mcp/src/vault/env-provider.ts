@@ -2,7 +2,7 @@
  * Environment Variable Vault Provider
  *
  * Default vault provider that stores secrets as environment variables.
- * Secrets are stored in ~/.kahuna/.env and accessed via process.env.
+ * Secrets are stored in ~/.kai/.env and accessed via process.env.
  *
  * See: docs/design/secure-integrations.md
  */
@@ -13,10 +13,10 @@ import * as path from 'node:path';
 import type { VaultProvider } from './types.js';
 
 /**
- * Get the path to the Kahuna env file
+ * Get the path to the Kai env file
  */
 function getEnvFilePath(): string {
-  return path.join(os.homedir(), '.kahuna', '.env');
+  return path.join(os.homedir(), '.kai', '.env');
 }
 
 /**
@@ -55,7 +55,7 @@ function parseEnvFile(content: string): Map<string, string> {
  */
 function serializeEnvFile(env: Map<string, string>): string {
   const lines: string[] = [
-    '# Kahuna Integration Secrets',
+    '# Kai Integration Secrets',
     '# This file is auto-generated. Do not edit manually.',
     '# Secrets are stored here for env var-based vault provider.',
     '',
@@ -73,7 +73,7 @@ function serializeEnvFile(env: Map<string, string>): string {
 
 /**
  * Convert a path to an environment variable name
- * e.g., "gmail/client_secret" -> "KAHUNA_GMAIL_CLIENT_SECRET"
+ * e.g., "gmail/client_secret" -> "KAI_GMAIL_CLIENT_SECRET"
  */
 function pathToEnvKey(secretPath: string): string {
   const normalized = secretPath
@@ -81,25 +81,22 @@ function pathToEnvKey(secretPath: string): string {
     .replace(/[^A-Z0-9]/g, '_')
     .replace(/_+/g, '_')
     .replace(/^_|_$/g, '');
-  return `KAHUNA_${normalized}`;
+  return `KAI_${normalized}`;
 }
 
 /**
  * Convert an environment variable name back to a path
- * e.g., "KAHUNA_GMAIL_CLIENT_SECRET" -> "gmail/client_secret"
+ * e.g., "KAI_GMAIL_CLIENT_SECRET" -> "gmail/client_secret"
  */
 function envKeyToPath(envKey: string): string {
-  if (!envKey.startsWith('KAHUNA_')) return envKey;
-  return envKey
-    .replace(/^KAHUNA_/, '')
-    .toLowerCase()
-    .replace(/_/g, '/');
+  if (!envKey.startsWith('KAI_')) return envKey;
+  return envKey.replace(/^KAI_/, '').toLowerCase().replace(/_/g, '/');
 }
 
 /**
  * Environment Variable Vault Provider
  *
- * Stores secrets in ~/.kahuna/.env and retrieves them from process.env.
+ * Stores secrets in ~/.kai/.env and retrieves them from process.env.
  * This is the default provider when no external vault is configured.
  */
 export class EnvVaultProvider implements VaultProvider {
@@ -142,7 +139,7 @@ export class EnvVaultProvider implements VaultProvider {
   /**
    * Store a secret in the .env file.
    *
-   * NOTE: This writes to ~/.kahuna/.env, not process.env.
+   * NOTE: This writes to ~/.kai/.env, not process.env.
    * The user/process must reload environment to pick up changes.
    */
   async setSecret(secretPath: string, value: string): Promise<void> {
@@ -176,7 +173,7 @@ export class EnvVaultProvider implements VaultProvider {
 
     // Check process.env
     for (const key of Object.keys(process.env)) {
-      if (key.startsWith('KAHUNA_')) {
+      if (key.startsWith('KAI_')) {
         const secretPath = envKeyToPath(key);
         if (!prefix || secretPath.startsWith(prefix)) {
           secrets.push(secretPath);
@@ -191,7 +188,7 @@ export class EnvVaultProvider implements VaultProvider {
       const env = parseEnvFile(content);
 
       for (const key of env.keys()) {
-        if (key.startsWith('KAHUNA_')) {
+        if (key.startsWith('KAI_')) {
           const secretPath = envKeyToPath(key);
           if (!prefix || secretPath.startsWith(prefix)) {
             if (!secrets.includes(secretPath)) {

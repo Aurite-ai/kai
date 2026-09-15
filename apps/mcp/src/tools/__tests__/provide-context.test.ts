@@ -19,7 +19,7 @@ const mockWriteFile = vi.mocked(fs.writeFile);
 
 describe('provideContextToolDefinition', () => {
   it('has the correct name', () => {
-    expect(provideContextToolDefinition.name).toBe('kahuna_provide_context');
+    expect(provideContextToolDefinition.name).toBe('kai_provide_context');
   });
 
   it('requires type and content', () => {
@@ -56,7 +56,7 @@ describe('provideContextToolHandler', () => {
     mockMkdir.mockResolvedValue(undefined);
     mockWriteFile.mockResolvedValue(undefined);
     // Set a known test directory
-    process.env.KAHUNA_KNOWLEDGE_DIR = testKnowledgeDir;
+    process.env.KAI_KNOWLEDGE_DIR = testKnowledgeDir;
   });
 
   afterEach(() => {
@@ -213,8 +213,8 @@ describe('provideContextToolHandler', () => {
   describe('custom knowledge directory', () => {
     const validContent = '# Context\n\nThis is content for custom directory testing purposes.';
 
-    it('respects KAHUNA_KNOWLEDGE_DIR environment variable', async () => {
-      process.env.KAHUNA_KNOWLEDGE_DIR = '/custom/knowledge/path';
+    it('respects KAI_KNOWLEDGE_DIR environment variable', async () => {
+      process.env.KAI_KNOWLEDGE_DIR = '/custom/knowledge/path';
 
       await provideContextToolHandler({ type: 'org', content: validContent }, ctx);
 
@@ -259,7 +259,7 @@ describe('provideContextToolHandler', () => {
       const result = await provideContextToolHandler({ type: 'org', content: validContent }, ctx);
 
       expect(result.content[0].text).toContain('<hints>');
-      expect(result.content[0].text).toContain('kahuna_prepare_context');
+      expect(result.content[0].text).toContain('kai_prepare_context');
       expect(result.content[0].text).toContain('replaces previous');
     });
 

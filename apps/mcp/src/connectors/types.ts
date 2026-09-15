@@ -241,7 +241,7 @@ export type ConnectorMetadata = z.infer<typeof ConnectorMetadataSchema>;
  */
 export const ConnectorManifestSchema = z.object({
   /** API version for schema evolution */
-  apiVersion: z.literal('kahuna.io/v1').default('kahuna.io/v1'),
+  apiVersion: z.literal('kai.io/v1').default('kai.io/v1'),
   /** Kind identifier */
   kind: z.literal('Connector').default('Connector'),
 
@@ -465,14 +465,14 @@ export function integrationToManifest(
   };
 
   return {
-    apiVersion: 'kahuna.io/v1',
+    apiVersion: 'kai.io/v1',
     kind: 'Connector',
     metadata: {
       id: integration.id,
       version: '1.0.0',
       displayName: integration.displayName,
       description: integration.description,
-      vendor: tier === 'native' ? 'Kahuna' : 'custom',
+      vendor: tier === 'native' ? 'Kai' : 'custom',
       tier,
       type: integration.type as ConnectorManifest['metadata']['type'],
       tags: [],

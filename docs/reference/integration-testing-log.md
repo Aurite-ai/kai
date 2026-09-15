@@ -30,7 +30,7 @@ Manual verification log for external service integrations. Update after testing 
 ### 1. Verify Credentials
 
 ```
-kahuna_verify_integration(integration="<id>")
+kai_verify_integration(integration="<id>")
 ```
 
 This checks:
@@ -43,7 +43,7 @@ This checks:
 Run the primary operations with test data:
 
 ```
-kahuna_use_integration(
+kai_use_integration(
   integration="<id>",
   operation="<operation>",
   params={...}

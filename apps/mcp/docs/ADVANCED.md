@@ -1,16 +1,16 @@
-# Kahuna Advanced Documentation
+# Kai Advanced Documentation
 
-This document covers advanced features and detailed tool reference for Kahuna.
+This document covers advanced features and detailed tool reference for Kai.
 
 ---
 
 ## Integration Tools Reference
 
-Kahuna can automatically detect and use external services found in your files.
+Kai can automatically detect and use external services found in your files.
 
-### kahuna_discover_integration
+### kai_discover_integration
 
-Detects integrations (databases, APIs, services) in files you provide. Usually called automatically during `kahuna_learn`.
+Detects integrations (databases, APIs, services) in files you provide. Usually called automatically during `kai_learn`.
 
 **Parameters:**
 
@@ -18,7 +18,7 @@ Detects integrations (databases, APIs, services) in files you provide. Usually c
 
 **Returns:** List of detected integrations with type and connection details.
 
-### kahuna_use_integration
+### kai_use_integration
 
 Executes operations against a discovered integration.
 
@@ -30,7 +30,7 @@ Executes operations against a discovered integration.
 
 **Example:** After discovering a PostgreSQL database, call with `operation: "query"` and `params: { sql: "SELECT * FROM users LIMIT 10" }`.
 
-### kahuna_verify_integration
+### kai_verify_integration
 
 Tests that an integration's credentials are valid and the service is reachable.
 
@@ -40,7 +40,7 @@ Tests that an integration's credentials are valid and the service is reachable.
 
 **Returns:** Connection status and any error details.
 
-### kahuna_list_integrations
+### kai_list_integrations
 
 Lists all integrations discovered across your knowledge base.
 
@@ -50,7 +50,7 @@ Lists all integrations discovered across your knowledge base.
 
 ## Vault & Credentials
 
-When Kahuna discovers sensitive values (API keys, connection strings, passwords), it stores them securely:
+When Kai discovers sensitive values (API keys, connection strings, passwords), it stores them securely:
 
 1. **Detection** — Automatic pattern matching identifies secrets in learned files
 2. **Storage** — Secrets are stored in vault (1Password or environment variables)
@@ -62,16 +62,16 @@ When Kahuna discovers sensitive values (API keys, connection strings, passwords)
 - 1Password (recommended for teams)
 - Environment variables (simpler setup)
 
-Configure via `KAHUNA_VAULT_PROVIDER` environment variable.
+Configure via `KAI_VAULT_PROVIDER` environment variable.
 
 ---
 
 ## Knowledge Base Structure
 
-Kahuna organizes learned content into a structured knowledge base:
+Kai organizes learned content into a structured knowledge base:
 
 ```
-.kahuna/
+.kai/
 ├── knowledge/           # Processed knowledge files
 │   ├── guidelines/      # Coding standards, style guides
 │   ├── architecture/    # System design, patterns
@@ -81,13 +81,13 @@ Kahuna organizes learned content into a structured knowledge base:
 └── context/             # Organization and user context
 ```
 
-Files are classified automatically during `kahuna_learn` based on content analysis.
+Files are classified automatically during `kai_learn` based on content analysis.
 
 ---
 
 ## Additional Tools
 
-### kahuna_provide_context
+### kai_provide_context
 
 Manually provides context to the knowledge base without file analysis. Useful for adding information that isn't in files.
 

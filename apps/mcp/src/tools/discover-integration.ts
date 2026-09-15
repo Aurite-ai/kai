@@ -1,5 +1,5 @@
 /**
- * kahuna_discover_integration MCP Tool
+ * kai_discover_integration MCP Tool
  *
  * Enables users to add any integration on-the-fly using an AI research agent.
  * The agent discovers API documentation, generates a connector manifest,
@@ -32,7 +32,7 @@ import type { ToolContext } from './types.js';
 // =============================================================================
 
 const definition: Tool = {
-  name: 'kahuna_discover_integration',
+  name: 'kai_discover_integration',
   description: `Discover and add a new integration connector for any service, API, or tool.
 
 Use this when:
@@ -46,7 +46,7 @@ The agent will:
 3. Extract common operations
 4. Generate and register a connector
 
-After discovery, use \`kahuna_verify_integration\` to test credentials.`,
+After discovery, use \`kai_verify_integration\` to test credentials.`,
   inputSchema: {
     type: 'object',
     properties: {
@@ -105,7 +105,7 @@ ${existing.spec.operations.length > 5 ? `\n... and ${existing.spec.operations.le
 ## Usage
 
 \`\`\`
-kahuna_use_integration(
+kai_use_integration(
   integration="${existing.metadata.id}",
   operation="<operation-name>",
   params={...}
@@ -231,7 +231,7 @@ If you need a different version or to update operations, you can ask to update t
 
 **Example:**
 \`\`\`
-kahuna_discover_integration(
+kai_discover_integration(
   service_name="Twilio",
   hints="https://www.twilio.com/docs/usage/api"
 )

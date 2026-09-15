@@ -1,11 +1,11 @@
 /**
- * Kahuna Provide Context Tool - Store org/user context
+ * Kai Provide Context Tool - Store org/user context
  *
  * Stores free-form markdown content as context files in the knowledge base.
  * Used during onboarding to capture org and user context, or anytime
  * the copilot needs to store synthesized understanding from conversation.
  *
- * See: docs/design/tool-specifications.md (Section 2: kahuna_provide_context)
+ * See: docs/design/tool-specifications.md (Section 2: kai_provide_context)
  */
 
 import * as fs from 'node:fs/promises';
@@ -29,7 +29,7 @@ const MIN_CONTENT_SIZE = 50;
  * Tool definition for MCP registration.
  */
 export const provideContextToolDefinition = {
-  name: 'kahuna_provide_context',
+  name: 'kai_provide_context',
   description: `Store org or user context in the knowledge base.
 
 USE THIS TOOL WHEN:
@@ -38,17 +38,17 @@ USE THIS TOOL WHEN:
 - Synthesizing context from a conversation (without creating temp files)
 
 This tool stores free-form markdown content as context files. Use it to capture
-synthesized understanding, not raw file content (use kahuna_learn for files).
+synthesized understanding, not raw file content (use kai_learn for files).
 
 <examples>
 ### Organization context
-kahuna_provide_context(
+kai_provide_context(
   type="org",
   content="# Organization Context\\n\\nHealthcare startup building patient portals.\\n\\n## Constraints\\n- HIPAA compliance required\\n- Must integrate with Epic EHR"
 )
 
 ### User context
-kahuna_provide_context(
+kai_provide_context(
   type="user",
   content="# User Context\\n\\nSenior developer, 10 years experience.\\n\\n## Preferences\\n- Detailed explanations over brief answers\\n- Prefers TDD approach"
 )
@@ -58,7 +58,7 @@ kahuna_provide_context(
 - Content should be markdown format
 - Org context = domain, constraints, patterns (spans projects)
 - User context = preferences, working style (personal)
-- Use kahuna_learn for file-based knowledge; this tool is for synthesized context
+- Use kai_learn for file-based knowledge; this tool is for synthesized context
 - Calling again with same type replaces previous content
 </hints>`,
 
@@ -89,10 +89,10 @@ const provideContextInputSchema = z.object({
 
 /**
  * Get the knowledge base directory path.
- * Uses KAHUNA_KNOWLEDGE_DIR env var if set, otherwise defaults to ~/.kahuna/knowledge/
+ * Uses KAI_KNOWLEDGE_DIR env var if set, otherwise defaults to ~/.kai/knowledge/
  */
 function getKnowledgeDir(): string {
-  return process.env.KAHUNA_KNOWLEDGE_DIR || path.join(os.homedir(), '.kahuna', 'knowledge');
+  return process.env.KAI_KNOWLEDGE_DIR || path.join(os.homedir(), '.kai', 'knowledge');
 }
 
 /**
@@ -130,7 +130,7 @@ source:
 classification:
   category: context
   confidence: 1.0
-  reasoning: "Foundation context created by kahuna_provide_context"
+  reasoning: "Foundation context created by kai_provide_context"
   topics: []
 status: active
 ---`;
@@ -159,19 +159,19 @@ Saved **${label} context** to knowledge base.
 **Path:** \`${storedPath}\`
 
 <hints>
-- Context will be included in future \`kahuna_prepare_context\` results
+- Context will be included in future \`kai_prepare_context\` results
 - You can update context by calling this tool again (replaces previous)
 - Continue onboarding or tell user to restart Claude Code
 </hints>`;
 }
 
 /**
- * Handle the kahuna_provide_context tool call.
+ * Handle the kai_provide_context tool call.
  *
  * Pipeline:
  * 1. Validate input (type must be 'org' or 'user', content must be non-empty)
  * 2. Generate filename: org-context.mdc or user-context.mdc
- * 3. Write to ~/.kahuna/knowledge/ with standard .mdc frontmatter
+ * 3. Write to ~/.kai/knowledge/ with standard .mdc frontmatter
  * 4. Return confirmation markdown
  */
 export async function provideContextToolHandler(

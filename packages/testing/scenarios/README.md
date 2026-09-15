@@ -82,7 +82,7 @@ A good copilot should:
 Use the CLI to create an isolated test environment:
 
 ```bash
-pnpm kahuna-test create customer-support-agent
+pnpm kai-test create customer-support-agent
 ```
 
 This combines:

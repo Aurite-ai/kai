@@ -7,7 +7,7 @@
  * whether org/user context already exists.
  *
  * Design refs:
- * - docs/design/tool-specifications.md (Section 1: kahuna_initialize)
+ * - docs/design/tool-specifications.md (Section 1: kai_initialize)
  * - docs/internal/designs/user-interaction-model.md (Section 3: Initialize Response Format)
  */
 
@@ -39,7 +39,7 @@ const FULL_ONBOARDING_INSTRUCTIONS = `---
 
 ## What Makes Context Useful
 
-Context helps Kahuna give better recommendations when you start a task.
+Context helps Kai give better recommendations when you start a task.
 
 **Useful context passes this test:** "If the user later says 'help me build X', would this information change what patterns, constraints, or knowledge apply?"
 
@@ -58,7 +58,7 @@ Context helps Kahuna give better recommendations when you start a task.
 
 Ask the user:
 
-> "Tell me a bit about yourself and what brings you to Kahuna."
+> "Tell me a bit about yourself and what brings you to Kai."
 > "What are you working on? Are you solo or part of a team?"
 
 Listen for:
@@ -77,11 +77,11 @@ If they have documents:
 1. **READ the files** to understand their content
 2. Note what context they provide
 3. Note what's still unclear or missing
-4. Call \`kahuna_learn(paths=[...], description="...")\` to store them in the knowledge base
+4. Call \`kai_learn(paths=[...], description="...")\` to store them in the knowledge base
 
 **The copilot decides** what to do with discovered documents. Generally:
-- Call \`kahuna_learn\` for files that should be stored in the knowledge base for future reference
-- Extract key information for \`kahuna_provide_context\` (org/user context synthesis)
+- Call \`kai_learn\` for files that should be stored in the knowledge base for future reference
+- Extract key information for \`kai_provide_context\` (org/user context synthesis)
 - Both are often appropriate - files go to KB, synthesized context goes to context files
 
 If no documents, proceed to Phase 3.
@@ -106,7 +106,7 @@ Synthesize everything into context documents:
 
 **Organization context** (stable, spans projects):
 \`\`\`
-kahuna_provide_context(
+kai_provide_context(
   type: "org",
   content: "# Organization Context\\n\\n[Domain, constraints, patterns that apply across projects]"
 )
@@ -114,7 +114,7 @@ kahuna_provide_context(
 
 **User context** (personal preferences, working style):
 \`\`\`
-kahuna_provide_context(
+kai_provide_context(
   type: "user",
   content: "# User Context\\n\\n[Individual preferences, experience level, how they like to work]"
 )
@@ -159,7 +159,7 @@ Listen for:
 Synthesize into user context:
 
 \`\`\`
-kahuna_provide_context(
+kai_provide_context(
   type: "user",
   content: "# User Context\\n\\n[Individual preferences, experience level, how they like to work]"
 )
@@ -186,8 +186,8 @@ const NO_ONBOARDING_RESPONSE = `Your organization and user context are already s
 
 <hints>
 - After restart, rules will be loaded automatically
-- Use \`kahuna_prepare_context\` to get relevant knowledge for tasks
-- Use \`kahuna_learn\` to add new documents to the knowledge base
+- Use \`kai_prepare_context\` to get relevant knowledge for tasks
+- Use \`kai_learn\` to add new documents to the knowledge base
 </hints>`;
 
 // =============================================================================
@@ -198,13 +198,13 @@ const NO_ONBOARDING_RESPONSE = `Your organization and user context are already s
  * Tool definition for MCP registration.
  */
 export const initializeToolDefinition = {
-  name: 'kahuna_initialize',
+  name: 'kai_initialize',
   description: `Deploy agent-dev rules and optionally run onboarding to collect org/user context.
 
 USE THIS TOOL WHEN:
-- User says "set up Kahuna", "initialize", "get started with Kahuna"
-- Starting to use Kahuna in a new project
-- User wants to configure their copilot with Kahuna integration
+- User says "set up Kai", "initialize", "get started with Kai"
+- Starting to use Kai in a new project
+- User wants to configure their copilot with Kai integration
 
 This tool does TWO things:
 1. Deploys agent-dev rules to .claude/ in the project directory
@@ -212,10 +212,10 @@ This tool does TWO things:
 
 <examples>
 ### Basic initialization
-kahuna_initialize(targetPath="/path/to/project")
+kai_initialize(targetPath="/path/to/project")
 
 ### With overwrite
-kahuna_initialize(targetPath="/path/to/project", overwrite=true)
+kai_initialize(targetPath="/path/to/project", overwrite=true)
 </examples>
 
 <hints>
@@ -266,10 +266,10 @@ interface ContextStatus {
 
 /**
  * Get the knowledge base directory path.
- * Uses KAHUNA_KNOWLEDGE_DIR env var if set, otherwise defaults to ~/.kahuna/knowledge/
+ * Uses KAI_KNOWLEDGE_DIR env var if set, otherwise defaults to ~/.kai/knowledge/
  */
 function getKnowledgeBaseDir(): string {
-  return process.env.KAHUNA_KNOWLEDGE_DIR || path.join(os.homedir(), '.kahuna', 'knowledge');
+  return process.env.KAI_KNOWLEDGE_DIR || path.join(os.homedir(), '.kai', 'knowledge');
 }
 
 /**
@@ -401,7 +401,7 @@ function buildOnboardingSection(contextStatus: ContextStatus): string {
 // =============================================================================
 
 /**
- * Handle the kahuna_initialize tool call.
+ * Handle the kai_initialize tool call.
  */
 export async function initializeToolHandler(
   args: Record<string, unknown>,
@@ -463,7 +463,7 @@ export async function initializeToolHandler(
     const copiedRelative = copiedFiles.map((f) => path.relative(absoluteTargetPath, f));
     const skippedRelative = skippedFiles.map((f) => path.relative(absoluteTargetPath, f));
 
-    let markdown = `# Kahuna Configured
+    let markdown = `# Kai Configured
 
 Rules deployed to \`.claude/\` in: \`${absoluteTargetPath}\`
 

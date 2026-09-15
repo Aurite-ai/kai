@@ -4,7 +4,7 @@
  * In-memory session tracker for LLM usage and costs.
  * Tracks all LLM calls within a session and provides summaries.
  *
- * Also persists usage to project-level storage (.kahuna/usage.json)
+ * Also persists usage to project-level storage (.kai/usage.json)
  * for cumulative cost tracking across sessions.
  *
  * For enterprise deployment, this can be extended to send data
@@ -313,22 +313,22 @@ export class UsageTracker {
  * Create a usage tracker with configuration from environment variables.
  *
  * Environment variables:
- * - KAHUNA_USAGE_API_ENDPOINT: Remote API endpoint for usage reporting
- * - KAHUNA_USAGE_API_KEY: API key for remote reporting
- * - KAHUNA_USER_ID: User identifier
- * - KAHUNA_ORG_ID: Organization identifier
- * - KAHUNA_TEAM_ID: Team identifier (optional)
- * - KAHUNA_INCLUDE_USAGE_IN_RESPONSES: Whether to include usage in responses (default: true)
+ * - KAI_USAGE_API_ENDPOINT: Remote API endpoint for usage reporting
+ * - KAI_USAGE_API_KEY: API key for remote reporting
+ * - KAI_USER_ID: User identifier
+ * - KAI_ORG_ID: Organization identifier
+ * - KAI_TEAM_ID: Team identifier (optional)
+ * - KAI_INCLUDE_USAGE_IN_RESPONSES: Whether to include usage in responses (default: true)
  *
  * @returns Configured UsageTracker instance
  */
 export function createUsageTrackerFromEnv(): UsageTracker {
-  const apiEndpoint = process.env.KAHUNA_USAGE_API_ENDPOINT;
-  const apiKey = process.env.KAHUNA_USAGE_API_KEY;
-  const userId = process.env.KAHUNA_USER_ID;
-  const orgId = process.env.KAHUNA_ORG_ID;
-  const teamId = process.env.KAHUNA_TEAM_ID;
-  const includeInResponses = process.env.KAHUNA_INCLUDE_USAGE_IN_RESPONSES !== 'false';
+  const apiEndpoint = process.env.KAI_USAGE_API_ENDPOINT;
+  const apiKey = process.env.KAI_USAGE_API_KEY;
+  const userId = process.env.KAI_USER_ID;
+  const orgId = process.env.KAI_ORG_ID;
+  const teamId = process.env.KAI_TEAM_ID;
+  const includeInResponses = process.env.KAI_INCLUDE_USAGE_IN_RESPONSES !== 'false';
 
   const config: Partial<UsageTrackerConfig> = {
     includeInResponses,
@@ -392,7 +392,7 @@ export function getProjectStorage(): ProjectUsageStorage {
 
 /**
  * Record usage to project-level storage.
- * This persists usage data to .kahuna/usage.json.
+ * This persists usage data to .kai/usage.json.
  *
  * @param toolName - Name of the tool that made the call
  * @param usage - Token usage from the call

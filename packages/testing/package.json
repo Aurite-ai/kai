@@ -1,12 +1,12 @@
 {
-  "name": "@aurite-ai/kahuna-testing",
+  "name": "@aurite-ai/kai-testing",
   "version": "0.0.0",
   "private": true,
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "bin": {
-    "kahuna-test": "./bin/kahuna-test.js"
+    "kai-test": "./bin/kai-test.js"
   },
   "exports": {
     ".": {

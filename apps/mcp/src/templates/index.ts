@@ -56,7 +56,7 @@ let _templatesDir: string | null = null;
  * - Development: templates/ relative to src/templates/
  * - Bundled CJS: templates/ relative to the bundle location
  * - npm installed: templates/ in package directory
- * - Docker: via KAHUNA_TEMPLATES_DIR environment variable
+ * - Docker: via KAI_TEMPLATES_DIR environment variable
  */
 function getTemplatesDir(): string {
   // Return cached value if available
@@ -64,8 +64,8 @@ function getTemplatesDir(): string {
     return _templatesDir;
   }
 
-  // 1. Check KAHUNA_TEMPLATES_DIR env var first (Docker, explicit config)
-  const envPath = process.env.KAHUNA_TEMPLATES_DIR;
+  // 1. Check KAI_TEMPLATES_DIR env var first (Docker, explicit config)
+  const envPath = process.env.KAI_TEMPLATES_DIR;
   if (envPath) {
     _templatesDir = envPath;
     return _templatesDir;
@@ -104,7 +104,7 @@ function getTemplatesDir(): string {
 
   // CJS mode (bundled)
   // In bundled CJS with esbuild, we need to find templates/ relative to the bundle
-  // The bundle is at dist/kahuna-mcp.cjs, templates are at dist/templates/
+  // The bundle is at dist/kai-mcp.cjs, templates are at dist/templates/
 
   // Try __dirname first (available in CJS context, more reliable than process.argv)
   // In bundled CJS, __dirname points to the directory containing the bundle
@@ -116,7 +116,7 @@ function getTemplatesDir(): string {
   }
 
   // Fallback: Use process.argv[1] which is the path to the script being executed
-  // This works for `node dist/kahuna-mcp.cjs` and npx scenarios
+  // This works for `node dist/kai-mcp.cjs` and npx scenarios
   // but may fail when loaded as a library or in some test runners
   const scriptPath = process.argv[1];
   if (scriptPath) {
@@ -229,9 +229,9 @@ async function readDirectoryRecursive(dirPath: string, basePath = ''): Promise<T
     // ENOENT (directory doesn't exist) is expected in some scenarios, log as debug
     const isNotFound = (error as NodeJS.ErrnoException).code === 'ENOENT';
     if (isNotFound) {
-      console.warn(`[kahuna] Template directory not found: ${dirPath}`);
+      console.warn(`[kai] Template directory not found: ${dirPath}`);
     } else {
-      console.error(`[kahuna] Failed to read template directory: ${dirPath}`, error);
+      console.error(`[kai] Failed to read template directory: ${dirPath}`, error);
     }
     // Return empty array - caller should handle gracefully
   }

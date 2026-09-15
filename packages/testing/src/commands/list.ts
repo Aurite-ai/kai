@@ -33,8 +33,8 @@ function isProjectCollected(projectPath: string): boolean {
  * Get the creation date of a project from its metadata file or directory stat
  */
 function getProjectCreatedDate(projectPath: string): string {
-  // Try to read from .kahuna-test.json metadata
-  const metadataPath = path.join(projectPath, '.kahuna-test.json');
+  // Try to read from .kai-test.json metadata
+  const metadataPath = path.join(projectPath, '.kai-test.json');
   if (fs.existsSync(metadataPath)) {
     try {
       const metadata = JSON.parse(fs.readFileSync(metadataPath, 'utf-8'));
@@ -103,7 +103,7 @@ export async function listCommand(): Promise<void> {
       .sort();
 
     if (projects.length === 0) {
-      console.log('  (none — use `kahuna-test create <scenario>` to create one)');
+      console.log('  (none — use `kai-test create <scenario>` to create one)');
     } else {
       const maxLen = Math.max(...projects.map((p) => p.length));
       for (const project of projects) {
@@ -116,7 +116,7 @@ export async function listCommand(): Promise<void> {
       }
     }
   } else {
-    console.log('  (none — use `kahuna-test create <scenario>` to create one)');
+    console.log('  (none — use `kai-test create <scenario>` to create one)');
   }
 
   console.log('');

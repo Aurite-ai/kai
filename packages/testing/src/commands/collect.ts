@@ -86,14 +86,14 @@ function findConversationLogs(projectPath: string): string[] {
 /**
  * Detect which scenario a project was created from.
  *
- * Reads the hidden .kahuna-test.json metadata file that
+ * Reads the hidden .kai-test.json metadata file that
  * the create command writes.
  */
 function detectScenario(projectPath: string): {
   scenario: string;
   createdAt: string;
 } {
-  const metadataPath = path.join(projectPath, '.kahuna-test.json');
+  const metadataPath = path.join(projectPath, '.kai-test.json');
 
   if (fs.existsSync(metadataPath)) {
     try {
@@ -138,7 +138,7 @@ export async function collectCommand(options: {
   if (!fs.existsSync(projectPath)) {
     console.error(`❌ Project not found: projects/${options.project}`);
     console.error('');
-    console.error('Use `kahuna-test list` to see available projects.');
+    console.error('Use `kai-test list` to see available projects.');
     process.exit(1);
   }
 

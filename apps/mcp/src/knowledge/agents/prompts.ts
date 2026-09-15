@@ -7,7 +7,7 @@
  */
 
 /**
- * System prompt for the categorization agent (used by kahuna_learn).
+ * System prompt for the categorization agent (used by kai_learn).
  * Simplified 6-field extraction: category, confidence, reasoning, title, summary, topics.
  */
 export const CATEGORIZATION_PROMPT = `You are a file analyzer. Classify this file and extract key metadata for a knowledge base.
@@ -51,7 +51,7 @@ Determine if this file is **project-specific** or **generally applicable**:
 Use the 'categorize_file' tool to provide your analysis with category, confidence, reasoning, title, summary, topics, and isProjectContext.`;
 
 /**
- * System prompt for the contradiction checking agent (used by kahuna_learn).
+ * System prompt for the contradiction checking agent (used by kai_learn).
  * Checks if a newly categorized file contradicts existing knowledge base entries.
  */
 export const CONTRADICTION_CHECK_PROMPT = `You are a contradiction detection agent. Your job is to check if a newly categorized file contradicts any existing files in the knowledge base.
@@ -89,7 +89,7 @@ You have 10 max iterations. Make sure to use the 'report_contradictions' tool to
 `;
 
 /**
- * System prompt for the retrieval agent (used by kahuna_prepare_context).
+ * System prompt for the retrieval agent (used by kai_prepare_context).
  */
 export const RETRIEVAL_PROMPT = `You are a knowledge retrieval agent. Your job is to select which knowledge base files are relevant to a task, and optionally select a framework to scaffold.
 
@@ -135,7 +135,7 @@ Guidelines:
 - Consider the task description, working files, and project structure when making selections`;
 
 /**
- * Template for the Q&A agent system prompt (used by kahuna_ask).
+ * Template for the Q&A agent system prompt (used by kai_ask).
  * Use buildQASystemPrompt() to fill in the referencedFilesSection.
  */
 export const QA_PROMPT_TEMPLATE = `You are a knowledge assistant. Answer questions using the knowledge base.
@@ -212,14 +212,14 @@ export function buildRetrievalUserMessage(
 /**
  * Build the full Q&A system prompt with referenced files section.
  *
- * @param referencedKBFiles - List of KB file paths currently referenced in .kahuna/context-guide.md
+ * @param referencedKBFiles - List of KB file paths currently referenced in .kai/context-guide.md
  */
 export function buildQASystemPrompt(referencedKBFiles: string[]): string {
   let referencedFilesSection = '';
 
   if (referencedKBFiles.length > 0) {
     const fileList = referencedKBFiles.map((f) => `- ${f}`).join('\n');
-    referencedFilesSection = `The copilot already has these KB files referenced in their .kahuna/context-guide.md:
+    referencedFilesSection = `The copilot already has these KB files referenced in their .kai/context-guide.md:
 ${fileList}
 
 These files are already accessible to the copilot. Focus on providing information that isn't covered by these files, or that provides additional detail beyond what they contain.`;
