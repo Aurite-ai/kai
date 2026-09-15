@@ -1,5 +1,5 @@
 /**
- * Kahuna Delete Tool - Remove files from knowledge base
+ * Kai Delete Tool - Remove files from knowledge base
  *
  * Allows deletion of outdated or contradicting files from the knowledge base.
  * Should only be called after user confirmation.
@@ -14,16 +14,16 @@ import { type MCPToolResponse, type ToolContext, markdownResponse } from './type
  * Tool definition for MCP registration.
  */
 export const deleteToolDefinition = {
-  name: 'kahuna_delete',
-  description: `Delete files from the Kahuna knowledge base.
+  name: 'kai_delete',
+  description: `Delete files from the Kai knowledge base.
 
 ⚠️ IMPORTANT: This tool should ONLY be called after:
-1. kahuna_learn reports contradictions with existing files
+1. kai_learn reports contradictions with existing files
 2. You ask the user for permission to delete the outdated files
 3. The user explicitly approves the deletion
 
 USE THIS TOOL WHEN:
-- kahuna_learn output indicates contradictions with existing KB files
+- kai_learn output indicates contradictions with existing KB files
 - User confirms they want to remove the outdated/contradicting files
 - You need to clean up superseded policies, outdated decisions, or conflicting information
 
@@ -34,7 +34,7 @@ DO NOT USE THIS TOOL:
 
 <examples>
 ### After user approves deletion
-kahuna_delete(slugs=["old-api-guidelines", "deprecated-security-policy"])
+kai_delete(slugs=["old-api-guidelines", "deprecated-security-policy"])
 </examples>
 
 <hints>
@@ -124,8 +124,8 @@ function buildDeleteSuccessMarkdown(results: FileDeletionResult[]): string {
   parts.push('\n<hints>');
   if (successful.length > 0) {
     parts.push('- Files have been permanently removed from the knowledge base');
-    parts.push('- Use `kahuna_learn` to add updated versions if needed');
-    parts.push('- Use `kahuna_prepare_context` to refresh context for your current task');
+    parts.push('- Use `kai_learn` to add updated versions if needed');
+    parts.push('- Use `kai_prepare_context` to refresh context for your current task');
   }
   if (failed.length > 0) {
     parts.push('- Some files could not be deleted - they may not exist or have invalid slugs');
@@ -142,7 +142,7 @@ No file slugs provided.
 
 <hints>
 - Provide at least one file slug to delete
-- Get slugs from kahuna_learn contradiction reports
+- Get slugs from kai_learn contradiction reports
 - Always confirm with user before deleting files
 </hints>`;
 }
@@ -152,7 +152,7 @@ No file slugs provided.
 // =============================================================================
 
 /**
- * Handle the kahuna_delete tool call.
+ * Handle the kai_delete tool call.
  *
  * Pipeline:
  * 1. Validate input

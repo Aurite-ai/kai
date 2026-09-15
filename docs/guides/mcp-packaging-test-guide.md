@@ -26,7 +26,7 @@ pnpm install
 All existing tests should pass:
 
 ```bash
-pnpm --filter @aurite-ai/kahuna test
+pnpm --filter @aurite-ai/kai test
 ```
 
 Expected: **466 tests passing** (4 skipped)
@@ -36,12 +36,12 @@ Expected: **466 tests passing** (4 skipped)
 ## Test 2: Build the Bundle
 
 ```bash
-pnpm --filter @aurite-ai/kahuna bundle
+pnpm --filter @aurite-ai/kai bundle
 ```
 
 Expected output:
-- `dist/kahuna-mcp.cjs` (~1.1 MB)
-- `dist/kahuna-mcp.cjs.map` (~3.6 MB)
+- `dist/kai-mcp.cjs` (~1.1 MB)
+- `dist/kai-mcp.cjs.map` (~3.6 MB)
 - `dist/templates/` directory with copilot configs, frameworks, knowledge-base
 
 Verify templates were copied:
@@ -53,24 +53,24 @@ ls -la apps/mcp/dist/templates/
 
 ## Test 3: Test the Bundled Server
 
-Start the bundled server and call `kahuna_initialize`:
+Start the bundled server and call `kai_initialize`:
 
 ```bash
 # Create a test directory
-mkdir -p /tmp/kahuna-test
+mkdir -p /tmp/kai-test
 
 # Call the initialize tool via JSON-RPC
-echo '{"jsonrpc":"2.0","method":"tools/call","params":{"name":"kahuna_initialize","arguments":{"targetPath":"/tmp/kahuna-test"}},"id":1}' | node apps/mcp/dist/kahuna-mcp.cjs
+echo '{"jsonrpc":"2.0","method":"tools/call","params":{"name":"kai_initialize","arguments":{"targetPath":"/tmp/kai-test"}},"id":1}' | node apps/mcp/dist/kai-mcp.cjs
 ```
 
-Expected: JSON response showing files copied to `/tmp/kahuna-test/.claude/`
+Expected: JSON response showing files copied to `/tmp/kai-test/.claude/`
 
 Verify files exist:
 ```bash
-ls -la /tmp/kahuna-test/.claude/
+ls -la /tmp/kai-test/.claude/
 # Should show: CLAUDE.md, settings.json, agents/, skills/, context/, plans/
 
-cat /tmp/kahuna-test/.claude/CLAUDE.md | head -10
+cat /tmp/kai-test/.claude/CLAUDE.md | head -10
 # Should show the Agent Orchestrator content
 ```
 
@@ -80,24 +80,24 @@ cat /tmp/kahuna-test/.claude/CLAUDE.md | head -10
 
 ```bash
 # Test --help
-node apps/mcp/dist/kahuna-mcp.cjs --help
+node apps/mcp/dist/kai-mcp.cjs --help
 ```
 
 Expected: Help text showing usage, available tools, configuration, and MCP setup example.
 
 ```bash
 # Test --version
-node apps/mcp/dist/kahuna-mcp.cjs --version
+node apps/mcp/dist/kai-mcp.cjs --version
 ```
 
-Expected: `kahuna-mcp-server v0.1.0`
+Expected: `kai-mcp-server v0.1.0`
 
 ---
 
 ## Test 5: Test health_check Tool
 
 ```bash
-echo '{"jsonrpc":"2.0","method":"tools/call","params":{"name":"health_check","arguments":{}},"id":1}' | node apps/mcp/dist/kahuna-mcp.cjs 2>/dev/null
+echo '{"jsonrpc":"2.0","method":"tools/call","params":{"name":"health_check","arguments":{}},"id":1}' | node apps/mcp/dist/kai-mcp.cjs 2>/dev/null
 ```
 
 Expected: JSON response with health check results
@@ -109,14 +109,14 @@ Expected: JSON response with health check results
 If Docker is available (run from repo root):
 
 ```bash
-docker build -t kahuna/mcp-test -f apps/mcp/Dockerfile .
+docker build -t kai/mcp-test -f apps/mcp/Dockerfile .
 ```
 
 Expected: Image builds successfully (~195 MB)
 
 Test the Docker image:
 ```bash
-echo '{"jsonrpc":"2.0","method":"tools/call","params":{"name":"health_check","arguments":{}},"id":1}' | docker run -i kahuna/mcp-test
+echo '{"jsonrpc":"2.0","method":"tools/call","params":{"name":"health_check","arguments":{}},"id":1}' | docker run -i kai/mcp-test
 ```
 
 ---
@@ -132,14 +132,14 @@ cat apps/mcp/package.json | grep -A 10 '"files"'
 Expected:
 ```json
 "files": [
-  "dist/kahuna-mcp.cjs",
-  "dist/kahuna-mcp.cjs.map",
+  "dist/kai-mcp.cjs",
+  "dist/kai-mcp.cjs.map",
   "dist/templates",
   "README.md"
 ],
 ```
 
-Verify `@kahuna/vck-templates` dependency is removed:
+Verify `@kai/vck-templates` dependency is removed:
 ```bash
 cat apps/mcp/package.json | grep vck-templates
 # Should return nothing
@@ -163,7 +163,7 @@ cat apps/mcp/package.json | grep vck-templates
 
 ## Potential Issues to Watch For
 
-1. **Template path resolution** - The templates module uses `__dirname` (primary) or `process.argv[1]` (fallback) in bundled CJS mode. If templates aren't found, check the `KAHUNA_TEMPLATES_DIR` env var.
+1. **Template path resolution** - The templates module uses `__dirname` (primary) or `process.argv[1]` (fallback) in bundled CJS mode. If templates aren't found, check the `KAI_TEMPLATES_DIR` env var.
 
 2. **ESbuild warning** - You'll see a warning about `import.meta` not being available in CJS format. This is expected and handled by the code.
 
@@ -174,8 +174,8 @@ cat apps/mcp/package.json | grep vck-templates
 ## Cleanup
 
 ```bash
-rm -rf /tmp/kahuna-test
-docker rmi kahuna/mcp-test  # if Docker test was run
+rm -rf /tmp/kai-test
+docker rmi kai/mcp-test  # if Docker test was run
 ```
 
 ---
@@ -205,8 +205,8 @@ docker rmi kahuna/mcp-test  # if Docker test was run
    npm pack --dry-run
    ```
    This shows what files will be included. Should list:
-   - `dist/kahuna-mcp.cjs`
-   - `dist/kahuna-mcp.cjs.map`
+   - `dist/kai-mcp.cjs`
+   - `dist/kai-mcp.cjs.map`
    - `dist/templates/` (and contents)
    - `README.md`
    - `package.json`
@@ -241,28 +241,28 @@ After publishing:
 
 ```bash
 # Check the package exists
-npm view @aurite-ai/kahuna
+npm view @aurite-ai/kai
 
 # Test CLI
-npx @aurite-ai/kahuna --version
-npx @aurite-ai/kahuna --help
+npx @aurite-ai/kai --version
+npx @aurite-ai/kai --help
 
 # Test global installation
-npm install -g @aurite-ai/kahuna
-kahuna-mcp --version
-kahuna-mcp --help
+npm install -g @aurite-ai/kai
+kai-mcp --version
+kai-mcp --help
 ```
 
 ### Publishing to Docker Hub (Optional)
 
 ```bash
 # Build with proper tag (from repo root)
-docker build -t kahuna/mcp:0.1.0 -t kahuna/mcp:latest -f apps/mcp/Dockerfile .
+docker build -t kai/mcp:0.1.0 -t kai/mcp:latest -f apps/mcp/Dockerfile .
 
 # Login to Docker Hub
 docker login
 
 # Push
-docker push kahuna/mcp:0.1.0
-docker push kahuna/mcp:latest
+docker push kai/mcp:0.1.0
+docker push kai/mcp:latest
 ```

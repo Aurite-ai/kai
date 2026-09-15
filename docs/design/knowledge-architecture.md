@@ -1,4 +1,4 @@
-# Kahuna MCP - Knowledge Architecture
+# Kai MCP - Knowledge Architecture
 
 **Status:** Final
 **Date:** 2026-02-05
@@ -8,7 +8,7 @@
 
 ## Overview
 
-Kahuna maintains a **global knowledge base** at `~/.kahuna/` that stores classified files from all projects. When a copilot needs context for a task, Kahuna surfaces relevant entries from the knowledge base to the project's `.kahuna/context-guide.md` file.
+Kai maintains a **global knowledge base** at `~/.kai/` that stores classified files from all projects. When a copilot needs context for a task, Kai surfaces relevant entries from the knowledge base to the project's `.kai/context-guide.md` file.
 
 ### Two-Stage Architecture
 
@@ -20,26 +20,26 @@ Kahuna maintains a **global knowledge base** at `~/.kahuna/` that stores classif
 │   STAGE 1: LEARN                                                             │
 │   ──────────────                                                             │
 │                                                                              │
-│   User files ────► kahuna_learn ────► ~/.kahuna/                             │
+│   User files ────► kai_learn ────► ~/.kai/                             │
 │   (policies, specs,                   (classified, stored)                   │
 │    conversations)                                                            │
 │                                                                              │
 │   - Files are classified by type                                             │
 │   - Metadata added (source, date, project)                                   │
 │   - Stored in knowledge base                                                 │
-│   - NOT written to project .kahuna/context-guide.md yet                              │
+│   - NOT written to project .kai/context-guide.md yet                              │
 │                                                                              │
 ├──────────────────────────────────────────────────────────────────────────────┤
 │                                                                              │
 │   STAGE 2: PREPARE                                                           │
 │   ────────────────                                                           │
 │                                                                              │
-│   Task description ────► kahuna_prepare_context ────► .kahuna/context-guide.md       │
+│   Task description ────► kai_prepare_context ────► .kai/context-guide.md       │
 │                                                       (task-relevant)        │
 │                                                                              │
 │   - Searches knowledge base for relevant entries                             │
-│   - Surfaces subset to project's .kahuna/context-guide.md                            │
-│   - Copilot reads .kahuna/context-guide.md during task                               │
+│   - Surfaces subset to project's .kai/context-guide.md                            │
+│   - Copilot reads .kai/context-guide.md during task                               │
 │                                                                              │
 └──────────────────────────────────────────────────────────────────────────────┘
 ```
@@ -48,14 +48,14 @@ Kahuna maintains a **global knowledge base** at `~/.kahuna/` that stores classif
 
 | Stage | Tool | What Happens | Output Location |
 |-------|------|--------------|-----------------|
-| **Learn** | `kahuna_learn` | Classify and store | `~/.kahuna/` |
-| **Prepare** | `kahuna_prepare_context` | Search and surface | `project/.kahuna/context-guide.md` |
+| **Learn** | `kai_learn` | Classify and store | `~/.kai/` |
+| **Prepare** | `kai_prepare_context` | Search and surface | `project/.kai/context-guide.md` |
 
 ---
 
-## Knowledge Base: ~/.kahuna/
+## Knowledge Base: ~/.kai/
 
-The global knowledge base lives at `~/.kahuna/`. This folder is:
+The global knowledge base lives at `~/.kai/`. This folder is:
 - **Persistent** - Survives across sessions
 - **Global** - Shared across all projects
 - **Hidden** - User doesn't interact directly
@@ -63,8 +63,8 @@ The global knowledge base lives at `~/.kahuna/`. This folder is:
 ### Folder Structure
 
 ```
-~/.kahuna/
-├── config.json               # Global Kahuna configuration
+~/.kai/
+├── config.json               # Global Kai configuration
 ├── state.json                # Processing state, sync tracking
 │
 ├── knowledge/                # Classified knowledge entries (.mdc files)
@@ -92,12 +92,12 @@ The global knowledge base lives at `~/.kahuna/`. This folder is:
 When files are uploaded that are project-specific, they are stored in a subfolder within the knowledge base named with the hash of the project directory path:
 
 **Storage behavior:**
-- **General context:** Files that apply across all projects (policies, standards, org/user context) are stored directly in `~/.kahuna/knowledge/`
-- **Project-specific context:** Files that are specific to a particular project are stored in `~/.kahuna/knowledge/[project-hash]/`
+- **General context:** Files that apply across all projects (policies, standards, org/user context) are stored directly in `~/.kai/knowledge/`
+- **Project-specific context:** Files that are specific to a particular project are stored in `~/.kai/knowledge/[project-hash]/`
 
 **Retrieval behavior:**
-- Tools like [`kahuna_prepare_context`](./tool-specifications.md#5-kahuna_prepare_context) and [`kahuna_ask`](./tool-specifications.md#7-kahuna_ask) only fetch knowledge from:
-  1. General context (files directly in `~/.kahuna/knowledge/`)
+- Tools like [`kai_prepare_context`](./tool-specifications.md#5-kai_prepare_context) and [`kai_ask`](./tool-specifications.md#7-kai_ask) only fetch knowledge from:
+  1. General context (files directly in `~/.kai/knowledge/`)
   2. The current project's subfolder (if it exists)
 - Files from other projects are not included in context retrieval
 
@@ -110,7 +110,7 @@ When files are uploaded that are project-specific, they are stored in a subfolde
 
 All knowledge entries use the `.mdc` format - a single file combining YAML frontmatter metadata with markdown content. This is simpler than folder+JSON and consistent with how conversation logs are stored.
 
-**Example knowledge entry:** `~/.kahuna/knowledge/uuid-1234.mdc`
+**Example knowledge entry:** `~/.kai/knowledge/uuid-1234.mdc`
 
 ```markdown
 ---
@@ -170,8 +170,8 @@ MVP categories (agents determine during learn):
 
 **Integration metadata is extracted from ANY file where external systems are mentioned** - not just `integration` category files. This is crucial for:
 - Auto-generating tool scaffolding in VCKs
-- Surfacing relevant integrations during `kahuna_prepare_context`
-- Enabling "Connector Discovery" - when users describe their needs in any context, Kahuna identifies what connections are required
+- Surfacing relevant integrations during `kai_prepare_context`
+- Enabling "Connector Discovery" - when users describe their needs in any context, Kai identifies what connections are required
 
 **When to use `integration` category:**
 - Use when the PRIMARY purpose of the file is describing integrations, connectors, data sources, or external services
@@ -252,31 +252,31 @@ This integration enables agents to:
 
 ---
 
-## Project Context: .kahuna/context-guide.md
+## Project Context: .kai/context-guide.md
 
-Each project has a `.kahuna/context-guide.md` file that receives surfaced knowledge.
+Each project has a `.kai/context-guide.md` file that receives surfaced knowledge.
 
 ### Folder Structure
 
 ```
 project/
-└── .kahuna/context-guide.md
+└── .kai/context-guide.md
 ```
 
-### How .kahuna/context-guide.md Gets Populated
+### How .kai/context-guide.md Gets Populated
 
-`kahuna_prepare_context` populates `.kahuna/context-guide.md` with task-relevant entries:
+`kai_prepare_context` populates `.kai/context-guide.md` with task-relevant entries:
 
 1. **Receives** task description
-2. **Searches** `~/.kahuna/knowledge/` for relevant entries
-3. **Generates** `.kahuna/context-guide.md` with navigation
+2. **Searches** `~/.kai/knowledge/` for relevant entries
+3. **Generates** `.kai/context-guide.md` with navigation
 
 ### README.md Format
 
 ```markdown
 # Context for: Add rate limiting to the search tool
 
-Surfaced from Kahuna knowledge base on 2026-02-05.
+Surfaced from Kai knowledge base on 2026-02-05.
 
 ## Relevant Context
 
@@ -294,7 +294,7 @@ Surfaced from Kahuna knowledge base on 2026-02-05.
 
 ---
 
-*Prepared by Kahuna | Use `kahuna_ask` for additional questions*
+*Prepared by Kai | Use `kai_ask` for additional questions*
 ```
 
 ---
@@ -305,26 +305,26 @@ Surfaced from Kahuna knowledge base on 2026-02-05.
 
 | Category | Tools | Data Flow |
 |----------|-------|-----------|
-| **Building KB** | learn, sync | Files → ~/.kahuna |
-| **Environment** | initialize, prepare_context | ~/.kahuna → .kahuna/context-guide.md |
-| **Assistance** | ask | .kahuna/context-guide.md + ~/.kahuna → response |
+| **Building KB** | learn, sync | Files → ~/.kai |
+| **Environment** | initialize, prepare_context | ~/.kai → .kai/context-guide.md |
+| **Assistance** | ask | .kai/context-guide.md + ~/.kai → response |
 
-### kahuna_initialize (Environment)
+### kai_initialize (Environment)
 
 **Creates:**
-- `project/.kahuna/context-guide.md` (minimal initial version)
+- `project/.kai/context-guide.md` (minimal initial version)
 
-**Does not create:** Knowledge base entries (that's `kahuna_learn`)
+**Does not create:** Knowledge base entries (that's `kai_learn`)
 
 > **Note:** Verification/review functionality is handled by a copilot skill rather than an MCP tool. See [copilot-configuration.md](./copilot-configuration.md).
 
-### kahuna_learn (Building KB)
+### kai_learn (Building KB)
 
 **Reads:**
 - User-provided files/folders (recursive)
 - Current project directory path (for determining storage location)
 
-**Writes to ~/.kahuna/:**
+**Writes to ~/.kai/:**
 - New `.mdc` file in `knowledge/[slug].mdc` (general context)
 - OR `knowledge/[project-hash]/[slug].mdc` (project-specific context)
 - YAML frontmatter with classification metadata
@@ -334,35 +334,35 @@ Surfaced from Kahuna knowledge base on 2026-02-05.
 - File content and context (agent determines if project-specific or general)
 - Project path hash for project-specific files
 
-**Does NOT write to:** `project/.kahuna/context-guide.md`
+**Does NOT write to:** `project/.kai/context-guide.md`
 
-### kahuna_prepare_context (Environment)
+### kai_prepare_context (Environment)
 
 **Reads:**
 - Task description
-- `~/.kahuna/knowledge/` entries (general context)
-- `~/.kahuna/knowledge/[project-hash]/` entries (current project's context)
-- `~/.kahuna/conversations/` summaries
+- `~/.kai/knowledge/` entries (general context)
+- `~/.kai/knowledge/[project-hash]/` entries (current project's context)
+- `~/.kai/conversations/` summaries
 
-**Writes to project/.kahuna/context-guide.md:**
+**Writes to project/.kai/context-guide.md:**
 - Surfaced knowledge entries from general and current project context
 
-### kahuna_ask (Assistance)
+### kai_ask (Assistance)
 
 **Reads (in order):**
-1. `project/.kahuna/context-guide.md` (if exists) - checked first
-2. `~/.kahuna/knowledge/` (general context) - fallback/additional
-3. `~/.kahuna/knowledge/[project-hash]/` (current project's context) - fallback/additional
+1. `project/.kai/context-guide.md` (if exists) - checked first
+2. `~/.kai/knowledge/` (general context) - fallback/additional
+3. `~/.kai/knowledge/[project-hash]/` (current project's context) - fallback/additional
 
 **Writes:** Nothing (returns text response)
 
-### kahuna_sync (Building KB)
+### kai_sync (Building KB)
 
 **Reads:**
 - Conversation logs
 - Git diff (future)
 
-**Writes to ~/.kahuna/:**
+**Writes to ~/.kai/:**
 - Processed conversations to `conversations/`
 - Extracted knowledge to `knowledge/`
 
@@ -370,7 +370,7 @@ Surfaced from Kahuna knowledge base on 2026-02-05.
 
 ## Classification Flow (MVP)
 
-For `kahuna_learn`, the MVP classification process:
+For `kai_learn`, the MVP classification process:
 
 ```
 ┌──────────────────────────────────────────────────────────────────────────────┐
@@ -394,7 +394,7 @@ For `kahuna_learn`, the MVP classification process:
 │      └── Summary (LLM-generated if needed)                                   │
 │                                                                              │
 │   5. STORE                                                                   │
-│      └── Write single .mdc file to ~/.kahuna/knowledge/[uuid].mdc            │
+│      └── Write single .mdc file to ~/.kai/knowledge/[uuid].mdc            │
 │          (YAML frontmatter + markdown content)                               │
 │                                                                              │
 │                                                                              │
@@ -408,7 +408,7 @@ For `kahuna_learn`, the MVP classification process:
 
 ## Surfacing Flow (MVP)
 
-For `kahuna_prepare_context`, the MVP surfacing process:
+For `kai_prepare_context`, the MVP surfacing process:
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
@@ -424,7 +424,7 @@ For `kahuna_prepare_context`, the MVP surfacing process:
 │      └── Note file references                                               │
 │                                                                             │
 │   3. SEARCH KNOWLEDGE BASE                                                  │
-│      ├── Scan ~/.kahuna/knowledge/ metadata                                 │
+│      ├── Scan ~/.kai/knowledge/ metadata                                 │
 │      ├── Score relevance by:                                                │
 │      │   ├── Tag matches                                                    │
 │      │   ├── Category matches                                               │
@@ -435,9 +435,9 @@ For `kahuna_prepare_context`, the MVP surfacing process:
 │   4. SELECT TOP N                                                           │
 │      └── Take most relevant entries (configurable, default: 5-10)           │
 │                                                                             │
-│   5. SURFACE TO .kahuna/context-guide.md                                            │
-│      ├── Clear .kahuna/context-guide.md (task-specific, replaced each task)         │
-│      ├── Store paths to relevant entries in .kahuna/context-guide.md                │
+│   5. SURFACE TO .kai/context-guide.md                                            │
+│      ├── Clear .kai/context-guide.md (task-specific, replaced each task)         │
+│      ├── Store paths to relevant entries in .kai/context-guide.md                │
 │                                                                             │
 │   6. REPORT                                                                 │
 │      └── Return summary of what was surfaced                                │
@@ -453,30 +453,30 @@ The knowledge architecture evolves from simple to sophisticated:
 
 ### Phase 1: Classify and Copy (MVP)
 
-**kahuna_learn:**
+**kai_learn:**
 - Accept files
 - Basic category classification
 - Store original content with metadata
 
-**kahuna_prepare_context:**
+**kai_prepare_context:**
 - Accept task description
 - Simple keyword search on metadata/content
-- Compile relevant entries into .kahuna/context-guide.md
+- Compile relevant entries into .kai/context-guide.md
 - Generate navigation and section headers
 
 **Value:** Files are organized and searchable. Context is surfaced per-task.
 
 ### Phase 2: Agent-Enhanced Content
 
-**kahuna_learn improvements:**
+**kai_learn improvements:**
 - Agents rewrite files into structured markdown
 - Extract key points, summaries
 - Normalize format for consistency
 
-**kahuna_prepare_context improvements:**
+**kai_prepare_context improvements:**
 - Agents synthesize new documents from multiple sources
 - Pull relevant portions from several files into one context doc
-- Prepare context in `~/.kahuna/prepared/`, then copy to project
+- Prepare context in `~/.kai/prepared/`, then copy to project
 
 **Value:** Context is higher quality, more focused.
 
@@ -497,20 +497,20 @@ The knowledge architecture evolves from simple to sophisticated:
 ### Build First
 
 1. **Knowledge base structure**
-   - `~/.kahuna/knowledge/` folder structure
-   - `~/.kahuna/conversations/` for processed conversation logs
+   - `~/.kai/knowledge/` folder structure
+   - `~/.kai/conversations/` for processed conversation logs
    - `metadata.json` format
    - Basic file storage
 
-2. **Classification (kahuna_learn)**
+2. **Classification (kai_learn)**
    - Accept files
    - Basic category classification (heuristics)
    - Store original content with metadata
 
-3. **Surfacing (kahuna_prepare_context)**
+3. **Surfacing (kai_prepare_context)**
    - Accept task description
    - Simple keyword search
-   - Compile relevant entries into .kahuna/context-guide.md
+   - Compile relevant entries into .kai/context-guide.md
    - Generate navigation and section headers
 
 4. **Conversation integration**
@@ -521,9 +521,9 @@ The knowledge architecture evolves from simple to sophisticated:
 
 ## Design Decisions
 
-### Why Global Knowledge Base (~/.kahuna) with Project Subfolders?
+### Why Global Knowledge Base (~/.kai) with Project Subfolders?
 
-**Decision:** Store knowledge globally at `~/.kahuna/` with project-specific subfolders for project-scoped context.
+**Decision:** Store knowledge globally at `~/.kai/` with project-specific subfolders for project-scoped context.
 
 **Rationale:**
 - **Shared knowledge:** General policies and patterns apply across projects
@@ -544,11 +544,11 @@ The knowledge architecture evolves from simple to sophisticated:
 
 ### Why Single File Instead of Multiple Files?
 
-**Decision:** Generate single `.kahuna/context-guide.md` file rather than multiple files.
+**Decision:** Generate single `.kai/context-guide.md` file rather than multiple files.
 
 **Rationale:**
 - Copilots read files directly
-- No dependency on Kahuna at read time
+- No dependency on Kai at read time
 - Context is portable (can be committed)
 - Simpler debugging
 
@@ -567,9 +567,9 @@ The knowledge architecture evolves from simple to sophisticated:
 
 ## Conversation Log Format
 
-Processed conversation logs use the same `.mdc` format, stored in `~/.kahuna/conversations/`.
+Processed conversation logs use the same `.mdc` format, stored in `~/.kai/conversations/`.
 
-**Example:** `~/.kahuna/conversations/c1e44692-bca2-4899-974e-cd272d8ea936.mdc`
+**Example:** `~/.kai/conversations/c1e44692-bca2-4899-974e-cd272d8ea936.mdc`
 
 ```markdown
 ---
@@ -604,7 +604,7 @@ confidence: 0.95
 - /path/to/existing2.py
 
 ---
-*Generated by Kahuna conversation processor*
+*Generated by Kai conversation processor*
 ```
 
 **Key frontmatter fields:**
@@ -618,12 +618,12 @@ confidence: 0.95
 
 1. **Multi-project knowledge:** Should knowledge be tagged by project? Global search or project-scoped?
 
-2. **Prepared staging:** Should context be prepared in `~/.kahuna/prepared/` first, then copied?
+2. **Prepared staging:** Should context be prepared in `~/.kai/prepared/` first, then copied?
 
 ## Resolved Questions
 
 **Context regeneration (resolved):** When preparing context for a new task:
-- **Overwrite** `.kahuna/context-guide.md` - Entire file is regenerated each time
+- **Overwrite** `.kai/context-guide.md` - Entire file is regenerated each time
 - This ensures task context is always fresh and relevant
 
 ---
@@ -631,12 +631,12 @@ confidence: 0.95
 ## Changelog
 
 - v1.0 (2026-02-05): Initial knowledge architecture specification
-- v2.0 (2026-02-05): Revised to two-stage model: learn → ~/.kahuna, prepare → .kahuna/context-guide.md
+- v2.0 (2026-02-05): Revised to two-stage model: learn → ~/.kai, prepare → .kai/context-guide.md
 - v2.1 (2026-02-05): Added evolution path, conversation log format, prepared staging
-- v2.2 (2026-02-05): Tool categories; assistance tools use .kahuna/context-guide.md + KB; learn accepts folders
+- v2.2 (2026-02-05): Tool categories; assistance tools use .kai/context-guide.md + KB; learn accepts folders
 - v2.3 (2026-02-05): Changed to .mdc format (YAML frontmatter + markdown) instead of folder+JSON
 - v2.4 (2026-02-05): Fixed Tool Interactions to use .mdc; resolved context merging question
 - v3.0 (2026-02-05): Promoted to docs/design/; updated links and status to Final
-- v3.1 (2026-02-09): Renamed kahuna_setup → kahuna_initialize; removed kahuna_review (now skill-based)
+- v3.1 (2026-02-09): Renamed kai_setup → kai_initialize; removed kai_review (now skill-based)
 - v3.2 (2026-02-09): Added `integration` category for data sources, tools, and external services; aligned categories with implementation
 - v3.3 (2026-03-09): Added project-level context with hashed subfolders; updated storage and retrieval behavior

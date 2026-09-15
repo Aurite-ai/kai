@@ -1,17 +1,17 @@
 #!/usr/bin/env node
 /**
- * Kahuna MCP Server
+ * Kai MCP Server
  *
- * Main entry point for the Kahuna MCP server.
- * Provides tools for AI assistants to interact with the Kahuna knowledge base.
+ * Main entry point for the Kai MCP server.
+ * Provides tools for AI assistants to interact with the Kai knowledge base.
  *
  * Tools:
  * - health_check: Verify MCP server connectivity
- * - kahuna_initialize: Set up a new Kahuna knowledge base
- * - kahuna_learn: Categorize and store knowledge files
- * - kahuna_prepare_context: Retrieve relevant context for a task
- * - kahuna_ask: Ask questions about the knowledge base
- * - kahuna_delete: Remove outdated files from the knowledge base
+ * - kai_initialize: Set up a new Kai knowledge base
+ * - kai_learn: Categorize and store knowledge files
+ * - kai_prepare_context: Retrieve relevant context for a task
+ * - kai_ask: Ask questions about the knowledge base
+ * - kai_delete: Remove outdated files from the knowledge base
  */
 
 // =============================================================================
@@ -29,9 +29,9 @@ ${SERVER_NAME} v${SERVER_VERSION}
 A context management MCP server for coding copilots.
 
 USAGE:
-  kahuna-mcp                  Start the MCP server (stdio transport)
-  kahuna-mcp --help           Show this help message
-  kahuna-mcp --version        Show version information
+  kai-mcp                  Start the MCP server (stdio transport)
+  kai-mcp --help           Show this help message
+  kai-mcp --version        Show version information
 
 DESCRIPTION:
   This is an MCP (Model Context Protocol) server designed to be invoked by
@@ -40,34 +40,34 @@ DESCRIPTION:
 
   The server provides tools for managing a local knowledge base:
     - health_check           Verify server connectivity
-    - kahuna_initialize      Set up a new knowledge base
-    - kahuna_learn           Categorize and store knowledge files
-    - kahuna_prepare_context Retrieve relevant context for a task
-    - kahuna_ask             Ask questions about the knowledge base
+    - kai_initialize      Set up a new knowledge base
+    - kai_learn           Categorize and store knowledge files
+    - kai_prepare_context Retrieve relevant context for a task
+    - kai_ask             Ask questions about the knowledge base
 
 CONFIGURATION:
   Set these environment variables (or use a .env file):
     ANTHROPIC_API_KEY        Required. Your Anthropic API key.
-    KAHUNA_KNOWLEDGE_DIR     Optional. Path to knowledge base directory.
-                             Default: ~/.kahuna/knowledge
-    KAHUNA_TEMPLATES_DIR     Optional. Path to templates directory.
+    KAI_KNOWLEDGE_DIR     Optional. Path to knowledge base directory.
+                             Default: ~/.kai/knowledge
+    KAI_TEMPLATES_DIR     Optional. Path to templates directory.
 
 MCP CLIENT SETUP:
   For Claude Code, use the CLI:
-    claude mcp add kahuna -s project -- npx @aurite-ai/kahuna
+    claude mcp add kai -s project -- npx @aurite-ai/kai
 
   For other clients, add to your MCP config:
     {
       "mcpServers": {
-        "kahuna": {
+        "kai": {
           "command": "npx",
-          "args": ["@aurite-ai/kahuna"]
+          "args": ["@aurite-ai/kai"]
         }
       }
     }
 
 MORE INFO:
-  https://github.com/Aurite-ai/kahuna
+  https://github.com/Aurite-ai/kai
 `);
   process.exit(0);
 }
@@ -148,41 +148,41 @@ async function routeToolCall(
     case 'health_check':
       return healthCheckTool.handler(args, ctx);
 
-    case 'kahuna_initialize':
+    case 'kai_initialize':
       return initializeTool.handler(args, ctx);
 
-    case 'kahuna_learn':
+    case 'kai_learn':
       return learnTool.handler(args, ctx);
 
-    case 'kahuna_provide_context':
+    case 'kai_provide_context':
       return provideContextTool.handler(args, ctx);
 
-    case 'kahuna_prepare_context':
+    case 'kai_prepare_context':
       return prepareContextTool.handler(args, ctx);
 
-    case 'kahuna_ask':
+    case 'kai_ask':
       return askTool.handler(args, ctx);
 
-    case 'kahuna_delete':
+    case 'kai_delete':
       return deleteTool.handler(args, ctx);
 
-    case 'kahuna_usage':
+    case 'kai_usage':
       return usageTool.handler(args, ctx);
 
     // Integration tools
-    case 'kahuna_list_integrations':
+    case 'kai_list_integrations':
       return listIntegrationsTool.handler(args, ctx);
 
-    case 'kahuna_use_integration':
+    case 'kai_use_integration':
       return useIntegrationTool.handler(args, ctx);
 
-    case 'kahuna_verify_integration':
+    case 'kai_verify_integration':
       return verifyIntegrationTool.handler(args, ctx);
 
-    case 'kahuna_discover_integration':
+    case 'kai_discover_integration':
       return discoverIntegrationTool.handler(args, ctx);
 
-    case 'kahuna_update_connector':
+    case 'kai_update_connector':
       return updateConnectorTool.handler(args, ctx);
 
     default:
@@ -275,6 +275,6 @@ async function main() {
 
 // Run the server
 main().catch((error) => {
-  console.error('[kahuna-mcp-server] Fatal error:', error);
+  console.error('[kai-mcp-server] Fatal error:', error);
   process.exit(1);
 });

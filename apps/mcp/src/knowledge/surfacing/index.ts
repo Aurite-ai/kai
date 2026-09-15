@@ -1,7 +1,7 @@
 /**
  * Context surfacing module
  *
- * Manages the project's .kahuna/context-guide.md file for copilot access.
+ * Manages the project's .kai/context-guide.md file for copilot access.
  */
 
 export {

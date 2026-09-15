@@ -1,5 +1,5 @@
 /**
- * Kahuna Learn Tool - Intelligent file ingestion
+ * Kai Learn Tool - Intelligent file ingestion
  *
  * Accepts files/folders, classifies each using an LLM categorization agent,
  * and stores them in the knowledge base as .mdc files.
@@ -41,16 +41,16 @@ import { type MCPToolResponse, type ToolContext, markdownResponse } from './type
  * Tool definition for MCP registration.
  */
 export const learnToolDefinition = {
-  name: 'kahuna_learn',
-  description: `Send files or folders to Kahuna to learn from and add to the knowledge base.
+  name: 'kai_learn',
+  description: `Send files or folders to Kai to learn from and add to the knowledge base.
 
 USE THIS TOOL WHEN:
-- User shares files/folders and wants Kahuna to "learn" from them
+- User shares files/folders and wants Kai to "learn" from them
 - User provides policy documents, specs, or reference materials
 - User says "here's our...", "learn this", "add this to context"
 - After completing work the user wants preserved as knowledge
 
-Kahuna's agents will:
+Kai's agents will:
 1. Read files from the provided paths
 2. Classify what kind of knowledge each file contains
 3. Store in the knowledge base with metadata
@@ -58,20 +58,20 @@ Kahuna's agents will:
 
 <examples>
 ### Single file
-kahuna_learn(paths=["docs/api-guidelines.md"], description="Our company's API design standards")
+kai_learn(paths=["docs/api-guidelines.md"], description="Our company's API design standards")
 
 ### Entire folder
-kahuna_learn(paths=["docs/"], description="All our documentation files")
+kai_learn(paths=["docs/"], description="All our documentation files")
 
 ### Multiple paths
-kahuna_learn(paths=["docs/api-guidelines.md", "specs/"], description="API guidelines and specs")
+kai_learn(paths=["docs/api-guidelines.md", "specs/"], description="API guidelines and specs")
 </examples>
 
 <hints>
 - Accepts both files AND folders — folders are processed recursively
 - Description helps classification but isn't required
 - File size limit: 400KB per file
-- Use kahuna_prepare_context to surface learned knowledge for a task
+- Use kai_prepare_context to surface learned knowledge for a task
 </hints>`,
 
   inputSchema: {
@@ -351,7 +351,7 @@ function buildLearnSuccessMarkdownWithAggregates(
     }
   } else {
     // All successful
-    parts.push('| File | Category | What Kahuna Found |');
+    parts.push('| File | Category | What Kai Found |');
     parts.push('|------|----------|-------------------|');
     for (const r of successful) {
       parts.push(
@@ -373,7 +373,7 @@ function buildLearnSuccessMarkdownWithAggregates(
   if (aggregates.integrations.length > 0) {
     parts.push('\n## 🔌 Integrations Discovered\n');
     parts.push(
-      'Kahuna detected and stored these integration descriptors in `~/.kahuna/integrations/`:\n'
+      'Kai detected and stored these integration descriptors in `~/.kai/integrations/`:\n'
     );
     parts.push('| Integration | Type | Operations | Auth |');
     parts.push('|-------------|------|------------|------|');
@@ -395,11 +395,11 @@ function buildLearnSuccessMarkdownWithAggregates(
     for (const [secretType, count] of aggregates.secretsByType) {
       const typeName = secretType.replace(/_/g, ' ');
       parts.push(
-        `- ${typeName}: ${count} → stored in \`~/.kahuna/.env\` and referenced via \`vault://env/...\``
+        `- ${typeName}: ${count} → stored in \`~/.kai/.env\` and referenced via \`vault://env/...\``
       );
     }
     parts.push(
-      '\n✅ **Secrets are now stored in your vault** at `~/.kahuna/.env` and can be retrieved by integrations.'
+      '\n✅ **Secrets are now stored in your vault** at `~/.kai/.env` and can be retrieved by integrations.'
     );
   }
 
@@ -418,8 +418,8 @@ function buildLearnSuccessMarkdownWithAggregates(
 
   // Hints
   parts.push('\n<hints>');
-  parts.push('- Use `kahuna_prepare_context` to surface this knowledge for a specific task');
-  parts.push('- Send more files anytime — Kahuna handles classification automatically');
+  parts.push('- Use `kai_prepare_context` to surface this knowledge for a specific task');
+  parts.push('- Send more files anytime — Kai handles classification automatically');
   if (aggregates.integrations.length > 0) {
     parts.push(
       '- Integrations are ready — agents can now connect to detected services without manual config'
@@ -430,7 +430,7 @@ function buildLearnSuccessMarkdownWithAggregates(
   }
   if (contradictions && contradictions.length > 0) {
     parts.push(
-      '- Ask the user for permission to remove the outdated files with the kahuna_delete tool'
+      '- Ask the user for permission to remove the outdated files with the kai_delete tool'
     );
   }
   if (failed.length > 0) {
@@ -446,7 +446,7 @@ function buildLearnSuccessMarkdownWithAggregates(
 // =============================================================================
 
 /**
- * Handle the kahuna_learn tool call.
+ * Handle the kai_learn tool call.
  *
  * Pipeline:
  * 1. Validate input
@@ -595,7 +595,7 @@ export async function learnToolHandler(
 
       // Step 2.7: Extract integrations from 1Password references (op:// URLs)
       // This enables "zero copy-paste" enterprise workflow where users mention
-      // credentials stored in 1Password and Kahuna automatically understands
+      // credentials stored in 1Password and Kai automatically understands
       // what integrations are needed
       const opIntegrationResult = extractIntegrationsFrom1PasswordRefs(content, {
         sourceFile: filePath,
@@ -633,7 +633,7 @@ export async function learnToolHandler(
         storage,
         anthropic,
         usageTracker,
-        'kahuna_learn'
+        'kai_learn'
       );
 
       // Accumulate usage stats
@@ -683,7 +683,7 @@ export async function learnToolHandler(
         storage,
         anthropic,
         usageTracker,
-        'kahuna_learn'
+        'kai_learn'
       );
 
       // Accumulate usage stats

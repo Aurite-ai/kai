@@ -22,10 +22,10 @@ import { generateMdcFile, generateSlug, parseMdcFile, validateCategory } from '.
 
 /**
  * Get the base directory for knowledge storage.
- * Uses KAHUNA_KNOWLEDGE_DIR env var if set, otherwise defaults to ~/.kahuna/knowledge/
+ * Uses KAI_KNOWLEDGE_DIR env var if set, otherwise defaults to ~/.kai/knowledge/
  */
 function getDefaultBaseDir(): string {
-  return process.env.KAHUNA_KNOWLEDGE_DIR || path.join(os.homedir(), '.kahuna', 'knowledge');
+  return process.env.KAI_KNOWLEDGE_DIR || path.join(os.homedir(), '.kai', 'knowledge');
 }
 
 /**
@@ -42,7 +42,7 @@ export class FileKnowledgeStorageService implements KnowledgeStorageService {
   /**
    * Create a new FileKnowledgeStorageService
    *
-   * @param baseDir - Directory for storing .mdc files (defaults to ~/.kahuna/knowledge/)
+   * @param baseDir - Directory for storing .mdc files (defaults to ~/.kai/knowledge/)
    */
   constructor(baseDir: string = getDefaultBaseDir()) {
     this.baseDir = baseDir;

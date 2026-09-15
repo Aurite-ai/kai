@@ -22,7 +22,7 @@ vi.mock('../../knowledge/agents/run-agent.js', () => ({
   runAgent: vi.fn(),
 }));
 
-// Mock fs/promises for .kahuna/context-guide.md reading
+// Mock fs/promises for .kai/context-guide.md reading
 vi.mock('node:fs/promises', () => ({
   readFile: vi.fn(),
 }));
@@ -46,7 +46,7 @@ function createOnboardingContextEntries() {
 
 describe('askToolDefinition', () => {
   it('has the correct name', () => {
-    expect(askToolDefinition.name).toBe('kahuna_ask');
+    expect(askToolDefinition.name).toBe('kai_ask');
   });
 
   it('requires question', () => {
@@ -70,7 +70,7 @@ describe('askToolHandler', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     ctx = createMockContext();
-    // Default: no .kahuna/context-guide.md exists
+    // Default: no .kai/context-guide.md exists
     mockReadFile.mockRejectedValue(new Error('ENOENT: no such file or directory'));
     // Default: onboarding context exists (for soft warning, ask doesn't block)
     vi.mocked(ctx.storage.list).mockResolvedValue(createOnboardingContextEntries());
@@ -138,27 +138,27 @@ describe('askToolHandler', () => {
         ctx.storage,
         ctx.anthropic,
         ctx.usageTracker,
-        'kahuna_ask'
+        'kai_ask'
       );
     });
 
-    it('includes referenced KB files in system prompt when .kahuna/context-guide.md exists', async () => {
-      // Mock .kahuna/context-guide.md with KB file references
+    it('includes referenced KB files in system prompt when .kai/context-guide.md exists', async () => {
+      // Mock .kai/context-guide.md with KB file references
       const contextGuideContent = `# Context for: Build authentication system
 
-Surfaced from Kahuna knowledge base on 2026-02-12.
+Surfaced from Kai knowledge base on 2026-02-12.
 
 ## Knowledge Base Files
 
 | Topic | KB Path | Why Relevant |
 |-------|---------|--------------|
-| Authentication Patterns | [/home/user/.kahuna/knowledge/auth-patterns.mdc](/home/user/.kahuna/knowledge/auth-patterns.mdc) | Contains JWT implementation patterns |
-| Security Best Practices | [/home/user/.kahuna/knowledge/security-guide.mdc](/home/user/.kahuna/knowledge/security-guide.mdc) | Security requirements for auth |
+| Authentication Patterns | [/home/user/.kai/knowledge/auth-patterns.mdc](/home/user/.kai/knowledge/auth-patterns.mdc) | Contains JWT implementation patterns |
+| Security Best Practices | [/home/user/.kai/knowledge/security-guide.mdc](/home/user/.kai/knowledge/security-guide.mdc) | Security requirements for auth |
 
 ## Start Here
 
-1. Review /home/user/.kahuna/knowledge/auth-patterns.mdc — Contains JWT implementation patterns
-2. Review /home/user/.kahuna/knowledge/security-guide.mdc — Security requirements for auth
+1. Review /home/user/.kai/knowledge/auth-patterns.mdc — Contains JWT implementation patterns
+2. Review /home/user/.kai/knowledge/security-guide.mdc — Security requirements for auth
 `;
 
       mockReadFile.mockResolvedValue(contextGuideContent);
@@ -174,14 +174,14 @@ Surfaced from Kahuna knowledge base on 2026-02-12.
       const systemPrompt = mockRunAgent.mock.calls[0][0].systemPrompt;
 
       // Verify the system prompt includes the referenced KB files
-      expect(systemPrompt).toContain('/home/user/.kahuna/knowledge/auth-patterns.mdc');
-      expect(systemPrompt).toContain('/home/user/.kahuna/knowledge/security-guide.mdc');
+      expect(systemPrompt).toContain('/home/user/.kai/knowledge/auth-patterns.mdc');
+      expect(systemPrompt).toContain('/home/user/.kai/knowledge/security-guide.mdc');
       expect(systemPrompt).toContain(
-        'already has these KB files referenced in their .kahuna/context-guide.md'
+        'already has these KB files referenced in their .kai/context-guide.md'
       );
     });
 
-    it('handles missing .kahuna/context-guide.md gracefully', async () => {
+    it('handles missing .kai/context-guide.md gracefully', async () => {
       // mockReadFile already rejects by default in beforeEach
       mockRunAgent.mockResolvedValue({
         textResponse: 'Answer without context',
@@ -198,7 +198,7 @@ Surfaced from Kahuna knowledge base on 2026-02-12.
       expect(systemPrompt).not.toContain('already has these KB files referenced');
     });
 
-    it('extracts multiple KB file paths from .kahuna/context-guide.md', async () => {
+    it('extracts multiple KB file paths from .kai/context-guide.md', async () => {
       const contextGuideContent = `# Context for: Multi-file task
 
 ## Knowledge Base Files

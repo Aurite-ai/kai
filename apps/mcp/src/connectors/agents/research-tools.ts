@@ -581,7 +581,7 @@ function executeGenerateManifest(input: z.infer<typeof generateManifestInputSche
 
   // Build the manifest
   const manifest: ConnectorManifest = {
-    apiVersion: 'kahuna.io/v1',
+    apiVersion: 'kai.io/v1',
     kind: 'Connector',
     metadata: {
       id: input.id,
@@ -717,14 +717,14 @@ ${operationExamples}
 ## Usage
 
 \`\`\`
-kahuna_use_integration(
+kai_use_integration(
   integration="${manifest.metadata.id}",
   operation="<operation-name>",
   params={...}
 )
 \`\`\`
 
-Run \`kahuna_verify_integration\` after setting up credentials to test the connection.`;
+Run \`kai_verify_integration\` after setting up credentials to test the connection.`;
   } catch (error) {
     return `Failed to register connector: ${error instanceof Error ? error.message : 'Unknown error'}`;
   }

@@ -91,7 +91,7 @@ function mockContradictionCheckResult(
 
 describe('learnToolDefinition', () => {
   it('has the correct name', () => {
-    expect(learnToolDefinition.name).toBe('kahuna_learn');
+    expect(learnToolDefinition.name).toBe('kai_learn');
   });
 
   it('requires paths', () => {
@@ -192,7 +192,7 @@ describe('learnToolHandler', () => {
         ctx.storage,
         ctx.anthropic,
         ctx.usageTracker,
-        'kahuna_learn'
+        'kai_learn'
       );
 
       // Second call: contradiction check agent
@@ -207,7 +207,7 @@ describe('learnToolHandler', () => {
         ctx.storage,
         ctx.anthropic,
         ctx.usageTracker,
-        'kahuna_learn'
+        'kai_learn'
       );
 
       // Verify storage.save called with flat fields from agent result
@@ -356,7 +356,7 @@ describe('learnToolHandler', () => {
       expect(text).toContain('old-api-guidelines');
       expect(text).toContain('JWT authentication');
       expect(text).toContain('OAuth2');
-      expect(text).toContain('kahuna_delete');
+      expect(text).toContain('kai_delete');
     });
 
     it('reports multiple contradictions', async () => {

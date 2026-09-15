@@ -2,7 +2,7 @@
  * Sensitive Data Detection
  *
  * Detects credentials, API keys, passwords, and other sensitive data
- * in file content. Used during kahuna_learn to prevent secrets from
+ * in file content. Used during kai_learn to prevent secrets from
  * being stored in the knowledge base.
  *
  * Features:

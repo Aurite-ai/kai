@@ -1,5 +1,5 @@
 /**
- * @aurite-ai/kahuna-testing - VCK quality testing infrastructure
+ * @aurite-ai/kai-testing - VCK quality testing infrastructure
  *
  * This package provides:
  * - CLI tools for test project management (create, list, collect)

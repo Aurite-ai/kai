@@ -1,11 +1,11 @@
 /**
  * JSON File-Based Connector Registry
  *
- * Stores connector manifests as JSON files in ~/.kahuna/connectors/
+ * Stores connector manifests as JSON files in ~/.kai/connectors/
  * This is the initial implementation; can be swapped for SQLite/PostgreSQL later.
  *
  * Directory structure:
- *   ~/.kahuna/connectors/
+ *   ~/.kai/connectors/
  *     ├── native/       - Built-in 26 connectors
  *     ├── discovered/   - Agent-generated connectors
  *     └── custom/       - User-defined connectors
@@ -27,7 +27,7 @@ import {
 // CONSTANTS
 // =============================================================================
 
-const DEFAULT_CONNECTORS_DIR = join(homedir(), '.kahuna', 'connectors');
+const DEFAULT_CONNECTORS_DIR = join(homedir(), '.kai', 'connectors');
 
 const TIER_DIRECTORIES: Record<ConnectorManifest['metadata']['tier'], string> = {
   native: 'native',
@@ -340,7 +340,7 @@ export class JsonConnectorRegistry implements ConnectorRegistry {
     const connectors = await this.list();
     const stats = await this.getStats();
 
-    let summary = '# Kahuna Connector Registry\n\n';
+    let summary = '# Kai Connector Registry\n\n';
     summary += `Total connectors: ${connectors.length}\n\n`;
     summary += '## By Tier\n\n';
 

@@ -7,7 +7,7 @@
  * Key concepts:
  * - IntegrationDescriptor: Complete description of an integration's capabilities
  * - Extraction: Discovering integrations from content (patterns + LLM)
- * - Storage: Persisting descriptors to ~/.kahuna/integrations/
+ * - Storage: Persisting descriptors to ~/.kai/integrations/
  *
  * This module works alongside the vault module:
  * - Vault stores CREDENTIALS (secrets)

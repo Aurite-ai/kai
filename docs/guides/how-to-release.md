@@ -1,13 +1,13 @@
 # How to Release
 
-This guide covers the two release tracks for the `@aurite-ai/kahuna` npm package: **dev releases** (continuous, automated) and **stable releases** (manual, to `latest`).
+This guide covers the two release tracks for the `@aurite-ai/kai` npm package: **dev releases** (continuous, automated) and **stable releases** (manual, to `latest`).
 
 ## Overview
 
 | Track | Branch | npm tag | Trigger | Version format |
 |-------|--------|---------|---------|----------------|
-| Dev | `develop` | `dev` | Push to `develop` | `0.1.11-dev.0` |
-| Stable | `main` | `latest` | Manual `workflow_dispatch` | `0.1.11` |
+| Dev | `develop` | `dev` | Push to `develop` | `0.2.0-dev.0` |
+| Stable | `main` | `latest` | Manual `workflow_dispatch` | `0.2.0` |
 
 The version source of truth is [apps/mcp/package.json](../../apps/mcp/package.json). The CI workflows read this file to determine base versions.
 
@@ -26,15 +26,15 @@ git commit -m "chore: update README [skip ci]"
 When merging a PR into `develop` via GitHub, you can also add `[skip ci]` at the time of merge — edit the merge commit message in the merge dialog before confirming.
 
 **What happens:**
-1. CI reads the base version from `apps/mcp/package.json` (e.g. `0.1.11`)
-2. CI queries npm for existing `0.1.11-dev.X` versions and increments X
-3. A git tag `v0.1.11-dev.X` is created and pushed
+1. CI reads the base version from `apps/mcp/package.json` (e.g. `0.2.0`)
+2. CI queries npm for existing `0.2.0-dev.X` versions and increments X
+3. A git tag `v0.2.0-dev.X` is created and pushed
 4. The package is built, bundled, and published to npm with the `dev` tag
 5. No GitHub release is created
 
 **To install a dev release:**
 ```sh
-npm install @aurite-ai/kahuna@dev
+npm install @aurite-ai/kai@dev
 ```
 
 ---
@@ -49,7 +49,7 @@ Update the version in [apps/mcp/package.json](../../apps/mcp/package.json):
 
 ```sh
 cd apps/mcp
-npm version patch   # 0.1.11 → 0.1.12
+npm version patch   # 0.2.0 → 0.2.1
 # or: npm version minor / major
 ```
 
@@ -107,14 +107,14 @@ After the workflow completes, go to the GitHub Releases page, review the draft r
 The publish workflow runs these steps on the `apps/mcp` package:
 
 ```sh
-pnpm --filter @aurite-ai/kahuna build   # TypeScript compilation (tsc)
-pnpm --filter @aurite-ai/kahuna bundle  # esbuild → dist/kahuna-mcp.cjs
+pnpm --filter @aurite-ai/kai build   # TypeScript compilation (tsc)
+pnpm --filter @aurite-ai/kai bundle  # esbuild → dist/kai-mcp.cjs
 ```
 
 The bundle is a single CommonJS file targeting Node 20+, with all dependencies inlined. Templates are copied into `dist/templates/`. The final npm package includes:
 
-- `dist/kahuna-mcp.cjs` — the server bundle
-- `dist/kahuna-mcp.cjs.map` — source map
+- `dist/kai-mcp.cjs` — the server bundle
+- `dist/kai-mcp.cjs.map` — source map
 - `dist/templates/` — template files
 - `README.md`
 

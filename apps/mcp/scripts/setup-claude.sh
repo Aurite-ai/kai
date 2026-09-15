@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# Adds the kahuna MCP server to Claude Code for this project.
-# Reads ANTHROPIC_API_KEY and KAHUNA_SESSION_TOKEN from apps/mcp/.env
+# Adds the kai MCP server to Claude Code for this project.
+# Reads ANTHROPIC_API_KEY and KAI_SESSION_TOKEN from apps/mcp/.env
 
 set -euo pipefail
 
@@ -23,17 +23,17 @@ if [ -z "${ANTHROPIC_API_KEY:-}" ]; then
   exit 1
 fi
 
-if [ -z "${KAHUNA_SESSION_TOKEN:-}" ]; then
-  echo "Error: KAHUNA_SESSION_TOKEN not set in $ENV_FILE" >&2
+if [ -z "${KAI_SESSION_TOKEN:-}" ]; then
+  echo "Error: KAI_SESSION_TOKEN not set in $ENV_FILE" >&2
   exit 1
 fi
 
-claude mcp add kahuna \
+claude mcp add kai \
   -s project \
   -e ANTHROPIC_API_KEY="$ANTHROPIC_API_KEY" \
-  -e KAHUNA_SESSION_TOKEN="$KAHUNA_SESSION_TOKEN" \
+  -e KAI_SESSION_TOKEN="$KAI_SESSION_TOKEN" \
   -e NODE_ENV=development \
-  -e KAHUNA_KNOWLEDGE_DIR="$REPO_ROOT/.kahuna-knowledge" \
+  -e KAI_KNOWLEDGE_DIR="$REPO_ROOT/.kai-knowledge" \
   -- node "$REPO_ROOT/apps/mcp/dist/index.js"
 
-echo "Done! Kahuna MCP server added to Claude Code."
+echo "Done! Kai MCP server added to Claude Code."

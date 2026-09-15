@@ -255,7 +255,7 @@ const DEFAULT_MODELS = {
 function validateModel(model: string, taskName: string): string {
   if (!(model in MODEL_REGISTRY)) {
     console.warn(
-      `[Kahuna Config] Warning: Unknown model "${model}" for ${taskName}. ` +
+      `[Kai Config] Warning: Unknown model "${model}" for ${taskName}. ` +
         `Available models: ${Object.keys(MODEL_REGISTRY).join(', ')}`
     );
   }
@@ -283,36 +283,36 @@ function getModelFromEnv(envVar: string, taskName: string, defaultModel: string)
  * References models defined in MODEL_REGISTRY.
  *
  * Models can be overridden via environment variables:
- * - KAHUNA_MODEL_CATEGORIZATION: Model for file categorization (fast, cheap)
- * - KAHUNA_MODEL_RETRIEVAL: Model for KB retrieval agent (prepare_context tool)
- * - KAHUNA_MODEL_ASK: Model for the ask tool's agentic Q&A loop
- * - KAHUNA_MODEL_CONTRADICTION: Model for contradiction check during kahuna_learn
+ * - KAI_MODEL_CATEGORIZATION: Model for file categorization (fast, cheap)
+ * - KAI_MODEL_RETRIEVAL: Model for KB retrieval agent (prepare_context tool)
+ * - KAI_MODEL_ASK: Model for the ask tool's agentic Q&A loop
+ * - KAI_MODEL_CONTRADICTION: Model for contradiction check during kai_learn
  *
  * Example .env:
- *   KAHUNA_MODEL_ASK=claude-opus-4-6
- *   KAHUNA_MODEL_CATEGORIZATION=claude-3-haiku-20240307
+ *   KAI_MODEL_ASK=claude-opus-4-6
+ *   KAI_MODEL_CATEGORIZATION=claude-3-haiku-20240307
  */
 export const MODELS = {
   /** Model used for file categorization (fast, cheap) */
   get categorization(): string {
     return getModelFromEnv(
-      'KAHUNA_MODEL_CATEGORIZATION',
+      'KAI_MODEL_CATEGORIZATION',
       'categorization',
       DEFAULT_MODELS.categorization
     );
   },
   /** Model used for KB retrieval agent (prepare_context tool) */
   get retrieval(): string {
-    return getModelFromEnv('KAHUNA_MODEL_RETRIEVAL', 'retrieval', DEFAULT_MODELS.retrieval);
+    return getModelFromEnv('KAI_MODEL_RETRIEVAL', 'retrieval', DEFAULT_MODELS.retrieval);
   },
   /** Model used for the ask tool's agentic Q&A loop */
   get ask(): string {
-    return getModelFromEnv('KAHUNA_MODEL_ASK', 'ask', DEFAULT_MODELS.ask);
+    return getModelFromEnv('KAI_MODEL_ASK', 'ask', DEFAULT_MODELS.ask);
   },
-  /** Model used for contradiction check during kahuna_learn */
+  /** Model used for contradiction check during kai_learn */
   get contradiction(): string {
     return getModelFromEnv(
-      'KAHUNA_MODEL_CONTRADICTION',
+      'KAI_MODEL_CONTRADICTION',
       'contradiction',
       DEFAULT_MODELS.contradiction
     );
@@ -320,7 +320,7 @@ export const MODELS = {
   /** Model used for LLM-based secret verification (fast, cheap recommended) */
   get llmVerification(): string {
     return getModelFromEnv(
-      'KAHUNA_MODEL_LLM_VERIFICATION',
+      'KAI_MODEL_LLM_VERIFICATION',
       'llmVerification',
       DEFAULT_MODELS.llmVerification
     );
@@ -386,7 +386,7 @@ export function getActiveModels(): string[] {
 /**
  * MCP server identity.
  */
-export const SERVER_NAME = 'kahuna-mcp-server';
+export const SERVER_NAME = 'kai-mcp-server';
 
 /**
  * Server version - injected at build time via esbuild `define`.
