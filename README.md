@@ -1,5 +1,5 @@
 <div align="center">
-<h1>🌊 Kai</h1>
+<h1>🧠 Kai</h1>
 <p><strong>Your AI copilot's memory. Persistent context across sessions, projects, and teams.</strong></p>
 <p>Give your coding agent the context it needs — automatically.</p>
 <p>
@@ -138,20 +138,20 @@ Your copilot builds it right the first time — no reminders needed.
 ## How It Works
 
 ```
-┌────────────────────────────────────────────────────────────────┐
-│  YOU                          COPILOT                  KAI     │
-│                                                                 │
-│  "set up Kai"     ─────────►  deploys rules  ─────►  .kai/    │
+┌──────────────────────────────────────────────────────────────────┐
+│  YOU                          COPILOT                  KAI      │
+│                                                                  │
+│  "set up Kai"     ──────────────────►  deploys rules  ─────►  .kai/    │
 │                               asks questions          stores    │
 │                                                       context   │
-│                                                                 │
-│  "learn these docs" ───────►  kai_learn      ─────►  knowledge │
+│                                                                  │
+│  "learn these docs" ────────────────►  kai_learn      ─────►  knowledge │
 │                                                       base      │
-│                                                                 │
-│  "build feature X" ────────►  kai_prepare    ─────►  surfaces  │
+│                                                                  │
+│  "build feature X" ─────────────────►  kai_prepare    ─────►  surfaces  │
 │                               _context                relevant  │
 │                                                       files     │
-└────────────────────────────────────────────────────────────────┘
+└──────────────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -194,7 +194,7 @@ Kai is not a replacement for built-in copilot memory — it's what copilot memor
 
 ## Features
 
-- 🌊 **Knowledge Base** — Store, categorize, and retrieve context from markdown files
+- 🧠 **Knowledge Base** — Store, categorize, and retrieve context from markdown files
 - 🎯 **Smart Context Surfacing** — Automatically surface relevant knowledge for your task
 - 🔗 **Integration Management** — Discover, verify, and use external service integrations
 - 🔐 **Secure Credential Vault** — Store and manage secrets with multiple provider support
