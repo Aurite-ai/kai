@@ -1,6 +1,6 @@
 # How to Release
 
-This guide covers the two release tracks for the `@aurite-ai/kahuna` npm package: **dev releases** (continuous, automated) and **stable releases** (manual, to `latest`).
+This guide covers the two release tracks for the `@aurite-ai/kai` npm package: **dev releases** (continuous, automated) and **stable releases** (manual, to `latest`).
 
 ## Overview
 
@@ -34,7 +34,7 @@ When merging a PR into `develop` via GitHub, you can also add `[skip ci]` at the
 
 **To install a dev release:**
 ```sh
-npm install @aurite-ai/kahuna@dev
+npm install @aurite-ai/kai@dev
 ```
 
 ---
@@ -107,14 +107,14 @@ After the workflow completes, go to the GitHub Releases page, review the draft r
 The publish workflow runs these steps on the `apps/mcp` package:
 
 ```sh
-pnpm --filter @aurite-ai/kahuna build   # TypeScript compilation (tsc)
-pnpm --filter @aurite-ai/kahuna bundle  # esbuild → dist/kahuna-mcp.cjs
+pnpm --filter @aurite-ai/kai build   # TypeScript compilation (tsc)
+pnpm --filter @aurite-ai/kai bundle  # esbuild → dist/kai-mcp.cjs
 ```
 
 The bundle is a single CommonJS file targeting Node 20+, with all dependencies inlined. Templates are copied into `dist/templates/`. The final npm package includes:
 
-- `dist/kahuna-mcp.cjs` — the server bundle
-- `dist/kahuna-mcp.cjs.map` — source map
+- `dist/kai-mcp.cjs` — the server bundle
+- `dist/kai-mcp.cjs.map` — source map
 - `dist/templates/` — template files
 - `README.md`
 

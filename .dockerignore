@@ -1,4 +1,4 @@
-# Docker build context exclusions for Kahuna MCP server
+# Docker build context exclusions for Kai MCP server
 #
 # Docker builds from repo root using:
 #   docker build -f apps/mcp/Dockerfile .
@@ -73,4 +73,5 @@ __pycache__/
 # =============================================================================
 # Local knowledge base (mounted as volume in production)
 # =============================================================================
+.kai/
 .kahuna/

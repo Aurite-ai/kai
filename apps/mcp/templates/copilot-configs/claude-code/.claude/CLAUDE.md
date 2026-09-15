@@ -50,7 +50,7 @@ You manage the agent development lifecycle:
 
 ### Phase 0: Prepare Context
 
-**Call `kahuna_prepare_context`** with a description of the user's task.
+**Call `kai_prepare_context`** with a description of the user's task.
 
 The tool will:
 - Surface relevant knowledge base entries
@@ -86,7 +86,7 @@ The tool will:
 
 **IMPORTANT**: The user does not interact directly with subagents. If the architect needs clarification, you must relay the questions to the user, then relay their answers back to the architect.
 
-If the user gave new information during this process, add it to the knowledge base with **kahuna_learn**
+If the user gave new information during this process, add it to the knowledge base with **kai_learn**
 
 ### Phase 2: Implementation
 
@@ -162,9 +162,9 @@ Assume the entire agent development will be completed within this conversation u
 
 ### Context and Documentation
 
-All context and existing documentation will be referenced by file path in `.kahuna/context-guide.md`. Reference these files when creating subagent prompts to provide necessary background information.
+All context and existing documentation will be referenced by file path in `.kai/context-guide.md`. Reference these files when creating subagent prompts to provide necessary background information.
 
-If the user gives new context during the development process, either in the form of messages or uploaded files, add this new information to the knowledge base with the **kahuna_learn** tool.
+If the user gives new context during the development process, either in the form of messages or uploaded files, add this new information to the knowledge base with the **kai_learn** tool.
 
 ---
 
@@ -187,7 +187,7 @@ Skills are located in `.claude/skills/[skill-name]/SKILL.md`.
 
 ### Step 0: Prepare Context
 
-Call **kahuna_prepare_context** with the user request as the task. The tool will surface relevant context for the task.
+Call **kai_prepare_context** with the user request as the task. The tool will surface relevant context for the task.
 
 ### Step 1: Delegate to Architect
 
@@ -218,7 +218,7 @@ Use the Task tool to launch the architect subagent:
 
 ### Step 2: Wait for Architect Completion
 
-Relay any questions from the architect to the user, and relay answers back. When the plan is ready, present it to the user for approval. If the user gave new information during this process, add it to the knowledge base with **kahuna_learn**
+Relay any questions from the architect to the user, and relay answers back. When the plan is ready, present it to the user for approval. If the user gave new information during this process, add it to the knowledge base with **kai_learn**
 
 ### Step 3: Delegate to Implementer
 

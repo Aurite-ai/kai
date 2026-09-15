@@ -92,18 +92,18 @@ describe('Context detection', () => {
 
   beforeEach(async () => {
     // Create a temporary directory for test files
-    tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'kahuna-test-'));
+    tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'kai-test-'));
     // Override the knowledge directory for tests
-    originalEnv = process.env.KAHUNA_KNOWLEDGE_DIR;
-    process.env.KAHUNA_KNOWLEDGE_DIR = tempDir;
+    originalEnv = process.env.KAI_KNOWLEDGE_DIR;
+    process.env.KAI_KNOWLEDGE_DIR = tempDir;
   });
 
   afterEach(async () => {
     // Restore original env
     if (originalEnv !== undefined) {
-      process.env.KAHUNA_KNOWLEDGE_DIR = originalEnv;
+      process.env.KAI_KNOWLEDGE_DIR = originalEnv;
     } else {
-      process.env.KAHUNA_KNOWLEDGE_DIR = '';
+      process.env.KAI_KNOWLEDGE_DIR = '';
     }
     // Clean up temp directory
     await fs.rm(tempDir, { recursive: true, force: true });
@@ -218,20 +218,20 @@ describe('Initialize tool adaptive responses', () => {
 
   beforeEach(async () => {
     // Create temp directories
-    tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'kahuna-kb-test-'));
-    targetDir = await fs.mkdtemp(path.join(os.tmpdir(), 'kahuna-target-test-'));
+    tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'kai-kb-test-'));
+    targetDir = await fs.mkdtemp(path.join(os.tmpdir(), 'kai-target-test-'));
 
     // Override knowledge directory
-    originalKbEnv = process.env.KAHUNA_KNOWLEDGE_DIR;
-    process.env.KAHUNA_KNOWLEDGE_DIR = tempDir;
+    originalKbEnv = process.env.KAI_KNOWLEDGE_DIR;
+    process.env.KAI_KNOWLEDGE_DIR = tempDir;
   });
 
   afterEach(async () => {
     // Restore env
     if (originalKbEnv !== undefined) {
-      process.env.KAHUNA_KNOWLEDGE_DIR = originalKbEnv;
+      process.env.KAI_KNOWLEDGE_DIR = originalKbEnv;
     } else {
-      process.env.KAHUNA_KNOWLEDGE_DIR = '';
+      process.env.KAI_KNOWLEDGE_DIR = '';
     }
     // Clean up
     await fs.rm(tempDir, { recursive: true, force: true });
@@ -250,7 +250,7 @@ describe('Initialize tool adaptive responses', () => {
     expect(text).toContain('Phase 2: Document Discovery');
     expect(text).toContain('Phase 3: Targeted Follow-ups');
     expect(text).toContain('Phase 4: Store Context');
-    expect(text).toContain('kahuna_provide_context');
+    expect(text).toContain('kai_provide_context');
   });
 
   it('returns user-only onboarding when org exists but user does not', async () => {
@@ -287,7 +287,7 @@ describe('Initialize tool adaptive responses', () => {
     // Should indicate no onboarding needed
     expect(text).toContain('organization and user context are already set up');
     expect(text).toContain('Restart Claude Code');
-    expect(text).toContain('kahuna_prepare_context');
+    expect(text).toContain('kai_prepare_context');
 
     // Should NOT contain onboarding instructions
     expect(text).not.toContain('Complete onboarding');
@@ -331,7 +331,7 @@ describe('Initialize tool adaptive responses', () => {
     const text = (result.content[0] as { text: string }).text;
 
     // Should report successful deployment
-    expect(text).toContain('Kahuna Configured');
+    expect(text).toContain('Kai Configured');
     expect(text).toContain('Rules deployed to `.claude/`');
     expect(text).toContain('Copilot Configuration');
 
@@ -369,17 +369,17 @@ describe('Initialize response format compliance', () => {
   };
 
   beforeEach(async () => {
-    tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'kahuna-kb-test-'));
-    targetDir = await fs.mkdtemp(path.join(os.tmpdir(), 'kahuna-target-test-'));
-    originalKbEnv = process.env.KAHUNA_KNOWLEDGE_DIR;
-    process.env.KAHUNA_KNOWLEDGE_DIR = tempDir;
+    tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'kai-kb-test-'));
+    targetDir = await fs.mkdtemp(path.join(os.tmpdir(), 'kai-target-test-'));
+    originalKbEnv = process.env.KAI_KNOWLEDGE_DIR;
+    process.env.KAI_KNOWLEDGE_DIR = tempDir;
   });
 
   afterEach(async () => {
     if (originalKbEnv !== undefined) {
-      process.env.KAHUNA_KNOWLEDGE_DIR = originalKbEnv;
+      process.env.KAI_KNOWLEDGE_DIR = originalKbEnv;
     } else {
-      process.env.KAHUNA_KNOWLEDGE_DIR = '';
+      process.env.KAI_KNOWLEDGE_DIR = '';
     }
     await fs.rm(tempDir, { recursive: true, force: true });
     await fs.rm(targetDir, { recursive: true, force: true });
@@ -401,11 +401,11 @@ describe('Initialize response format compliance', () => {
     expect(text).toContain('would this information change what patterns, constraints, or knowledge');
   });
 
-  it('mentions kahuna_learn for document discovery', async () => {
+  it('mentions kai_learn for document discovery', async () => {
     const result = await initializeToolHandler({ targetPath: targetDir }, mockCtx);
     const text = (result.content[0] as { text: string }).text;
 
-    expect(text).toContain('kahuna_learn');
+    expect(text).toContain('kai_learn');
     expect(text).toContain('Document Discovery');
   });
 });

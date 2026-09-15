@@ -1,4 +1,4 @@
-# Kahuna MCP - Copilot Configuration
+# Kai MCP - Copilot Configuration
 
 **Status:** Final (awaiting expansion)
 **Date:** 2026-02-05
@@ -8,7 +8,7 @@
 
 ## Overview
 
-When `kahuna_initialize` initializes a project, it creates configuration files that teach the copilot how to work with Kahuna and follow structured agent development practices.
+When `kai_initialize` initializes a project, it creates configuration files that teach the copilot how to work with Kai and follow structured agent development practices.
 
 **MVP Scope:** Static files copied from templates. Future versions may customize based on project context.
 
@@ -19,7 +19,7 @@ When `kahuna_initialize` initializes a project, it creates configuration files t
 | File/Folder | Purpose |
 |-------------|---------|
 | `CLAUDE.md` | Project-level instructions for Claude Code |
-| `.mcp.json` | MCP server configuration (connects Kahuna) |
+| `.mcp.json` | MCP server configuration (connects Kai) |
 | `.claude/settings.json` | Claude Code editor settings |
 | `.claude/settings.local.json` | Local settings overrides (gitignored) |
 | `.claude/rules/` | Copilot rules enforcing structured process |
@@ -35,20 +35,20 @@ The primary instruction file that Claude Code reads at session start.
 
 **Purpose:**
 - Orient the copilot to the project structure
-- Direct copilot to read `.kahuna/context-guide.md` for knowledge
-- Instruct when/how to use Kahuna MCP tools
+- Direct copilot to read `.kai/context-guide.md` for knowledge
+- Instruct when/how to use Kai MCP tools
 
-**MVP Content:** Static template explaining project structure and Kahuna tool usage.
+**MVP Content:** Static template explaining project structure and Kai tool usage.
 
 ### .mcp.json
 
 MCP server configuration file.
 
 **Purpose:**
-- Configure Kahuna MCP server connection
-- Enable copilot to call Kahuna tools
+- Configure Kai MCP server connection
+- Enable copilot to call Kai tools
 
-**MVP Content:** Standard Kahuna MCP configuration.
+**MVP Content:** Standard Kai MCP configuration.
 
 ### .claude/settings.json
 
@@ -76,13 +76,13 @@ Copilot rules that enforce structured development.
 
 **Purpose:**
 - Guide copilot behavior (when to use context, how to approach tasks)
-- Enforce patterns like "check .kahuna/context-guide.md before implementing"
+- Enforce patterns like "check .kai/context-guide.md before implementing"
 - Static best practices for agent development
 
 **MVP Content:** Rules directing copilot to:
-- Read `.kahuna/context-guide.md` at task start
-- Use `kahuna_prepare_context` before implementation
-- Use `kahuna_ask` for mid-task questions
+- Read `.kai/context-guide.md` at task start
+- Use `kai_prepare_context` before implementation
+- Use `kai_ask` for mid-task questions
 - Invoke verification skill before commits
 
 ### .claude/skills/
@@ -104,15 +104,15 @@ The copilot configuration and knowledge base work together but are distinct:
 
 | Aspect | Copilot Config | Knowledge Base |
 |--------|----------------|----------------|
-| **Location** | Project root (`.claude/`, `CLAUDE.md`) | `~/.kahuna/` and `.kahuna/context-guide.md` |
+| **Location** | Project root (`.claude/`, `CLAUDE.md`) | `~/.kai/` and `.kai/context-guide.md` |
 | **Purpose** | How copilot behaves | What copilot knows |
 | **Scope** | Per-project | Global + per-task |
 | **Dynamic?** | Static (MVP) | Dynamic (learns, surfaces) |
 
 **How they interact:**
-1. Rules tell copilot to **read** `.kahuna/context-guide.md`
-2. Rules tell copilot **when** to call Kahuna tools
-3. Kahuna tools **populate** `.kahuna/context-guide.md` with relevant knowledge
+1. Rules tell copilot to **read** `.kai/context-guide.md`
+2. Rules tell copilot **when** to call Kai tools
+3. Kai tools **populate** `.kai/context-guide.md` with relevant knowledge
 4. Copilot **uses** surfaced knowledge during tasks
 
 ---
@@ -121,7 +121,7 @@ The copilot configuration and knowledge base work together but are distinct:
 
 **Build first:**
 - Static template files for all configuration
-- Basic CLAUDE.md with Kahuna instructions
+- Basic CLAUDE.md with Kai instructions
 - Standard .mcp.json configuration
 - Essential rules for context usage
 
@@ -148,4 +148,4 @@ The copilot configuration and knowledge base work together but are distinct:
 
 - v1.0 (2026-02-05): Initial specification (placeholder for team input)
 - v2.0 (2026-02-05): Promoted to docs/design/; updated links and status
-- v2.1 (2026-02-09): Renamed kahuna_setup → kahuna_initialize; replaced kahuna_review with verification skill
+- v2.1 (2026-02-09): Renamed kai_setup → kai_initialize; replaced kai_review with verification skill

@@ -16,7 +16,7 @@ global.fetch = mockFetch;
 function createRecordInput(overrides?: Partial<RecordCallInput>): RecordCallInput {
   return {
     model: 'claude-3-haiku-20240307',
-    toolName: 'kahuna_ask',
+    toolName: 'kai_ask',
     usage: {
       inputTokens: 1000,
       outputTokens: 500,
@@ -84,7 +84,7 @@ describe('UsageTracker', () => {
       expect(call.id).toBeDefined();
       expect(call.timestamp).toBeInstanceOf(Date);
       expect(call.model).toBe('claude-3-haiku-20240307');
-      expect(call.toolName).toBe('kahuna_ask');
+      expect(call.toolName).toBe('kai_ask');
       expect(call.usage).toEqual(input.usage);
       expect(call.latencyMs).toBe(250);
       expect(call.success).toBe(true);
@@ -224,32 +224,32 @@ describe('UsageTracker', () => {
 
       tracker.record(
         createRecordInput({
-          toolName: 'kahuna_ask',
+          toolName: 'kai_ask',
           usage: { inputTokens: 1000, outputTokens: 500 },
         })
       );
       tracker.record(
         createRecordInput({
-          toolName: 'kahuna_learn',
+          toolName: 'kai_learn',
           usage: { inputTokens: 2000, outputTokens: 1000 },
         })
       );
       tracker.record(
         createRecordInput({
-          toolName: 'kahuna_ask',
+          toolName: 'kai_ask',
           usage: { inputTokens: 500, outputTokens: 250 },
         })
       );
 
       const byTool = tracker.getByTool();
 
-      expect(byTool.kahuna_ask.inputTokens).toBe(1500);
-      expect(byTool.kahuna_ask.outputTokens).toBe(750);
-      expect(byTool.kahuna_ask.callCount).toBe(2);
-      expect(byTool.kahuna_ask.toolName).toBe('kahuna_ask');
+      expect(byTool.kai_ask.inputTokens).toBe(1500);
+      expect(byTool.kai_ask.outputTokens).toBe(750);
+      expect(byTool.kai_ask.callCount).toBe(2);
+      expect(byTool.kai_ask.toolName).toBe('kai_ask');
 
-      expect(byTool.kahuna_learn.inputTokens).toBe(2000);
-      expect(byTool.kahuna_learn.callCount).toBe(1);
+      expect(byTool.kai_learn.inputTokens).toBe(2000);
+      expect(byTool.kai_learn.callCount).toBe(1);
     });
   });
 
@@ -259,7 +259,7 @@ describe('UsageTracker', () => {
 
       tracker.record(createRecordInput());
       tracker.record(createRecordInput({ model: 'claude-sonnet-4-20250514' }));
-      tracker.record(createRecordInput({ toolName: 'kahuna_learn' }));
+      tracker.record(createRecordInput({ toolName: 'kai_learn' }));
 
       expect(tracker.getCallCount()).toBe(3);
 
@@ -295,9 +295,9 @@ describe('UsageTracker', () => {
         },
       });
 
-      tracker.record(createRecordInput({ toolName: 'kahuna_ask' }));
+      tracker.record(createRecordInput({ toolName: 'kai_ask' }));
       tracker.record(
-        createRecordInput({ model: 'claude-sonnet-4-20250514', toolName: 'kahuna_learn' })
+        createRecordInput({ model: 'claude-sonnet-4-20250514', toolName: 'kai_learn' })
       );
 
       const summary = tracker.getSessionSummary();
@@ -470,11 +470,11 @@ describe('createUsageTrackerFromEnv()', () => {
   });
 
   it('creates tracker with default config when no env vars set', () => {
-    process.env.KAHUNA_USAGE_API_ENDPOINT = undefined;
-    process.env.KAHUNA_USAGE_API_KEY = undefined;
-    process.env.KAHUNA_USER_ID = undefined;
-    process.env.KAHUNA_ORG_ID = undefined;
-    process.env.KAHUNA_INCLUDE_USAGE_IN_RESPONSES = undefined;
+    process.env.KAI_USAGE_API_ENDPOINT = undefined;
+    process.env.KAI_USAGE_API_KEY = undefined;
+    process.env.KAI_USER_ID = undefined;
+    process.env.KAI_ORG_ID = undefined;
+    process.env.KAI_INCLUDE_USAGE_IN_RESPONSES = undefined;
 
     const tracker = createUsageTrackerFromEnv();
 
@@ -482,8 +482,8 @@ describe('createUsageTrackerFromEnv()', () => {
     expect(tracker.getUserIdentity()).toBeUndefined();
   });
 
-  it('respects KAHUNA_INCLUDE_USAGE_IN_RESPONSES=false', () => {
-    process.env.KAHUNA_INCLUDE_USAGE_IN_RESPONSES = 'false';
+  it('respects KAI_INCLUDE_USAGE_IN_RESPONSES=false', () => {
+    process.env.KAI_INCLUDE_USAGE_IN_RESPONSES = 'false';
 
     const tracker = createUsageTrackerFromEnv();
 
@@ -491,9 +491,9 @@ describe('createUsageTrackerFromEnv()', () => {
   });
 
   it('configures user identity from env vars', () => {
-    process.env.KAHUNA_USER_ID = 'env-user';
-    process.env.KAHUNA_ORG_ID = 'env-org';
-    process.env.KAHUNA_TEAM_ID = 'env-team';
+    process.env.KAI_USER_ID = 'env-user';
+    process.env.KAI_ORG_ID = 'env-org';
+    process.env.KAI_TEAM_ID = 'env-team';
 
     const tracker = createUsageTrackerFromEnv();
 
@@ -506,8 +506,8 @@ describe('createUsageTrackerFromEnv()', () => {
   });
 
   it('does not set user identity if userId missing', () => {
-    process.env.KAHUNA_USER_ID = undefined;
-    process.env.KAHUNA_ORG_ID = 'env-org';
+    process.env.KAI_USER_ID = undefined;
+    process.env.KAI_ORG_ID = 'env-org';
 
     const tracker = createUsageTrackerFromEnv();
 
@@ -515,8 +515,8 @@ describe('createUsageTrackerFromEnv()', () => {
   });
 
   it('does not set user identity if orgId missing', () => {
-    process.env.KAHUNA_USER_ID = 'env-user';
-    process.env.KAHUNA_ORG_ID = undefined;
+    process.env.KAI_USER_ID = 'env-user';
+    process.env.KAI_ORG_ID = undefined;
 
     const tracker = createUsageTrackerFromEnv();
 

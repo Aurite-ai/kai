@@ -1,10 +1,10 @@
-# @aurite-ai/kahuna-testing
+# @aurite-ai/kai-testing
 
-QA testing infrastructure for evaluating Kahuna's VCK (Vibe Code Kit) quality. Provides a CLI for creating test projects, running copilot sessions against scenarios, and collecting results.
+QA testing infrastructure for evaluating Kai's VCK (Vibe Code Kit) quality. Provides a CLI for creating test projects, running copilot sessions against scenarios, and collecting results.
 
 ## Overview
 
-The testing package evaluates whether Kahuna's copilot configurations help coding copilots succeed at real tasks. Each **scenario** defines a project a "vibe coder" might build, with requirements at varying complexity levels.
+The testing package evaluates whether Kai's copilot configurations help coding copilots succeed at real tasks. Each **scenario** defines a project a "vibe coder" might build, with requirements at varying complexity levels.
 
 ## CLI Commands
 
@@ -13,8 +13,8 @@ The testing package evaluates whether Kahuna's copilot configurations help codin
 Assembles an isolated test project from a VCK template + scenario:
 
 ```bash
-pnpm kahuna-test create <scenario>
-pnpm kahuna-test create customer-support-agent --name my-test
+pnpm kai-test create <scenario>
+pnpm kai-test create customer-support-agent --name my-test
 ```
 
 The created project combines:
@@ -25,7 +25,7 @@ The created project combines:
 ### `list` — Show available scenarios
 
 ```bash
-pnpm kahuna-test list
+pnpm kai-test list
 ```
 
 Lists all scenarios in `scenarios/` and any existing test projects.
@@ -33,7 +33,7 @@ Lists all scenarios in `scenarios/` and any existing test projects.
 ### `collect` — Gather results
 
 ```bash
-pnpm kahuna-test collect <project> --tester "Name"
+pnpm kai-test collect <project> --tester "Name"
 ```
 
 Collects results from a completed test session for evaluation.
@@ -64,7 +64,7 @@ See [scenarios/README.md](scenarios/README.md) for the full testing methodology.
 
 ```
 packages/testing/
-├── bin/kahuna-test.js      # CLI entry point
+├── bin/kai-test.js      # CLI entry point
 ├── scenarios/              # Test scenario definitions
 │   ├── customer-support-agent/
 │   ├── stock-market-reporter/

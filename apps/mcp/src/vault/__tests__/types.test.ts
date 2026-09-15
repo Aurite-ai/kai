@@ -20,10 +20,10 @@ describe('parseVaultReference', () => {
   });
 
   it('parses 1password references', () => {
-    const result = parseVaultReference('vault://1password/kahuna/gmail-oauth');
+    const result = parseVaultReference('vault://1password/kai/gmail-oauth');
     expect(result).toEqual({
       provider: '1password',
-      path: 'kahuna/gmail-oauth',
+      path: 'kai/gmail-oauth',
     });
   });
 
@@ -76,9 +76,9 @@ describe('formatVaultReference', () => {
   it('formats 1password references', () => {
     const result = formatVaultReference({
       provider: '1password',
-      path: 'kahuna/gmail-oauth',
+      path: 'kai/gmail-oauth',
     });
-    expect(result).toBe('vault://1password/kahuna/gmail-oauth');
+    expect(result).toBe('vault://1password/kai/gmail-oauth');
   });
 
   it('round-trips with parseVaultReference', () => {
@@ -111,7 +111,7 @@ describe('isValidProvider', () => {
 describe('isVaultReference', () => {
   it('returns true for valid vault reference objects', () => {
     expect(isVaultReference({ $ref: 'vault://env/SECRET' })).toBe(true);
-    expect(isVaultReference({ $ref: 'vault://1password/kahuna/key' })).toBe(true);
+    expect(isVaultReference({ $ref: 'vault://1password/kai/key' })).toBe(true);
   });
 
   it('returns false for invalid values', () => {

@@ -1,7 +1,7 @@
 /**
  * Knowledge storage module
  *
- * Provides types, utilities, and services for managing .mdc files in ~/.kahuna/knowledge/
+ * Provides types, utilities, and services for managing .mdc files in ~/.kai/knowledge/
  */
 
 // Types

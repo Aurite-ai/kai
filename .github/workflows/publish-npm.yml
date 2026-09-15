@@ -45,8 +45,8 @@ jobs:
 
       - name: Build and bundle MCP server
         run: |
-          pnpm --filter @aurite-ai/kahuna build
-          pnpm --filter @aurite-ai/kahuna bundle
+          pnpm --filter @aurite-ai/kai build
+          pnpm --filter @aurite-ai/kai bundle
 
       - name: Publish to npm
         run: npm publish --provenance --access public --tag "${{ inputs.npm_tag }}"

@@ -49,7 +49,7 @@ function warn(msg: string) {
 }
 
 async function main() {
-  header('KAHUNA VAULT & SENSITIVE DETECTION TEST');
+  header('KAI VAULT & SENSITIVE DETECTION TEST');
 
   // =========================================================================
   // Test 1: Sensitive Data Detection
@@ -127,7 +127,7 @@ password = "my-secret-password"
 
   const testRefs = [
     'vault://env/OPENAI_API_KEY',
-    'vault://1password/kahuna/gmail-oauth',
+    'vault://1password/kai/gmail-oauth',
     'vault://hashicorp/secret/integrations/stripe',
     'not-a-vault-ref',
   ];
@@ -194,8 +194,8 @@ password = "my-secret-password"
   log(`  • EnvVaultProvider (store, retrieve, list, delete)`);
 
   log(`\n${colors.bright}Next steps:${colors.reset}`);
-  log(`  • Secrets are stored in: ${colors.cyan}~/.kahuna/.env${colors.reset}`);
-  log(`  • Integrate with kahuna_learn to auto-detect secrets in files`);
+  log(`  • Secrets are stored in: ${colors.cyan}~/.kai/.env${colors.reset}`);
+  log(`  • Integrate with kai_learn to auto-detect secrets in files`);
   log(`  • Add 1Password / HashiCorp Vault providers for production use`);
 }
 

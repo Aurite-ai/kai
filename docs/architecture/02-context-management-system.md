@@ -8,7 +8,7 @@
 
 ## Overview
 
-The context management system is the core of Kahuna's MCP server. It provides three tools that form a two-stage knowledge pipeline: **learn** (ingest files → knowledge base) and **prepare/ask** (knowledge base → copilot context).
+The context management system is the core of Kai's MCP server. It provides three tools that form a two-stage knowledge pipeline: **learn** (ingest files → knowledge base) and **prepare/ask** (knowledge base → copilot context).
 
 All domain logic lives in the `knowledge/` module under `apps/mcp/src/`. MCP tool handlers are thin wrappers that validate input, delegate to `knowledge/`, and format markdown responses.
 
@@ -21,7 +21,7 @@ All domain logic lives in the `knowledge/` module under `apps/mcp/src/`. MCP too
                     │              MCP Tool Handlers               │
                     │          thin wrappers, markdown output      │
                     ├────────────┬──────────────┬──────────────────┤
-                    │ kahuna_    │ kahuna_      │ kahuna_          │
+                    │ kai_    │ kai_      │ kai_          │
                     │ learn      │ prepare_     │ ask              │
                     │            │ context      │                  │
                     └──────┬─────┴──────┬───────┴────────┬─────────┘
@@ -43,17 +43,17 @@ All domain logic lives in the `knowledge/` module under `apps/mcp/src/`. MCP too
 
 ```
                     ┌───────────────┐
-  User files ──────►│ kahuna_learn  │──── Categorization Agent (Haiku) ────► ~/.kahuna/knowledge/*.mdc
+  User files ──────►│ kai_learn  │──── Categorization Agent (Haiku) ────► ~/.kai/knowledge/*.mdc
                     └───────────────┘                                          (general or project-specific)
 
                     ┌───────────────────────┐
-  Task desc. ──────►│ kahuna_prepare_context│──── Retrieval Agent (Haiku) ──► selects KB files
+  Task desc. ──────►│ kai_prepare_context│──── Retrieval Agent (Haiku) ──► selects KB files
                     └───────────────────────┘         │                        (from general + current project)
                                                       ▼
-                                               Context Writer ──► project/.kahuna/context-guide.md
+                                               Context Writer ──► project/.kai/context-guide.md
 
                     ┌───────────────┐
-  Question ────────►│ kahuna_ask    │──── Q&A Agent (Sonnet) ──► reads KB files ──► synthesized answer
+  Question ────────►│ kai_ask    │──── Q&A Agent (Sonnet) ──► reads KB files ──► synthesized answer
                     └───────────────┘                            (from general + current project)
 ```
 
@@ -61,10 +61,10 @@ All domain logic lives in the `knowledge/` module under `apps/mcp/src/`. MCP too
 
 | Tool | When Called | Side Effects | Agent Model |
 |------|------------|--------------|-------------|
-| `kahuna_learn` | User shares files | Writes `.mdc` to KB, detects contradictions | Haiku (categorization) |
-| `kahuna_prepare_context` | Task start (once) | Writes `.kahuna/context-guide.md` to project root | Haiku (retrieval) |
-| `kahuna_ask` | Mid-task questions | None (read-only) | Sonnet (Q&A synthesis) |
-| `kahuna_delete` | After user approval | Deletes `.mdc` from KB | None (direct operation) |
+| `kai_learn` | User shares files | Writes `.mdc` to KB, detects contradictions | Haiku (categorization) |
+| `kai_prepare_context` | Task start (once) | Writes `.kai/context-guide.md` to project root | Haiku (retrieval) |
+| `kai_ask` | Mid-task questions | None (read-only) | Sonnet (Q&A synthesis) |
+| `kai_delete` | After user approval | Deletes `.mdc` from KB | None (direct operation) |
 
 ---
 
@@ -76,16 +76,16 @@ All domain logic lives in the `knowledge/` module under `apps/mcp/src/`. MCP too
 | D2 | **Simplified metadata** — 6 fields: category, confidence, reasoning, title, summary, topics[] | Original agent extracted ~15 fields; storage silently dropped half. |
 | D3 | **LLM-generated titles** | `filenameToTitle()` produced bad casing. LLM handles acronyms naturally. |
 | D4 | **Flat storage directory** (no category subfolders) | Re-categorization doesn't orphan files. Flat reads are fast at ~1000 entries. |
-| D5 | **`KAHUNA_KNOWLEDGE_DIR` env var**, defaults to `~/.kahuna/knowledge/` | Flexible, design-aligned. |
+| D5 | **`KAI_KNOWLEDGE_DIR` env var**, defaults to `~/.kai/knowledge/` | Flexible, design-aligned. |
 | D6 | **Slug-based file naming** | Human-readable, debuggable. LLM titles make collisions rare. |
 | D7 | **Natural language topics** | LLM produces readable phrases. Agents handle fuzzy matching. |
-| D8 | **`.kahuna/context-guide.md` gets file paths** | Files stay in KB as source of truth. File paths shared so the copilot can read. |
-| D9 | **`ask` searches KB directly**, not `.kahuna/context-guide.md` | If it's in the guide, copilot already has it. Ask handles what's *not* there. |
+| D8 | **`.kai/context-guide.md` gets file paths** | Files stay in KB as source of truth. File paths shared so the copilot can read. |
+| D9 | **`ask` searches KB directly**, not `.kai/context-guide.md` | If it's in the guide, copilot already has it. Ask handles what's *not* there. |
 | D10 | **`ask` agent told which KB files are in guide** | Agent knows what copilot already has; avoids redundancy. |
 | D11 | **Enriched `list_knowledge_files`** — summary + category + topics | Better agent decisions without separate search tool. |
 | D12 | **Haiku for retrieval, Sonnet for Q&A** | Retrieval is file selection (cheap). Q&A is synthesis (needs quality). |
 | D13 | **All agent models in `config.ts`** | Easy to swap without code changes. |
-| D14 | **Overwrite `.kahuna/context-guide.md`** on each prepare_context call | Simple. Single file approach. |
+| D14 | **Overwrite `.kai/context-guide.md`** on each prepare_context call | Simple. Single file approach. |
 | D15 | **Shared Anthropic client in ToolContext** | One client at server startup, injected into all handlers. |
 | D16 | **`knowledge/` subfolder** grouping all KB logic | Clean separation: `tools/` = MCP interface, `knowledge/` = domain logic. |
 | D17 | **Project-specific KB subfolders** using directory path hash | Isolates project context while maintaining shared general knowledge. |
@@ -96,8 +96,8 @@ All domain logic lives in the `knowledge/` module under `apps/mcp/src/`. MCP too
 
 ### Storage Location
 
-- **Default:** `~/.kahuna/knowledge/`
-- **Override:** `KAHUNA_KNOWLEDGE_DIR` environment variable
+- **Default:** `~/.kai/knowledge/`
+- **Override:** `KAI_KNOWLEDGE_DIR` environment variable
 - **Layout:** Flat directory of `.mdc` files (markdown with YAML frontmatter) for general context, with project-specific subdirectories
 
 ### Project-Level Context
@@ -105,7 +105,7 @@ All domain logic lives in the `knowledge/` module under `apps/mcp/src/`. MCP too
 When files are uploaded that are project-specific, they are stored in a subfolder within the knowledge base:
 
 ```
-~/.kahuna/knowledge/
+~/.kai/knowledge/
 ├── general-file-1.mdc              # General context (applies to all projects)
 ├── general-file-2.mdc
 ├── org-context.mdc
@@ -121,8 +121,8 @@ When files are uploaded that are project-specific, they are stored in a subfolde
 - Consistent storage location for the same project
 
 **Context retrieval behavior:**
-- [`kahuna_prepare_context`](../design/tool-specifications.md#5-kahuna_prepare_context) and [`kahuna_ask`](../design/tool-specifications.md#7-kahuna_ask) fetch knowledge from:
-  1. General context (files directly in `~/.kahuna/knowledge/`)
+- [`kai_prepare_context`](../design/tool-specifications.md#5-kai_prepare_context) and [`kai_ask`](../design/tool-specifications.md#7-kai_ask) fetch knowledge from:
+  1. General context (files directly in `~/.kai/knowledge/`)
   2. Current project's subfolder (if it exists)
 - Files from other projects are not included in context retrieval
 
@@ -203,11 +203,11 @@ Agent tools used across different MCP tools:
 
 ### Context Writer
 
-The surfacing module handles `.kahuna/context-guide.md` generation:
+The surfacing module handles `.kai/context-guide.md` generation:
 
 1. **Compile content** — For each selected slug: read `.mdc`
 2. **Generate guide** — Single markdown file with navigation, file summaries, and full content
-3. **Write file** — Output as `.kahuna/context-guide.md` in project root
+3. **Write file** — Output as `.kai/context-guide.md` in project root
 
 ---
 
@@ -232,7 +232,7 @@ apps/mcp/src/
 │   │   └── utils.ts                       # Slugify, frontmatter parsing, MDC generation
 │   └── surfacing/
 │       ├── index.ts
-│       ├── context-writer.ts              # Write .kahuna/context-guide.md to project root
+│       ├── context-writer.ts              # Write .kai/context-guide.md to project root
 │       └── framework-copier.ts            # Copy framework templates (LangGraph/OpenAI)
 │
 ├── templates/                             # VCK templates (bundled with MCP server)

@@ -20,7 +20,7 @@ You are implementing an **approved plan** from the Agent Planner (or a plan prov
 2. **Confirm each phase** - Wait for user confirmation before proceeding
 3. **Run tests** - Execute any testing steps in the phase
 4. **Report progress** - Clearly state what was completed
-5. **Ask questions** - If the plan is unclear or you encounter issues. Use the **kahuna_ask** tool first, then ask the user directly if you still need clarification
+5. **Ask questions** - If the plan is unclear or you encounter issues. Use the **kai_ask** tool first, then ask the user directly if you still need clarification
 6. **Adapt when needed** - Suggest improvements if you discover better approaches
 
 ---
@@ -78,7 +78,7 @@ ANTHROPIC_API_KEY=sk-ant-xxxxx
 ## Remember
 
 - **The plan is your guide** - Follow it unless you have a good reason to deviate
-- **Ask clarifying questions** - Don't assume anything. Use the **kahuna_ask** tool first, then ask the user directly if you still need clarification
+- **Ask clarifying questions** - Don't assume anything. Use the **kai_ask** tool first, then ask the user directly if you still need clarification
 - **Confirm each phase** - Don't assume success, wait for user feedback
 - **Quality over speed** - Better to do it right than do it fast
 - **Communicate clearly** - User needs to understand what you've done

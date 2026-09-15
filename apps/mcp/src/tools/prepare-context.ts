@@ -1,8 +1,8 @@
 /**
- * Kahuna Prepare Context Tool - Agentic context retrieval
+ * Kai Prepare Context Tool - Agentic context retrieval
  *
  * Searches the knowledge base for files relevant to a task using an LLM agent,
- * then writes their file paths to the project's .kahuna/context-guide.md.
+ * then writes their file paths to the project's .kai/context-guide.md.
  * Can also scaffold framework boilerplate when the agent selects a framework.
  *
  * See: docs/internal/designs/context-management-system.md
@@ -43,8 +43,8 @@ import {
  * Tool definition for MCP registration.
  */
 export const prepareContextToolDefinition = {
-  name: "kahuna_prepare_context",
-  description: `Prepare the .kahuna/context-guide.md with relevant knowledge for a task.
+  name: "kai_prepare_context",
+  description: `Prepare the .kai/context-guide.md with relevant knowledge for a task.
 
 USE THIS TOOL WHEN:
 - Starting any new task or feature
@@ -52,24 +52,24 @@ USE THIS TOOL WHEN:
 - Before beginning implementation work
 - User asks "what do we know about X"
 
-This is the PRIMARY context retrieval tool. Call it ONCE at task start, then work from .kahuna/context-guide.md.
+This is the PRIMARY context retrieval tool. Call it ONCE at task start, then work from .kai/context-guide.md.
 
 <examples>
 ### Starting a task
-kahuna_prepare_context(task="Add rate limiting to the search tool")
+kai_prepare_context(task="Add rate limiting to the search tool")
 
 ### With files you'll touch
-kahuna_prepare_context(task="Refactor error handling in tools", files=["src/agent/tools.py"])
+kai_prepare_context(task="Refactor error handling in tools", files=["src/agent/tools.py"])
 
 ### Exploring a topic
-kahuna_prepare_context(task="Understand our API design patterns")
+kai_prepare_context(task="Understand our API design patterns")
 </examples>
 
 <hints>
-- Call ONCE at task start, then read the files referenced in .kahuna/context-guide.md
+- Call ONCE at task start, then read the files referenced in .kai/context-guide.md
 - Natural language task description works best
-- After calling, read .kahuna/context-guide.md for navigation
-- If you need more context mid-task, use kahuna_ask instead
+- After calling, read .kai/context-guide.md for navigation
+- If you need more context mid-task, use kai_ask instead
 </hints>`,
 
   inputSchema: {
@@ -230,7 +230,7 @@ function buildContextReadyMarkdown(
     stepNum++;
   }
 
-  parts.push(`${stepNum}. **Read .kahuna/context-guide.md** — Full navigation`);
+  parts.push(`${stepNum}. **Read .kai/context-guide.md** — Full navigation`);
   stepNum++;
 
   // Include top KB files
@@ -252,7 +252,7 @@ function buildContextReadyMarkdown(
   }
 
   parts.push("\n<hints>");
-  parts.push("- .kahuna/context-guide.md contains file references");
+  parts.push("- .kai/context-guide.md contains file references");
   parts.push("- KB files are referenced by their knowledge base paths");
   if (referencedFiles && referencedFiles.length > 0) {
     parts.push("- Some entries reference local project files");
@@ -260,8 +260,8 @@ function buildContextReadyMarkdown(
   if (frameworkResult?.copiedFiles.length) {
     parts.push("- Framework boilerplate is in src/ — start from there");
   }
-  parts.push("- If you need more context mid-task, use kahuna_ask");
-  parts.push("- After completing work, use kahuna_learn to capture learnings");
+  parts.push("- If you need more context mid-task, use kai_ask");
+  parts.push("- After completing work, use kai_learn to capture learnings");
   parts.push("</hints>");
 
   return parts.join("\n");
@@ -273,9 +273,9 @@ function buildEmptyKBMarkdown(): string {
 The knowledge base is empty. No files to surface for this task.
 
 <hints>
-- Use kahuna_learn to add files to the knowledge base first
+- Use kai_learn to add files to the knowledge base first
 - Share policy docs, specs, or reference materials
-- Then call kahuna_prepare_context again
+- Then call kai_prepare_context again
 </hints>`;
 }
 
@@ -289,8 +289,8 @@ The knowledge base has ${totalFiles} files, but none are relevant to: "${task}"
 
 <hints>
 - Try rephrasing the task description
-- Use kahuna_learn to add files related to this task
-- Use kahuna_ask to check if the knowledge base has related information
+- Use kai_learn to add files related to this task
+- Use kai_ask to check if the knowledge base has related information
 </hints>`;
 }
 
@@ -333,7 +333,7 @@ function buildIntegrationsMarkdown(integrations: IntegrationSummary[]): string {
 
   parts.push("");
   parts.push(
-    'Use `kahuna_use_integration(integration="<id>", operation="<op>", params={...})` to call them.',
+    'Use `kai_use_integration(integration="<id>", operation="<op>", params={...})` to call them.',
   );
   parts.push("");
 
@@ -345,7 +345,7 @@ function buildIntegrationsMarkdown(integrations: IntegrationSummary[]): string {
 // =============================================================================
 
 /**
- * Handle the kahuna_prepare_context tool call.
+ * Handle the kai_prepare_context tool call.
  *
  * Pipeline:
  * 1. Validate input
@@ -397,7 +397,7 @@ export async function prepareContextToolHandler(
       storage,
       anthropic,
       usageTracker,
-      "kahuna_prepare_context",
+      "kai_prepare_context",
     );
 
     // Extract file selections and framework selection
@@ -494,7 +494,7 @@ export async function prepareContextToolHandler(
       }
     }
 
-    // Write .kahuna/context-guide.md with KB file references, local file references, and framework result
+    // Write .kai/context-guide.md with KB file references, local file references, and framework result
     await writeContextReadme(
       contextDir,
       task,
@@ -542,7 +542,7 @@ ${usageLine}`;
     const errorMessage =
       error instanceof Error ? error.message : "Unknown error";
     return markdownResponse(
-      `Failed to prepare context: ${errorMessage}\n\n<hints>\n- Check if the knowledge base directory is accessible (~/.kahuna/knowledge/)\n</hints>`,
+      `Failed to prepare context: ${errorMessage}\n\n<hints>\n- Check if the knowledge base directory is accessible (~/.kai/knowledge/)\n</hints>`,
       true,
     );
   }

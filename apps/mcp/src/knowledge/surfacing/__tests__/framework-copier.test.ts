@@ -57,7 +57,7 @@ describe('framework-copier', () => {
       if (frameworkId === 'langgraph') {
         return [
           { path: 'main.py', content: '# Main entry point' },
-          { path: 'pyproject.toml', content: '[project]\nname = "kahuna-agent"' },
+          { path: 'pyproject.toml', content: '[project]\nname = "kai-agent"' },
           { path: 'README.md', content: '# LangGraph Agent' },
           { path: 'src/agent/__init__.py', content: '# Agent init' },
           { path: 'src/agent/graph.py', content: '# Graph definition' },

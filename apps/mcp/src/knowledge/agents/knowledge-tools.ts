@@ -53,7 +53,7 @@ export const readKnowledgeFileTool: Tool = {
 };
 
 /**
- * Tool definition for selecting files to surface in .kahuna/context-guide.md.
+ * Tool definition for selecting files to surface in .kai/context-guide.md.
  * Structured output: agent returns list of slugs with reasons.
  */
 export const selectFilesForContextTool: Tool = {
@@ -78,7 +78,7 @@ export const selectFilesForContextTool: Tool = {
           },
           required: ['slug', 'reason'],
         },
-        description: 'Files to surface to the project .kahuna/context-guide.md file',
+        description: 'Files to surface to the project .kai/context-guide.md file',
       },
     },
     required: ['selections'],

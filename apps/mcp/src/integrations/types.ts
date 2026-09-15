@@ -1,7 +1,7 @@
 /**
  * Integration Descriptor Types
  *
- * These types define how Kahuna understands and represents any external
+ * These types define how Kai understands and represents any external
  * tool, API, database, or service that a user's agent might need to use.
  *
  * Key principle: Store CAPABILITIES here, store CREDENTIALS in vault.
@@ -143,7 +143,7 @@ export interface IntegrationSource {
  * Full Integration Descriptor
  *
  * This is the complete description of an external tool/service that
- * Kahuna has learned about. It contains everything an agent needs to
+ * Kai has learned about. It contains everything an agent needs to
  * know to use the integration, WITHOUT any actual credentials.
  */
 export interface IntegrationDescriptor {

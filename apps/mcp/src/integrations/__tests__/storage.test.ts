@@ -24,7 +24,7 @@ import {
 import type { IntegrationDescriptor } from '../types.js';
 
 // Use a temp directory for tests
-const TEST_DIR = join(tmpdir(), `kahuna-integration-test-${Date.now()}`);
+const TEST_DIR = join(tmpdir(), `kai-integration-test-${Date.now()}`);
 
 // Helper to create a test integration
 function createTestIntegration(
@@ -429,7 +429,7 @@ describe('integration storage', () => {
       expect(markdown).toContain('messaging');
       expect(markdown).toContain('✅');
       expect(markdown).toContain('🔧');
-      expect(markdown).toContain('kahuna_use_integration');
+      expect(markdown).toContain('kai_use_integration');
     });
   });
 });

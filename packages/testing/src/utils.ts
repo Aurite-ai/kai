@@ -1,5 +1,5 @@
 /**
- * Shared utilities for @aurite-ai/kahuna-testing
+ * Shared utilities for @aurite-ai/kai-testing
  */
 
 import * as fs from 'node:fs';
@@ -17,7 +17,7 @@ export function findRepoRoot(): string {
     if (fs.existsSync(packageJsonPath)) {
       try {
         const pkg = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'));
-        if (pkg.workspaces || pkg.name === 'kahuna') {
+        if (pkg.workspaces || pkg.name === 'kai') {
           return current;
         }
       } catch {

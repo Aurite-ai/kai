@@ -50,5 +50,6 @@ docs/internal/
 agent-dev/
 **/.venv/**
 projects/
+.kai-knowledge/
 .kahuna-knowledge/
 .claude

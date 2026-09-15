@@ -1,5 +1,5 @@
 /**
- * kahuna_update_connector MCP Tool
+ * kai_update_connector MCP Tool
  *
  * Updates or refreshes an existing integration connector.
  * Can re-research to get latest API changes, add new operations,
@@ -32,7 +32,7 @@ import type { ToolContext } from './types.js';
 // =============================================================================
 
 const definition: Tool = {
-  name: 'kahuna_update_connector',
+  name: 'kai_update_connector',
   description: `Update or refresh an existing integration connector.
 
 Use this when:
@@ -49,9 +49,9 @@ The agent will:
 4. Save the updated connector
 
 Examples:
-- kahuna_update_connector(connector_id="slack", action="refresh")
-- kahuna_update_connector(connector_id="stripe", action="add_operations", operations=["create-customer", "list-invoices"])
-- kahuna_update_connector(connector_id="twilio", action="fix_auth", hints="Use basic auth with Account SID and Auth Token")`,
+- kai_update_connector(connector_id="slack", action="refresh")
+- kai_update_connector(connector_id="stripe", action="add_operations", operations=["create-customer", "list-invoices"])
+- kai_update_connector(connector_id="twilio", action="fix_auth", hints="Use basic auth with Account SID and Auth Token")`,
   inputSchema: {
     type: 'object',
     properties: {
@@ -114,7 +114,7 @@ async function handler(
           type: 'text',
           text: `❌ **Connector not found:** ${connectorId}
 
-Use \`kahuna_discover_integration\` to create a new connector first.
+Use \`kai_discover_integration\` to create a new connector first.
 
 **Available connectors:**
 ${(await registry.list()).map((c) => `- ${c.metadata.id}`).join('\n')}`,

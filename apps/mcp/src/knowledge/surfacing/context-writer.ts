@@ -1,14 +1,14 @@
 /**
- * Context Writer — manages the project's .kahuna/context-guide.md
+ * Context Writer — manages the project's .kai/context-guide.md
  *
- * References knowledge base files by their KB paths in a .kahuna/context-guide.md.
+ * References knowledge base files by their KB paths in a .kai/context-guide.md.
  *
  * See: docs/internal/designs/context-management-system.md
  */
 
 import * as fs from 'node:fs/promises';
-import * as os from 'node:os';
 import * as path from 'node:path';
+import { getKnowledgeDir as resolveKnowledgeDir } from '../../kai-home.js';
 import type { KnowledgeEntry } from '../storage/types.js';
 import type { FrameworkCopyResult } from './framework-copier.js';
 
@@ -33,10 +33,10 @@ export interface ReferencedFile {
 
 /**
  * Get the default KB directory path.
- * Uses KAHUNA_KNOWLEDGE_DIR env var if set, otherwise defaults to ~/.kahuna/knowledge/
+ * Uses KAI_KNOWLEDGE_DIR (or legacy KAHUNA_KNOWLEDGE_DIR) if set, otherwise ~/.kai/knowledge/
  */
 function getKBDir(): string {
-  return process.env.KAHUNA_KNOWLEDGE_DIR || path.join(os.homedir(), '.kahuna', 'knowledge');
+  return resolveKnowledgeDir();
 }
 
 /**
@@ -51,18 +51,18 @@ export function getKBPath(slug: string): string {
 
 /**
  * Ensure the context directory exists and is empty.
- * Creates the directory if it doesn't exist, removes .kahuna/context-guide.md if it does.
+ * Creates the directory if it doesn't exist, removes .kai/context-guide.md if it does.
  *
  * @param contextDir - Path to the context directory
  */
 export async function clearContextDir(contextDir: string): Promise<void> {
-  // Ensure .kahuna directory exists
-  const kahunaDir = path.join(contextDir, '.kahuna');
-  await fs.mkdir(kahunaDir, { recursive: true });
+  // Ensure .kai directory exists
+  const kaiDir = path.join(contextDir, '.kai');
+  await fs.mkdir(kaiDir, { recursive: true });
 
-  // Remove .kahuna/context-guide.md if it exists
+  // Remove .kai/context-guide.md if it exists
   try {
-    await fs.unlink(path.join(kahunaDir, 'context-guide.md'));
+    await fs.unlink(path.join(kaiDir, 'context-guide.md'));
   } catch (error) {
     // Ignore if file doesn't exist
     if ((error as NodeJS.ErrnoException).code !== 'ENOENT') {
@@ -72,7 +72,7 @@ export async function clearContextDir(contextDir: string): Promise<void> {
 }
 
 /**
- * Generate and write a .kahuna/context-guide.md file
+ * Generate and write a .kai/context-guide.md file
  *
  * @param contextDir - Path to the context directory
  * @param task - The task description that triggered context surfacing
@@ -92,7 +92,7 @@ export async function writeContextReadme(
 
   parts.push(`# Context for: ${task}`);
   parts.push('');
-  parts.push(`Surfaced from Kahuna knowledge base on ${date}.`);
+  parts.push(`Surfaced from Kai knowledge base on ${date}.`);
   parts.push('');
 
   // Framework section (if boilerplate was copied)
@@ -163,14 +163,14 @@ export async function writeContextReadme(
 
   parts.push('---');
   parts.push('');
-  parts.push('*Prepared by Kahuna | Use `kahuna_ask` for additional questions*');
+  parts.push('*Prepared by Kai | Use `kai_ask` for additional questions*');
   parts.push('');
 
-  // Ensure .kahuna directory exists before writing
-  const kahunaDir = path.join(contextDir, '.kahuna');
-  await fs.mkdir(kahunaDir, { recursive: true });
+  // Ensure .kai directory exists before writing
+  const kaiDir = path.join(contextDir, '.kai');
+  await fs.mkdir(kaiDir, { recursive: true });
 
-  await fs.writeFile(path.join(kahunaDir, 'context-guide.md'), parts.join('\n'), 'utf-8');
+  await fs.writeFile(path.join(kaiDir, 'context-guide.md'), parts.join('\n'), 'utf-8');
 }
 
 /**
@@ -214,7 +214,7 @@ export async function hasLocalSource(entry: KnowledgeEntry): Promise<boolean> {
  * Prefers source.path (relative path) over source.file (filename only).
  *
  * @param entry - The knowledge entry with source info
- * @returns Relative path suitable for markdown links from .kahuna/context-guide.md
+ * @returns Relative path suitable for markdown links from .kai/context-guide.md
  */
 export function getLocalSourcePath(entry: KnowledgeEntry): string {
   if (!entry.source) {
