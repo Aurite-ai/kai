@@ -95,15 +95,15 @@ Use 1Password references in your configuration:
 ${requirements.map((r) => `${r.envVarName}="${r.opPath}"`).join('\n')}
 \`\`\`
 
-### Option 3: Provide via kahuna_learn
+### Option 3: Provide via kai_learn
 
-You can also teach Kahuna about these credentials by running:
+You can also teach Kai about these credentials by running:
 
 \`\`\`
-kahuna_learn("Your ${integration.displayName} credentials: [paste config or describe setup]")
+kai_learn("Your ${integration.displayName} credentials: [paste config or describe setup]")
 \`\`\`
 
-After providing credentials, run \`kahuna_verify_integration("${integration.id}")\` to verify the setup.
+After providing credentials, run \`kai_verify_integration("${integration.id}")\` to verify the setup.
 `;
 
   return markdown;
@@ -173,7 +173,7 @@ export function generateCredentialStatusSummary(integrations: IntegrationDescrip
     markdown += `
 ---
 
-**${totalMissing} credentials missing.** Use \`kahuna_verify_integration("<id>")\` for setup instructions.
+**${totalMissing} credentials missing.** Use \`kai_verify_integration("<id>")\` for setup instructions.
 `;
   } else {
     markdown += `

@@ -1,5 +1,5 @@
 /**
- * Kahuna Ask Tool - Quick Q&A with AI agent
+ * Kai Ask Tool - Quick Q&A with AI agent
  *
  * Mid-task question answering. An LLM agent searches the knowledge base,
  * reads relevant files, and synthesizes an answer.
@@ -24,32 +24,32 @@ import { type MCPToolResponse, type ToolContext, markdownResponse } from './type
  * Tool definition for MCP registration.
  */
 export const askToolDefinition = {
-  name: 'kahuna_ask',
+  name: 'kai_ask',
   description: `Quick Q&A using the project knowledge base.
 
 USE THIS TOOL WHEN:
 - Mid-task and need specific information
 - User asks a direct question about the project
 - Need clarification on a decision or pattern
-- Need information beyond what's in .kahuna/context-guide.md
+- Need information beyond what's in .kai/context-guide.md
 
 Searches the knowledge base and synthesizes an answer with source citations.
 
 <examples>
 ### Direct question
-kahuna_ask(question="Why did we choose keyword search over embeddings?")
+kai_ask(question="Why did we choose keyword search over embeddings?")
 
 ### Clarification
-kahuna_ask(question="What's our error handling pattern for API calls?")
+kai_ask(question="What's our error handling pattern for API calls?")
 
 ### Check if exists
-kahuna_ask(question="Do we have rate limiting requirements documented?")
+kai_ask(question="Do we have rate limiting requirements documented?")
 </examples>
 
 <hints>
 - Searches knowledge base with AI-powered answer synthesis
 - Use for quick questions mid-task
-- For comprehensive context setup, use kahuna_prepare_context instead
+- For comprehensive context setup, use kai_prepare_context instead
 - Returns answer with source citations
 </hints>`,
 
@@ -80,14 +80,14 @@ const askInputSchema = z.object({
 // =============================================================================
 
 /**
- * Read and parse .kahuna/context-guide.md to extract KB file references.
+ * Read and parse .kai/context-guide.md to extract KB file references.
  * Returns an array of KB file paths that are already surfaced.
  *
- * @returns Array of KB file paths (e.g., ["/home/user/.kahuna/knowledge/file.mdc"])
+ * @returns Array of KB file paths (e.g., ["/home/user/.kai/knowledge/file.mdc"])
  */
 async function getReferencedKBFiles(): Promise<string[]> {
   try {
-    const contextGuidePath = path.join(process.cwd(), '.kahuna/context-guide.md');
+    const contextGuidePath = path.join(process.cwd(), '.kai/context-guide.md');
     const content = await fs.readFile(contextGuidePath, 'utf-8');
 
     // Extract KB paths from the markdown table
@@ -103,7 +103,7 @@ async function getReferencedKBFiles(): Promise<string[]> {
 
     return paths;
   } catch (error) {
-    // If .kahuna/context-guide.md doesn't exist or can't be read, return empty array
+    // If .kai/context-guide.md doesn't exist or can't be read, return empty array
     return [];
   }
 }
@@ -113,11 +113,11 @@ async function getReferencedKBFiles(): Promise<string[]> {
 // =============================================================================
 
 /**
- * Handle the kahuna_ask tool call.
+ * Handle the kai_ask tool call.
  *
  * Pipeline:
  * 1. Validate input
- * 2. Read .kahuna/context-guide.md to get already-referenced KB files
+ * 2. Read .kai/context-guide.md to get already-referenced KB files
  * 3. Build Q&A system prompt with referenced files
  * 4. Run Q&A agent with list + read tools
  * 5. Return markdown response with answer
@@ -141,7 +141,7 @@ export async function askToolHandler(
   const { question } = parseResult.data;
 
   try {
-    // Get KB files already referenced in .kahuna/context-guide.md
+    // Get KB files already referenced in .kai/context-guide.md
     const referencedKBFiles = await getReferencedKBFiles();
 
     // Check for onboarding status (warning banner - don't block)
@@ -164,7 +164,7 @@ export async function askToolHandler(
       storage,
       anthropic,
       usageTracker,
-      'kahuna_ask'
+      'kai_ask'
     );
 
     // Build markdown response
@@ -186,8 +186,8 @@ ${usageLine}`;
     // Build hints, including onboarding warning if context is missing
     const baseHints = [
       '- Full details may be in the cited knowledge base entries',
-      '- Use kahuna_prepare_context if you need broader context for a task',
-      '- Use kahuna_learn to add new information to the knowledge base',
+      '- Use kai_prepare_context if you need broader context for a task',
+      '- Use kai_learn to add new information to the knowledge base',
     ];
     const allHints = onboardingHints
       ? [onboardingHints, ...baseHints].join('\n')

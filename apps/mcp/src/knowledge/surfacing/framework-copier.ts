@@ -158,7 +158,7 @@ export function resolveFrameworkTemplateDir(frameworkId: string): string {
   if (!_resolveFrameworkTemplateDirWarned) {
     _resolveFrameworkTemplateDirWarned = true;
     console.warn(
-      '[kahuna] DEPRECATED: resolveFrameworkTemplateDir() is deprecated and will be removed. ' +
+      '[kai] DEPRECATED: resolveFrameworkTemplateDir() is deprecated and will be removed. ' +
         'Use getFrameworkFiles() from templates/index.js instead.'
     );
   }

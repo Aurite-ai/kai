@@ -21,7 +21,7 @@ describe('FileKnowledgeStorageService', () => {
   beforeEach(async () => {
     testDir = path.join(
       os.tmpdir(),
-      `kahuna-knowledge-test-${Date.now()}-${Math.random().toString(36).slice(2)}`
+      `kai-knowledge-test-${Date.now()}-${Math.random().toString(36).slice(2)}`
     );
     storage = new FileKnowledgeStorageService(testDir);
   });

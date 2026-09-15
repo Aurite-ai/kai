@@ -7,7 +7,7 @@ description: Verify agent code against organizational policies and best practice
 
 ## Purpose
 
-Verify agent code against business rules, security policies, and framework best practices from Kahuna's knowledge base. All analysis happens locally—code never leaves the user's machine.
+Verify agent code against business rules, security policies, and framework best practices from Kai's knowledge base. All analysis happens locally—code never leaves the user's machine.
 
 ## When to Use
 
@@ -21,11 +21,11 @@ Trigger this skill when the user asks to:
 
 ## Process
 
-> **Note:** This skill assumes organizational and IT rules are already available in the conversation context from the `kahuna_prepare_context` call at conversation start (per CLAUDE.md rules).
+> **Note:** This skill assumes organizational and IT rules are already available in the conversation context from the `kai_prepare_context` call at conversation start (per CLAUDE.md rules).
 
 ### Step 1: Load Framework Best Practices
 
-Check the `context-guide.md` for framework-specific best practices surfaced by `kahuna_prepare_context`:
+Check the `context-guide.md` for framework-specific best practices surfaced by `kai_prepare_context`:
 
 These files define best practices, required patterns, and anti-patterns specific to that framework. Load and reference them during verification.
 
@@ -119,7 +119,7 @@ reports/verification/YYYY-MM-DD_HH-MM-SS.md
 ## Notes
 
 - **Privacy first:** All code analysis happens locally. Nothing is sent to external services.
-- **Rules come from Kahuna:** The knowledge base provides organization-specific rules. Apply them as written.
+- **Rules come from Kai:** The knowledge base provides organization-specific rules. Apply them as written.
 - **Framework best practices:** Don't duplicate framework best practices here—reference files in `context-guide.md`.
 - **Be specific:** Include file names and line numbers when reporting issues.
 - **Explain the "why":** Help developers understand why each rule matters.

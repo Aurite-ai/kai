@@ -14,7 +14,7 @@ import { type MCPToolResponse, type ToolContext, markdownResponse } from './type
  * Tool definition for MCP registration
  */
 export const verifyIntegrationToolDefinition = {
-  name: 'kahuna_verify_integration',
+  name: 'kai_verify_integration',
   description: `Verify that an integration is correctly configured and can connect.
 
 Use this tool to test if an integration is working before using it. 
@@ -140,7 +140,7 @@ ${result.details.connectionError}
 
 *No integrations discovered yet.*
 
-Use \`kahuna_learn\` on files that describe your external services to discover integrations.`);
+Use \`kai_learn\` on files that describe your external services to discover integrations.`);
     }
 
     const statusIcon = (status: string) => {
@@ -189,7 +189,7 @@ ${summary.results
   .map((r) => `- **${r.integrationId}:** ${r.message}`)
   .join('\n')}
 
-Use \`kahuna_verify_integration(integration: "<id>")\` for detailed error information.
+Use \`kai_verify_integration(integration: "<id>")\` for detailed error information.
 `
     : ''
 }`;

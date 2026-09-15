@@ -6,7 +6,7 @@ import { createMockContext, createMockEntry } from './test-utils.js';
 
 describe('deleteToolDefinition', () => {
   it('has the correct name', () => {
-    expect(deleteToolDefinition.name).toBe('kahuna_delete');
+    expect(deleteToolDefinition.name).toBe('kai_delete');
   });
 
   it('requires slugs', () => {
@@ -22,7 +22,7 @@ describe('deleteToolDefinition', () => {
   it('has description with warnings about user permission', () => {
     expect(deleteToolDefinition.description).toContain('⚠️');
     expect(deleteToolDefinition.description).toContain('user permission');
-    expect(deleteToolDefinition.description).toContain('kahuna_learn');
+    expect(deleteToolDefinition.description).toContain('kai_learn');
   });
 
   it('has description with <examples> and <hints>', () => {

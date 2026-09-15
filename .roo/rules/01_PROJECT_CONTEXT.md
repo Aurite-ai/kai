@@ -1,10 +1,10 @@
-# Kahuna - Project Context
+# Kai - Project Context
 
 ## Overview
 
-You are working in the **Kahuna 2.0** repository. Following these rules is CRITICAL for maintaining code quality, consistency, and effective development.
+You are working in the **Kai 2.0** repository. Following these rules is CRITICAL for maintaining code quality, consistency, and effective development.
 
-**Kahuna** is a context management platform that helps coding copilots succeed with complex tasks. The primary interface is an **MCP server** that provides tools for sending context, retrieving relevant information, and verifying results. Behind the MCP tools, a **Knowledge Base** of organized markdown files (written by agents, for agents) grows and improves over time.
+**Kai** is a context management platform that helps coding copilots succeed with complex tasks. The primary interface is an **MCP server** that provides tools for sending context, retrieving relevant information, and verifying results. Behind the MCP tools, a **Knowledge Base** of organized markdown files (written by agents, for agents) grows and improves over time.
 
 **Core Components:**
 
@@ -17,7 +17,7 @@ You are working in the **Kahuna 2.0** repository. Following these rules is CRITI
 
 **Technology Stack:** TypeScript/Node.js monorepo (pnpm + Turborepo) with MCP server (stdio) as the primary runtime.
 
-**Development Stage:** Kahuna 2.0 is a complete rebuild from scratch, currently in early infrastructure phase. Backwards compatibility is **never** required. Focus on clean, simple code that enables rapid iteration. If something isn't working, change it or delete it.
+**Development Stage:** Kai 2.0 is a complete rebuild from scratch, currently in early infrastructure phase. Backwards compatibility is **never** required. Focus on clean, simple code that enables rapid iteration. If something isn't working, change it or delete it.
 
 **Note:** Roo's mode system automatically loads the appropriate rules for your current mode. This document contains universal context that applies to all modes.
 
@@ -123,12 +123,12 @@ Essential commands for working in this repo:
 
 | Command | What it does |
 | --- | --- |
-| `pnpm --filter @aurite-ai/kahuna build` | Build MCP server |
-| `pnpm --filter @aurite-ai/kahuna dev` | Run MCP server in watch mode (`tsx watch`) |
-| `pnpm --filter @aurite-ai/kahuna start` | Run built MCP server (`node dist/index.js`) |
-| `pnpm --filter @aurite-ai/kahuna test` | Run MCP tests (Vitest) |
-| `pnpm --filter @aurite-ai/kahuna test:watch` | Run MCP tests in watch mode |
-| `pnpm --filter @aurite-ai/kahuna typecheck` | Type-check MCP server only |
+| `pnpm --filter @aurite-ai/kai build` | Build MCP server |
+| `pnpm --filter @aurite-ai/kai dev` | Run MCP server in watch mode (`tsx watch`) |
+| `pnpm --filter @aurite-ai/kai start` | Run built MCP server (`node dist/index.js`) |
+| `pnpm --filter @aurite-ai/kai test` | Run MCP tests (Vitest) |
+| `pnpm --filter @aurite-ai/kai test:watch` | Run MCP tests in watch mode |
+| `pnpm --filter @aurite-ai/kai typecheck` | Type-check MCP server only |
 
 ### Tips
 

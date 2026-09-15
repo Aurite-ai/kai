@@ -7,8 +7,8 @@
  * See: docs/design/secure-integrations.md
  */
 
-import { homedir } from 'node:os';
 import { join } from 'node:path';
+import { ENV_PREFIX, getKaiHomeDir } from '../kai-home.js';
 
 /**
  * Supported vault providers
@@ -19,7 +19,7 @@ export type VaultProviderType = 'env' | '1password' | 'hashicorp' | 'aws' | 'gcp
  * Secret reference format: vault://[provider]/[path]
  * Examples:
  *   vault://env/GMAIL_API_KEY
- *   vault://1password/kahuna/gmail-oauth
+ *   vault://1password/kai/gmail-oauth
  *   vault://hashicorp/secret/integrations/gmail
  */
 export interface SecretReference {
@@ -129,8 +129,8 @@ export const DEFAULT_VAULT_CONFIG: VaultConfig = {
   fallbackProviders: [],
   providerConfig: {
     env: {
-      filePath: join(homedir(), '.kahuna', '.env'),
-      prefix: 'KAHUNA_',
+      filePath: join(getKaiHomeDir(), '.env'),
+      prefix: ENV_PREFIX,
     },
   },
 };

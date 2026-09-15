@@ -1,4 +1,4 @@
-# Kahuna MCP - User Journey
+# Kai MCP - User Journey
 
 **Status:** Final
 **Date:** 2026-02-05
@@ -8,7 +8,7 @@
 
 ## Overview
 
-This document illustrates how a "vibe coder" uses Kahuna MCP from Day 1 through ongoing development. The user is a non-developer employee building AI agents (LangGraph or OpenAI Agents SDK) with Claude Code - capable of describing what they want but not experienced with coding conventions or patterns.
+This document illustrates how a "vibe coder" uses Kai MCP from Day 1 through ongoing development. The user is a non-developer employee building AI agents (LangGraph or OpenAI Agents SDK) with Claude Code - capable of describing what they want but not experienced with coding conventions or patterns.
 
 ---
 
@@ -32,7 +32,7 @@ Sarah works in customer success. She wants to build an AI agent that answers cus
 │                                                                              │
 │           ↓                                                                  │
 │                                                                              │
-│   kahuna_initialize(                                                         │
+│   kai_initialize(                                                         │
 │     project_name="support-agent",                                            │
 │     description="AI agent that answers customer questions from company docs" │
 │   )                                                                          │
@@ -42,19 +42,19 @@ Sarah works in customer success. She wants to build an AI agent that answers cus
 │   Created:                                                                   │
 │   support-agent/                                                             │
 │   ├── CLAUDE.md              ← Project instructions                          │
-│   ├── .mcp.json              ← Kahuna MCP connection                         │
+│   ├── .mcp.json              ← Kai MCP connection                         │
 │   ├── .claude/               ← Copilot configuration                         │
 │   │   ├── settings.json      ← Editor settings                               │
-│   │   ├── rules/             ← Behavior rules (use .kahuna/context-guide.md, etc.)   │
+│   │   ├── rules/             ← Behavior rules (use .kai/context-guide.md, etc.)   │
 │   │   └── skills/            ← Sub-agent capabilities                        │
-│   ├── .kahuna/context-guide.md       ← Knowledge guide with curated patterns         │
+│   ├── .kai/context-guide.md       ← Knowledge guide with curated patterns         │
 │   └── src/agent/             ← Boilerplate structure                         │
 │       ├── graph.py                                                           │
 │       ├── state.py                                                           │
 │       └── tools.py                                                           │
 │                                                                              │
-│   Claude Code reads CLAUDE.md, sees instructions to read .kahuna/context-guide.md    │
-│   Reads .kahuna/context-guide.md, finds curated LangGraph patterns                   │
+│   Claude Code reads CLAUDE.md, sees instructions to read .kai/context-guide.md    │
+│   Reads .kai/context-guide.md, finds curated LangGraph patterns                   │
 │   Starts building with guidance - not from scratch!                          │
 │                                                                              │
 └──────────────────────────────────────────────────────────────────────────────┘
@@ -69,7 +69,7 @@ Sarah works in customer success. She wants to build an AI agent that answers cus
 
 ### Why This Works
 
-- `kahuna_initialize` creates a working environment immediately
+- `kai_initialize` creates a working environment immediately
 - Curated LangGraph patterns provide real guidance (not placeholders)
 - CLAUDE.md instructs the copilot how to use the project
 - Sarah sees progress, not blank screens
@@ -95,18 +95,18 @@ Sarah has company API guidelines and wants the agent to follow them.
 │                                                                              │
 │           ↓                                                                  │
 │                                                                              │
-│   kahuna_learn(                                                              │
+│   kai_learn(                                                              │
 │     paths=["~/Downloads/api-guidelines.pdf"],                                │
 │     description="Company API design standards"                               │
 │   )                                                                          │
 │                                                                              │
 │           ↓                                                                  │
 │                                                                              │
-│   Kahuna agents:                                                             │
+│   Kai agents:                                                             │
 │   1. Read and extract content from PDF                                       │
 │   2. Classify as "policy" - API design standards                             │
-│   3. Store in ~/.kahuna/knowledge/uuid-abc.mdc                               │
-│   4. NOT written to .kahuna/context-guide.md yet (that's prepare_context's job)      │
+│   3. Store in ~/.kai/knowledge/uuid-abc.mdc                               │
+│   4. NOT written to .kai/context-guide.md yet (that's prepare_context's job)      │
 │                                                                              │
 │   Response:                                                                  │
 │   ┌─────────────────────────────────────────────────────────────┐            │
@@ -119,7 +119,7 @@ Sarah has company API guidelines and wants the agent to follow them.
 │   │                                                             │            │
 │   │ <hints>                                                     │            │
 │   │ - This will be surfaced when you work on API-related tasks  │            │
-│   │ - Use kahuna_prepare_context to get relevant context        │            │
+│   │ - Use kai_prepare_context to get relevant context        │            │
 │   │ </hints>                                                    │            │
 │   └─────────────────────────────────────────────────────────────┘            │
 │                                                                              │
@@ -129,7 +129,7 @@ Sarah has company API guidelines and wants the agent to follow them.
 ### What Sarah Experiences
 
 1. **She drags a file into the chat** and says "use this"
-2. **Kahuna acknowledges** it understood the content
+2. **Kai acknowledges** it understood the content
 3. **She continues working** - the knowledge is now available
 
 ### Why This Works
@@ -160,18 +160,18 @@ Sarah wants to add a search feature to her agent. She's done some work but needs
 │                                                                              │
 │           ↓                                                                  │
 │                                                                              │
-│   kahuna_prepare_context(                                                    │
+│   kai_prepare_context(                                                    │
 │     task="Add search capability to find relevant documentation"              │
 │   )                                                                          │
 │                                                                              │
 │           ↓                                                                  │
 │                                                                              │
-│   Kahuna agents search ~/.kahuna/ for relevant knowledge:                    │
+│   Kai agents search ~/.kai/ for relevant knowledge:                    │
 │   - API Design Standards (policy) - matches because building API             │
 │   - LangGraph tool patterns (curated) - matches because adding tool          │
 │   - Previous search decision (if any) - matches by topic                     │
 │                                                                              │
-│   Surfaces to project/.kahuna/context-guide.md                                       │
+│   Surfaces to project/.kai/context-guide.md                                       │
 │                                                                              │
 │   Response:                                                                  │
 │   ┌─────────────────────────────────────────────────────────────┐            │
@@ -184,13 +184,13 @@ Sarah wants to add a search feature to her agent. She's done some work but needs
 │   │ - **LangGraph Tool Patterns** - Tools should be defined...  │            │
 │   │                                                             │            │
 │   │ <hints>                                                     │            │
-│   │ - Read .kahuna/context-guide.md for full navigation                 │            │
+│   │ - Read .kai/context-guide.md for full navigation                 │            │
 │   │ - API standards apply to any endpoints you create           │            │
-│   │ - Use kahuna_ask if you need clarification mid-task         │            │
+│   │ - Use kai_ask if you need clarification mid-task         │            │
 │   │ </hints>                                                    │            │
 │   └─────────────────────────────────────────────────────────────┘            │
 │                                                                              │
-│   Claude Code reads .kahuna/context-guide.md, sees what's available                  │
+│   Claude Code reads .kai/context-guide.md, sees what's available                  │
 │   Reads relevant sections based on task needs                                │
 │   Implements search tool following patterns AND API standards                │
 │                                                                              │
@@ -206,9 +206,9 @@ Sarah wants to add a search feature to her agent. She's done some work but needs
 
 ### Why This Works
 
-- `kahuna_prepare_context` happens automatically at task start
+- `kai_prepare_context` happens automatically at task start
 - Relevant knowledge surfaces based on task description
-- Claude Code reads `.kahuna/context-guide.md` like any other file
+- Claude Code reads `.kai/context-guide.md` like any other file
 - Company policies are followed without Sarah managing them
 
 ---
@@ -229,25 +229,25 @@ Sarah is debugging an error and wants quick guidance without disrupting her flow
 │   Sarah: "The search returns errors sometimes, do we have guidelines         │
 │           for error handling?"                                               │
 │                                                                              │
-│   Claude Code needs quick answer, uses kahuna_ask                            │
+│   Claude Code needs quick answer, uses kai_ask                            │
 │                                                                              │
 │           ↓                                                                  │
 │                                                                              │
-│   kahuna_ask(                                                                │
+│   kai_ask(                                                                │
 │     question="What are our error handling guidelines for API responses?"     │
 │   )                                                                          │
 │                                                                              │
 │           ↓                                                                  │
 │                                                                              │
-│   Kahuna searches:                                                           │
-│   1. First: project/.kahuna/context-guide.md (already surfaced)                      │
-│   2. Then: ~/.kahuna/ knowledge base (full search)                           │
+│   Kai searches:                                                           │
+│   1. First: project/.kai/context-guide.md (already surfaced)                      │
+│   2. Then: ~/.kai/ knowledge base (full search)                           │
 │                                                                              │
 │   Response:                                                                  │
 │   ┌─────────────────────────────────────────────────────────────┐            │
 │   │ # Error Handling Guidelines                                 │            │
 │   │                                                             │            │
-│   │ From **API Design Standards** (.kahuna/context-guide.md):          │            │
+│   │ From **API Design Standards** (.kai/context-guide.md):          │            │
 │   │                                                             │            │
 │   │ ## Standard Error Format                                    │            │
 │   │ ```json                                                     │            │
@@ -259,7 +259,7 @@ Sarah is debugging an error and wants quick guidance without disrupting her flow
 │   │ ```                                                         │            │
 │   │                                                             │            │
 │   │ <hints>                                                     │            │
-│   │ - Full details in .kahuna/context-guide.md (API Standards section)  │            │
+│   │ - Full details in .kai/context-guide.md (API Standards section)  │            │
 │   │ - All errors should use this format                         │            │
 │   │ </hints>                                                    │            │
 │   └─────────────────────────────────────────────────────────────┘            │
@@ -278,8 +278,8 @@ Sarah is debugging an error and wants quick guidance without disrupting her flow
 
 ### Why This Works
 
-- `kahuna_ask` provides quick answers from existing knowledge
-- Checks `.kahuna/context-guide.md` first (already task-relevant)
+- `kai_ask` provides quick answers from existing knowledge
+- Checks `.kai/context-guide.md` first (already task-relevant)
 - Falls back to full knowledge base
 - Includes source reference for transparency
 
@@ -300,13 +300,13 @@ Sarah is ready to commit her changes and wants to verify they follow company sta
 │                                                                              │
 │   Sarah: "Let's review this before I commit"                                 │
 │                                                                              │
-│   Claude Code invokes the verification skill (configured by Kahuna)          │
+│   Claude Code invokes the verification skill (configured by Kai)          │
 │                                                                              │
 │           ↓                                                                  │
 │                                                                              │
 │   The skill checks files against:                                            │
-│   1. .kahuna/context-guide.md patterns and policies (already surfaced)               │
-│   2. ~/.kahuna/ knowledge base patterns                                      │
+│   1. .kai/context-guide.md patterns and policies (already surfaced)               │
+│   2. ~/.kai/ knowledge base patterns                                      │
 │                                                                              │
 │   Result:                                                                    │
 │   ┌─────────────────────────────────────────────────────────────┐            │
@@ -359,7 +359,7 @@ Sarah has been working for a month. The knowledge base has grown from her sessio
 │   KNOWLEDGE BASE AFTER 1 MONTH                                               │
 ├──────────────────────────────────────────────────────────────────────────────┤
 │                                                                              │
-│   ~/.kahuna/knowledge/                                                       │
+│   ~/.kai/knowledge/                                                       │
 │   │                                                                          │
 │   ├── uuid-001.mdc    (Day 1: API Design Standards - policy)                 │
 │   ├── uuid-002.mdc    (Day 3: Security requirements - policy)                │
@@ -371,7 +371,7 @@ Sarah has been working for a month. The knowledge base has grown from her sessio
 │   ├── uuid-008.mdc    (Week 4: Customer feedback handling - requirement)     │
 │   └── ...                                                                    │
 │                                                                              │
-│   ~/.kahuna/conversations/                                                   │
+│   ~/.kai/conversations/                                                   │
 │   │                                                                          │
 │   ├── session-001.mdc (Built initial search tool)                            │
 │   ├── session-002.mdc (Fixed error handling)                                 │
@@ -392,13 +392,13 @@ Sarah has been working for a month. The knowledge base has grown from her sessio
 │                                                                              │
 │           ↓                                                                  │
 │                                                                              │
-│   kahuna_prepare_context(                                                    │
+│   kai_prepare_context(                                                    │
 │     task="Add customer feedback collection feature"                          │
 │   )                                                                          │
 │                                                                              │
 │           ↓                                                                  │
 │                                                                              │
-│   Kahuna surfaces (from Sarah's accumulated knowledge):                      │
+│   Kai surfaces (from Sarah's accumulated knowledge):                      │
 │   - API Design Standards (how to build endpoints)                            │
 │   - Customer feedback handling requirements (what's needed)                  │
 │   - Authentication flow pattern (how users are identified)                   │
@@ -422,17 +422,17 @@ Sarah has been working for a month. The knowledge base has grown from her sessio
 ### Why This Works
 
 - Knowledge base grows through normal work
-- `kahuna_sync` (when implemented) captures conversation decisions
-- `kahuna_prepare_context` surfaces what's relevant per task
+- `kai_sync` (when implemented) captures conversation decisions
+- `kai_prepare_context` surfaces what's relevant per task
 - New team members benefit from accumulated knowledge
 
 ---
 
-## Summary: The Kahuna Experience
+## Summary: The Kai Experience
 
 ### For Sarah (Day 1 → Month 2)
 
-| Time | Experience | Kahuna Contribution |
+| Time | Experience | Kai Contribution |
 |------|------------|---------------------|
 | **Day 1** | Empty folder → working project | Curated patterns, structure |
 | **Day 1** | Share company docs | Store in knowledge base |
@@ -456,7 +456,7 @@ Yet her project has:
 - Transferable knowledge
 - Team-ready context
 
-**Kahuna's agents do the organizing. Sarah does the building.**
+**Kai's agents do the organizing. Sarah does the building.**
 
 ---
 
@@ -466,12 +466,12 @@ Yet her project has:
 
 | User Intent | Tool/Skill | Frequency |
 |-------------|------------|-----------|
-| "Start a new project" | `kahuna_initialize` | Once per project |
-| "Here's our X document" | `kahuna_learn` | When sharing files |
-| "I want to build X" | `kahuna_prepare_context` | Start of each task |
-| "Do we have guidelines for X?" | `kahuna_ask` | Mid-task questions |
+| "Start a new project" | `kai_initialize` | Once per project |
+| "Here's our X document" | `kai_learn` | When sharing files |
+| "I want to build X" | `kai_prepare_context` | Start of each task |
+| "Do we have guidelines for X?" | `kai_ask` | Mid-task questions |
 | "Review this before commit" | Verification skill | Before commits |
-| "Save what we learned" | `kahuna_sync` | End of session |
+| "Save what we learned" | `kai_sync` | End of session |
 
 ### Copilot Decision Flow
 
@@ -483,7 +483,7 @@ Yet her project has:
          "New project"    "Build X"        "Here's a file"
                 │                │                │
                 ▼                ▼                ▼
-        kahuna_initialize kahuna_prepare    kahuna_learn
+        kai_initialize kai_prepare    kai_learn
                                _context
                                  │
                                  ▼
@@ -494,7 +494,7 @@ Yet her project has:
          "Question?"      "Review this"    "End of session"
                 │                │                │
                 ▼                ▼                ▼
-           kahuna_ask     Verification      kahuna_sync
+           kai_ask     Verification      kai_sync
                              skill
 ```
 
@@ -505,4 +505,4 @@ Yet her project has:
 - v1.0 (2026-02-05): Initial user journey specification
 - v1.1 (2026-02-05): Updated project structure to include copilot configuration files
 - v2.0 (2026-02-05): Promoted to docs/design/; updated links and status to Final
-- v2.1 (2026-02-09): Renamed kahuna_setup → kahuna_initialize; replaced kahuna_review with verification skill
+- v2.1 (2026-02-09): Renamed kai_setup → kai_initialize; replaced kai_review with verification skill

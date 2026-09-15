@@ -13,7 +13,7 @@
  * const usage = extractTokenUsage(response);
  * tracker.record({
  *   model: 'claude-3-haiku-20240307',
- *   toolName: 'kahuna_ask',
+ *   toolName: 'kai_ask',
  *   usage,
  *   latencyMs: 500,
  * });

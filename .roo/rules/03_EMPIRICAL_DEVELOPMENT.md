@@ -4,7 +4,7 @@
 
 > **You cannot design your way to something you don't yet understand. You must learn your way there through rapid, measurable experiments.**
 
-What makes Kahuna valuable is fundamentally unknowable in advance. We cannot design the optimal solution because we don't yet know what "optimal" looks like. We can only discover it through empirical testing, measurement, and iteration.
+What makes Kai valuable is fundamentally unknowable in advance. We cannot design the optimal solution because we don't yet know what "optimal" looks like. We can only discover it through empirical testing, measurement, and iteration.
 
 This is not a limitation to overcome; it is the nature of the problem.
 

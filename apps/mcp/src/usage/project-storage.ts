@@ -1,16 +1,17 @@
 /**
  * Project Usage Storage
  *
- * Persists usage data to .kahuna/usage.json in the project directory.
+ * Persists usage data to .kai/usage.json in the project directory.
  * Enables tracking of cumulative costs across sessions.
  */
 
 import * as fs from 'node:fs/promises';
 import * as path from 'node:path';
+import { KAI_DIR_NAME, LEGACY_DIR_NAME } from '../kai-home.js';
 import type { CostBreakdown, ProjectUsageData, ProjectUsageTotals, TokenUsage } from './types.js';
 
 /** Default path for usage data relative to project root */
-const USAGE_DIR = '.kahuna';
+const USAGE_DIR = KAI_DIR_NAME;
 const USAGE_FILE = 'usage.json';
 
 /**
@@ -39,7 +40,7 @@ function roundToMicros(value: number): number {
 /**
  * Project Usage Storage class.
  *
- * Handles reading and writing usage data to .kahuna/usage.json.
+ * Handles reading and writing usage data to .kai/usage.json.
  * Thread-safe through atomic write operations.
  */
 export class ProjectUsageStorage {
@@ -70,7 +71,9 @@ export class ProjectUsageStorage {
    */
   async load(): Promise<ProjectUsageData> {
     try {
-      const content = await fs.readFile(this.usagePath, 'utf-8');
+      const content = await fs
+        .readFile(this.usagePath, 'utf-8')
+        .catch(() => fs.readFile(path.join(this.projectDir, LEGACY_DIR_NAME, USAGE_FILE), 'utf-8'));
       const data = JSON.parse(content) as ProjectUsageData;
       this.cachedData = data;
       return data;
@@ -84,10 +87,10 @@ export class ProjectUsageStorage {
 
   /**
    * Save usage data to disk.
-   * Creates .kahuna directory if it doesn't exist.
+   * Creates .kai directory if it doesn't exist.
    */
   async save(data: ProjectUsageData): Promise<void> {
-    // Ensure .kahuna directory exists
+    // Ensure .kai directory exists
     const dir = path.dirname(this.usagePath);
     await fs.mkdir(dir, { recursive: true });
 

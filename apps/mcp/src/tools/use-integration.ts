@@ -2,7 +2,7 @@
  * Use Integration Tool
  *
  * MCP tool for executing operations on discovered integrations.
- * This is the "action" part of Kahuna - actually using the integrations.
+ * This is the "action" part of Kai - actually using the integrations.
  *
  * Supports dry_run mode to preview requests without executing them.
  */
@@ -21,11 +21,11 @@ import { type MCPToolResponse, type ToolContext, markdownResponse } from './type
  * Tool definition for MCP registration
  */
 export const useIntegrationToolDefinition = {
-  name: 'kahuna_use_integration',
+  name: 'kai_use_integration',
   description: `Execute an operation on a discovered integration.
 
-Use this tool to interact with external services (APIs, databases, etc.) that Kahuna has learned about. 
-The integration must first be discovered using kahuna_learn on files that describe it.
+Use this tool to interact with external services (APIs, databases, etc.) that Kai has learned about. 
+The integration must first be discovered using kai_learn on files that describe it.
 
 Examples:
 - Query a database: integration="postgresql", operation="query", params={sql: "SELECT * FROM users"}
@@ -201,7 +201,7 @@ async function handleDryRun(
 
 **Integration not found:** ${integrationId}
 
-Make sure the integration has been discovered using \`kahuna_discover_integration\` or exists in the built-in integrations.`,
+Make sure the integration has been discovered using \`kai_discover_integration\` or exists in the built-in integrations.`,
         true
       );
     }
@@ -330,7 +330,7 @@ ${credentialStatus}
 Remove \`dry_run=true\` to execute this request:
 
 \`\`\`
-kahuna_use_integration(
+kai_use_integration(
   integration="${integrationId}",
   operation="${operationName}",
   params=${JSON.stringify(params)}

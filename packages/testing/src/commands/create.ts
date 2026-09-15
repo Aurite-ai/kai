@@ -156,7 +156,7 @@ export async function createCommand(options: {
   }
 
   // 3. Write a hidden metadata file for the collect command to use later
-  const metadataPath = path.join(projectPath, '.kahuna-test.json');
+  const metadataPath = path.join(projectPath, '.kai-test.json');
   const metadata = {
     scenario,
     createdAt: new Date().toISOString(),
@@ -175,6 +175,6 @@ export async function createCommand(options: {
   );
   console.log(`  2. cd projects/${projectName}`);
   console.log('  3. Open Claude Code (or your copilot) and follow the user prompts');
-  console.log(`  4. When done: pnpm kahuna-test collect ${projectName}`);
+  console.log(`  4. When done: pnpm kai-test collect ${projectName}`);
   console.log('');
 }

@@ -46,7 +46,7 @@ export interface LLMCall {
   timestamp: Date;
   /** Model identifier used */
   model: string;
-  /** Which Kahuna tool triggered this call */
+  /** Which Kai tool triggered this call */
   toolName: string;
   /** Token usage from the API response */
   usage: TokenUsage;
@@ -228,7 +228,7 @@ export interface ProjectToolUsage {
 }
 
 /**
- * Complete project usage data stored in .kahuna/usage.json
+ * Complete project usage data stored in .kai/usage.json
  */
 export interface ProjectUsageData {
   /** Total usage across all tools and time */

@@ -39,7 +39,7 @@ jobs:
         run: |
           if [ "${{ github.ref_name }}" = "main" ]; then
             VERSION=$(node -p "require('./apps/mcp/package.json').version")
-            PUBLISHED=$(npm view "@aurite-ai/kahuna@${VERSION}" version 2>/dev/null || true)
+            PUBLISHED=$(npm view "@aurite-ai/kai@${VERSION}" version 2>/dev/null || true)
             if [ -n "$PUBLISHED" ]; then
               echo "Error: version ${VERSION} has already been published to npm. Update the package version before publishing." >&2
               exit 1
@@ -47,7 +47,7 @@ jobs:
             echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
           else
             BASE_VERSION=$(node -p "require('./apps/mcp/package.json').version")
-            VERSIONS=$(npm view @aurite-ai/kahuna versions --json 2>/dev/null || echo '[]')
+            VERSIONS=$(npm view @aurite-ai/kai versions --json 2>/dev/null || echo '[]')
             NEXT_X=$(node -e "
               const versions = $VERSIONS;
               const base = '$BASE_VERSION';

@@ -1,7 +1,7 @@
 /**
  * Health Check Tool - Verify MCP server connectivity
  *
- * A simple diagnostic tool that confirms the Kahuna MCP server is running
+ * A simple diagnostic tool that confirms the Kai MCP server is running
  * and responsive. Returns server identity and available tools.
  */
 
@@ -13,7 +13,7 @@ import { type MCPToolResponse, type ToolContext, markdownResponse } from './type
  */
 export const healthCheckToolDefinition = {
   name: 'health_check',
-  description: `Check if the Kahuna MCP server is running correctly.
+  description: `Check if the Kai MCP server is running correctly.
 
 This tool verifies the MCP connection is working.
 
@@ -47,7 +47,7 @@ export async function healthCheckToolHandler(
 
   if (action === 'ping') {
     return markdownResponse(
-      `# Kahuna MCP Server
+      `# Kai MCP Server
 
 **Status:** Running ✅
 **Server:** ${SERVER_NAME}

@@ -1,4 +1,4 @@
-# Kahuna MCP - Tool Specifications
+# Kai MCP - Tool Specifications
 
 **Status:** Final
 **Date:** 2026-02-05
@@ -10,13 +10,13 @@
 
 | Tool | Purpose |
 |------|---------|
-| `kahuna_initialize` | Deploy agent-dev rules and run onboarding |
-| `kahuna_provide_context` | Store org/user context from onboarding or conversation |
-| `kahuna_learn` | Send files for Kahuna to learn from (detects contradictions) |
-| `kahuna_prepare_context` | Prepare .kahuna/context-guide.md for a task |
-| `kahuna_ask` | Quick Q&A |
-| `kahuna_delete` | Remove outdated files from knowledge base |
-| `kahuna_sync` | Sync all changes (deferred) |
+| `kai_initialize` | Deploy agent-dev rules and run onboarding |
+| `kai_provide_context` | Store org/user context from onboarding or conversation |
+| `kai_learn` | Send files for Kai to learn from (detects contradictions) |
+| `kai_prepare_context` | Prepare .kai/context-guide.md for a task |
+| `kai_ask` | Quick Q&A |
+| `kai_delete` | Remove outdated files from knowledge base |
+| `kai_sync` | Sync all changes (deferred) |
 
 ---
 
@@ -40,7 +40,7 @@ Each tool spec includes:
 
 ---
 
-## 1. kahuna_initialize
+## 1. kai_initialize
 
 ### Tool Description
 
@@ -48,9 +48,9 @@ Each tool spec includes:
 Deploy agent-dev rules and optionally run onboarding to collect org/user context.
 
 USE THIS TOOL WHEN:
-- User says "set up Kahuna", "initialize", "get started with Kahuna"
-- Starting to use Kahuna in a new project
-- User wants to configure their copilot with Kahuna integration
+- User says "set up Kai", "initialize", "get started with Kai"
+- Starting to use Kai in a new project
+- User wants to configure their copilot with Kai integration
 
 This tool does TWO things:
 1. Deploys agent-dev rules to .claude/ in the project directory
@@ -58,10 +58,10 @@ This tool does TWO things:
 
 <examples>
 ### Basic initialization
-kahuna_initialize()
+kai_initialize()
 
 ### With explicit project path
-kahuna_initialize(project_path="/home/user/my-project")
+kai_initialize(project_path="/home/user/my-project")
 </examples>
 
 <hints>
@@ -85,8 +85,8 @@ Before returning, the tool checks for existing context files:
 
 | File | Purpose |
 |------|---------|
-| `~/.kahuna/knowledge/org-context.mdc` | Organization context |
-| `~/.kahuna/knowledge/user-context.mdc` | User context |
+| `~/.kai/knowledge/org-context.mdc` | Organization context |
+| `~/.kai/knowledge/user-context.mdc` | User context |
 
 **Validation:** File must exist AND be > 50 bytes (catches empty/corrupted files).
 
@@ -95,7 +95,7 @@ Before returning, the tool checks for existing context files:
 **When onboarding is needed** (context files don't exist):
 
 ```markdown
-# Kahuna Configured
+# Kai Configured
 
 Rules deployed to `.claude/`. **Complete onboarding before restarting.**
 
@@ -105,7 +105,7 @@ Rules deployed to `.claude/`. **Complete onboarding before restarting.**
 
 [Full onboarding guidance with phases for situational assessment,
 document discovery, targeted follow-ups, and storing context via
-kahuna_provide_context. See user-interaction-model.md for full format.]
+kai_provide_context. See user-interaction-model.md for full format.]
 
 <hints>
 - Be conversational, not interrogative
@@ -118,7 +118,7 @@ kahuna_provide_context. See user-interaction-model.md for full format.]
 **When onboarding is already complete** (context files exist):
 
 ```markdown
-# Kahuna Configured
+# Kai Configured
 
 Rules deployed to `.claude/`.
 
@@ -128,14 +128,14 @@ Your organization and user context are already set up.
 
 <hints>
 - After restart, rules will be loaded automatically
-- Use `kahuna_prepare_context` to get relevant knowledge for tasks
-- Use `kahuna_learn` to add new documents to the knowledge base
+- Use `kai_prepare_context` to get relevant knowledge for tasks
+- Use `kai_learn` to add new documents to the knowledge base
 </hints>
 ```
 
 ### Output Structure
 
-`kahuna_initialize` deploys the following to the project directory:
+`kai_initialize` deploys the following to the project directory:
 
 ```
 project-path/
@@ -162,7 +162,7 @@ These are collectively called "agent-dev rules" - text that structures the agent
 
 ---
 
-## 2. kahuna_provide_context
+## 2. kai_provide_context
 
 ### Tool Description
 
@@ -175,17 +175,17 @@ USE THIS TOOL WHEN:
 - Synthesizing context from a conversation (without creating temp files)
 
 This tool stores free-form markdown content as context files. Use it to capture
-synthesized understanding, not raw file content (use kahuna_learn for files).
+synthesized understanding, not raw file content (use kai_learn for files).
 
 <examples>
 ### Organization context
-kahuna_provide_context(
+kai_provide_context(
   type="org",
   content="# Organization Context\n\nHealthcare startup building patient portals.\n\n## Constraints\n- HIPAA compliance required\n- Must integrate with Epic EHR"
 )
 
 ### User context
-kahuna_provide_context(
+kai_provide_context(
   type="user",
   content="# User Context\n\nSenior developer, 10 years experience.\n\n## Preferences\n- Detailed explanations over brief answers\n- Prefers TDD approach"
 )
@@ -195,7 +195,7 @@ kahuna_provide_context(
 - Content should be markdown format
 - Org context = domain, constraints, patterns (spans projects)
 - User context = preferences, working style (personal)
-- Use kahuna_learn for file-based knowledge; this tool is for synthesized context
+- Use kai_learn for file-based knowledge; this tool is for synthesized context
 - Calling again with same type replaces previous content
 </hints>
 ```
@@ -213,8 +213,8 @@ kahuna_provide_context(
 
 | Type | File | Contents |
 |------|------|----------|
-| `org` | `~/.kahuna/knowledge/org-context.mdc` | Domain, industry, technical constraints, patterns that apply across projects |
-| `user` | `~/.kahuna/knowledge/user-context.mdc` | Personal preferences, experience level, working style |
+| `org` | `~/.kai/knowledge/org-context.mdc` | Domain, industry, technical constraints, patterns that apply across projects |
+| `user` | `~/.kai/knowledge/user-context.mdc` | Personal preferences, experience level, working style |
 
 **Org context** is organizational knowledge that doesn't require knowing about the specific user. It's stable and rarely changes.
 
@@ -228,7 +228,7 @@ kahuna_provide_context(
 Saved **organization context** to knowledge base.
 
 <hints>
-- Context will be included in future `kahuna_prepare_context` results
+- Context will be included in future `kai_prepare_context` results
 - You can update context by calling this tool again (replaces previous)
 - Continue onboarding or tell user to restart Claude Code
 </hints>
@@ -239,7 +239,7 @@ Saved **organization context** to knowledge base.
 **Build first:**
 - Validate input (type must be 'org' or 'user', content must be non-empty)
 - Generate filename: `org-context.mdc` or `user-context.mdc`
-- Write to `~/.kahuna/knowledge/` with standard .mdc frontmatter
+- Write to `~/.kai/knowledge/` with standard .mdc frontmatter
 - Return confirmation
 
 **Future enhancements:**
@@ -249,41 +249,41 @@ Saved **organization context** to knowledge base.
 
 ---
 
-## 3. kahuna_learn
+## 3. kai_learn
 
 ### Tool Description
 
 ```
-Send files or folders to Kahuna to learn from and add to the knowledge base.
+Send files or folders to Kai to learn from and add to the knowledge base.
 
 USE THIS TOOL WHEN:
-- User shares files/folders and wants Kahuna to "learn" from them
+- User shares files/folders and wants Kai to "learn" from them
 - User provides policy documents, specs, or reference materials
 - User says "here's our...", "learn this", "add this to context"
 - After completing work the user wants preserved as knowledge
 
-Kahuna's agents will:
+Kai's agents will:
 1. Classify what kind of knowledge each file contains
 2. Determine if the file is general (applies to all projects) or project-specific
 3. Detect contradictions with existing knowledge base files
-4. Store in ~/.kahuna knowledge base with metadata (general or project subfolder)
+4. Store in ~/.kai knowledge base with metadata (general or project subfolder)
 5. Files will be available for future context surfacing
 
 <examples>
 ### Single file
-kahuna_learn(
+kai_learn(
   paths=["docs/api-guidelines.md"],
   description="Our company's API design standards"
 )
 
 ### Entire folder
-kahuna_learn(
+kai_learn(
   paths=["docs/"],
   description="All our documentation files"
 )
 
 ### Multiple paths
-kahuna_learn(
+kai_learn(
   paths=["docs/api-guidelines.md", "specs/"],
   description="API guidelines and specification folder"
 )
@@ -292,10 +292,10 @@ kahuna_learn(
 <hints>
 - Accepts both files AND folders - folders are processed recursively
 - Description helps classification but isn't required
-- Files go to ~/.kahuna knowledge base (general or project-specific subfolder)
-- Project-specific files are stored in ~/.kahuna/knowledge/[project-hash]/
-- General files (policies, standards) are stored directly in ~/.kahuna/knowledge/
-- Use kahuna_prepare_context to surface learned knowledge
+- Files go to ~/.kai knowledge base (general or project-specific subfolder)
+- Project-specific files are stored in ~/.kai/knowledge/[project-hash]/
+- General files (policies, standards) are stored directly in ~/.kai/knowledge/
+- Use kai_prepare_context to surface learned knowledge
 </hints>
 ```
 
@@ -317,7 +317,7 @@ kahuna_learn(
 
 Processed **2 files** — 2 added:
 
-| File | Category | What Kahuna Found |
+| File | Category | What Kai Found |
 |------|----------|-------------------|
 | `api-guidelines.md` | policy | REST API design standards covering naming conventions and auth |
 | `security-policy.md` | policy | Security requirements for API authentication |
@@ -328,8 +328,8 @@ Processed **2 files** — 2 added:
 - **Security Policy** — Security requirements for API authentication
 
 <hints>
-- Use `kahuna_prepare_context` to surface this knowledge for a specific task
-- Send more files anytime — Kahuna handles classification automatically
+- Use `kai_prepare_context` to surface this knowledge for a specific task
+- Send more files anytime — Kai handles classification automatically
 </hints>
 ```
 
@@ -340,7 +340,7 @@ Processed **2 files** — 2 added:
 
 Processed **1 files** — 1 added:
 
-| File | Category | What Kahuna Found |
+| File | Category | What Kai Found |
 |------|----------|-------------------|
 | `new-api-guidelines.md` | policy | Updated REST API design standards with JWT authentication |
 
@@ -356,12 +356,12 @@ The following existing files contradict the new file(s). Consider removing outda
   The new file specifies JWT authentication while the old file requires OAuth2
 
 <hints>
-- Review .kahuna/context-guide.md to verify accuracy
+- Review .kai/context-guide.md to verify accuracy
 - The API standards will be used in future recommendations
 - Send more files anytime with this tool
-- Use `kahuna_prepare_context` to surface this knowledge for a specific task
-- Send more files anytime — Kahuna handles classification automatically
-- Review contradicting files and use `kahuna_delete` to remove outdated information after user approval
+- Use `kai_prepare_context` to surface this knowledge for a specific task
+- Send more files anytime — Kai handles classification automatically
+- Review contradicting files and use `kai_delete` to remove outdated information after user approval
 </hints>
 ```
 
@@ -370,8 +370,8 @@ The following existing files contradict the new file(s). Consider removing outda
 **Build first:**
 - Accept files and description
 - Basic classification (policy vs code vs config)
-- Write raw content to .kahuna/context-guide.md with metadata
-- Update .kahuna/context-guide.md
+- Write raw content to .kai/context-guide.md with metadata
+- Update .kai/context-guide.md
 
 **Implemented:**
 - LLM-powered categorization (Haiku)
@@ -386,7 +386,7 @@ The following existing files contradict the new file(s). Consider removing outda
 
 ---
 
-## 4. kahuna_sync
+## 4. kai_sync
 
 ### Tool Description
 
@@ -405,10 +405,10 @@ Processes:
 
 <examples>
 ### Basic sync
-kahuna_sync()
+kai_sync()
 
 ### Sync from specific point
-kahuna_sync(since="HEAD~5")
+kai_sync(since="HEAD~5")
 </examples>
 
 <hints>
@@ -449,8 +449,8 @@ Chose keyword-based search over embeddings because simpler infrastructure, suffi
 *Extracted from conversation + code*
 
 <hints>
-- Review .kahuna/context-guide.md for accuracy
-- Commit .kahuna/context-guide.md to preserve team knowledge
+- Review .kai/context-guide.md for accuracy
+- Commit .kai/context-guide.md to preserve team knowledge
 - Next sync will capture new changes
 </hints>
 ```
@@ -460,7 +460,7 @@ Chose keyword-based search over embeddings because simpler infrastructure, suffi
 **Defer this tool** - Build last if time permits.
 
 **Why defer:**
-- kahuna_learn covers explicit file sharing
+- kai_learn covers explicit file sharing
 - Conversation processing is complex
 - Git diff processing adds infrastructure
 
@@ -471,12 +471,12 @@ Chose keyword-based search over embeddings because simpler infrastructure, suffi
 
 ---
 
-## 5. kahuna_prepare_context
+## 5. kai_prepare_context
 
 ### Tool Description
 
 ```
-Prepare the .kahuna/context-guide.md file with relevant knowledge for a task.
+Prepare the .kai/context-guide.md file with relevant knowledge for a task.
 
 USE THIS TOOL WHEN:
 - Starting any new task or feature
@@ -484,34 +484,34 @@ USE THIS TOOL WHEN:
 - Before beginning implementation work
 - User asks "what do we know about X"
 
-This is the PRIMARY context retrieval tool. Call it ONCE at task start, then work from .kahuna/context-guide.md.
+This is the PRIMARY context retrieval tool. Call it ONCE at task start, then work from .kai/context-guide.md.
 
 Searches both general context (applies to all projects) and current project's context.
 
 <examples>
 ### Starting a task
-kahuna_prepare_context(
+kai_prepare_context(
   task="Add rate limiting to the search tool"
 )
 
 ### With files you'll touch
-kahuna_prepare_context(
+kai_prepare_context(
   task="Refactor error handling in tools",
   files=["src/agent/tools.py"]
 )
 
 ### Exploring a topic
-kahuna_prepare_context(
+kai_prepare_context(
   task="Understand our API design patterns"
 )
 </examples>
 
 <hints>
-- Call ONCE at task start, then work from .kahuna/context-guide.md
+- Call ONCE at task start, then work from .kai/context-guide.md
 - Natural language task description works best
 - Searches general context + current project's context automatically
-- After calling, read .kahuna/context-guide.md for navigation
-- If you need more context mid-task, use kahuna_ask instead
+- After calling, read .kai/context-guide.md for navigation
+- If you need more context mid-task, use kai_ask instead
 </hints>
 ```
 
@@ -541,14 +541,14 @@ kahuna_prepare_context(
 
 ## Start Here
 
-1. **Read .kahuna/context-guide.md** - Full navigation and content
+1. **Read .kai/context-guide.md** - Full navigation and content
 2. **Check API Standards section** - Has rate limiting requirements
 3. **Review Error Patterns section** - Follow existing patterns
 
 <hints>
 - Context guide is ready - read it directly
-- If you need more context mid-task, use kahuna_ask
-- After completing work, use kahuna_learn to capture learnings
+- If you need more context mid-task, use kai_ask
+- After completing work, use kai_learn to capture learnings
 </hints>
 ```
 
@@ -558,7 +558,7 @@ kahuna_prepare_context(
 - Accept task description
 - Search existing knowledge base for relevant content (general + current project)
 - Return list of relevant sections with summaries
-- Generate .kahuna/context-guide.md with task-specific content
+- Generate .kai/context-guide.md with task-specific content
 
 **Implemented:**
 - Project-level context retrieval (general + current project only)
@@ -572,20 +572,20 @@ kahuna_prepare_context(
 
 ---
 
-## 6. kahuna_delete
+## 6. kai_delete
 
 ### Tool Description
 
 ```
-Delete files from the Kahuna knowledge base.
+Delete files from the Kai knowledge base.
 
 ⚠️ IMPORTANT: This tool should ONLY be called after:
-1. kahuna_learn reports contradictions with existing files
+1. kai_learn reports contradictions with existing files
 2. You ask the user for permission to delete the outdated files
 3. The user explicitly approves the deletion
 
 USE THIS TOOL WHEN:
-- kahuna_learn output indicates contradictions with existing KB files
+- kai_learn output indicates contradictions with existing KB files
 - User confirms they want to remove the outdated/contradicting files
 - You need to clean up superseded policies, outdated decisions, or conflicting information
 
@@ -596,14 +596,14 @@ DO NOT USE THIS TOOL:
 
 <examples>
 ### After user approves deletion
-kahuna_delete(slugs=["old-api-guidelines", "deprecated-security-policy"])
+kai_delete(slugs=["old-api-guidelines", "deprecated-security-policy"])
 </examples>
 
 <hints>
 - Always confirm with the user before calling this tool
 - Provide context about why files should be deleted
 - Deletion is permanent - files cannot be recovered
-- Use kahuna_learn to add updated versions after deletion
+- Use kai_learn to add updated versions after deletion
 </hints>
 ```
 
@@ -629,8 +629,8 @@ Processed **2 files** — 2 deleted, 0 failed:
 
 <hints>
 - Files have been permanently removed from the knowledge base
-- Use `kahuna_learn` to add updated versions if needed
-- Use `kahuna_prepare_context` to refresh context for your current task
+- Use `kai_learn` to add updated versions if needed
+- Use `kai_prepare_context` to refresh context for your current task
 </hints>
 ```
 
@@ -649,7 +649,7 @@ Processed **2 files** — 2 deleted, 0 failed:
 
 ---
 
-## 7. kahuna_ask
+## 7. kai_ask
 
 ### Tool Description
 
@@ -662,24 +662,24 @@ USE THIS TOOL WHEN:
 - Need clarification on a decision or pattern
 - Context guide doesn't have what you need
 
-Searches .kahuna/context-guide.md first (if exists), then falls back to ~/.kahuna knowledge base (general + current project).
+Searches .kai/context-guide.md first (if exists), then falls back to ~/.kai knowledge base (general + current project).
 
 <examples>
 ### Direct question
-kahuna_ask(question="Why did we choose keyword search over embeddings?")
+kai_ask(question="Why did we choose keyword search over embeddings?")
 
 ### Clarification
-kahuna_ask(question="What's our error handling pattern for API calls?")
+kai_ask(question="What's our error handling pattern for API calls?")
 
 ### Check if something exists
-kahuna_ask(question="Do we have rate limiting requirements documented?")
+kai_ask(question="Do we have rate limiting requirements documented?")
 </examples>
 
 <hints>
-- Searches project .kahuna/context-guide.md first, then knowledge base (general + current project)
+- Searches project .kai/context-guide.md first, then knowledge base (general + current project)
 - Use for quick questions mid-task
-- For comprehensive context setup, use kahuna_prepare_context instead
-- Returns text directly, doesn't modify .kahuna/context-guide.md
+- For comprehensive context setup, use kai_prepare_context instead
+- Returns text directly, doesn't modify .kai/context-guide.md
 </hints>
 ```
 
@@ -705,12 +705,12 @@ The project uses keyword-based search for these reasons:
 3. **Cost** - No embedding API costs
 4. **Sufficient** - Corpus is small enough for keyword matching
 
-**Source:** .kahuna/context-guide.md (Search Decision section)
+**Source:** .kai/context-guide.md (Search Decision section)
 
 <hints>
-- Full details in .kahuna/context-guide.md
+- Full details in .kai/context-guide.md
 - Related: "What would trigger switching to embeddings?"
-- If you need broader context, use kahuna_prepare
+- If you need broader context, use kai_prepare
 </hints>
 ```
 
@@ -718,7 +718,7 @@ The project uses keyword-based search for these reasons:
 
 **Build first:**
 - Accept question
-- Search .kahuna/context-guide.md for relevant content
+- Search .kai/context-guide.md for relevant content
 - Search knowledge base (general + current project) for additional context
 - Return synthesized answer with source citations
 
@@ -737,9 +737,9 @@ The project uses keyword-based search for these reasons:
 
 | Category | Tools | Purpose |
 |----------|-------|---------|
-| **Building Knowledge Base** | `kahuna_learn`, `kahuna_sync` | Populate ~/.kahuna |
-| **Environment Setup** | `kahuna_initialize`, `kahuna_prepare_context` | Prepare project |
-| **Assistance** | `kahuna_ask` | Help copilot (uses context + KB) |
+| **Building Knowledge Base** | `kai_learn`, `kai_sync` | Populate ~/.kai |
+| **Environment Setup** | `kai_initialize`, `kai_prepare_context` | Prepare project |
+| **Assistance** | `kai_ask` | Help copilot (uses context + KB) |
 
 ## Implementation Priority
 
@@ -747,11 +747,11 @@ Based on vibe coder workflow and MVP constraints:
 
 | Priority | Tool | Why |
 |----------|------|-----|
-| 1 | **kahuna_initialize** | Required to start any project |
-| 2 | **kahuna_learn** | Builds knowledge base (already in progress) |
-| 3 | **kahuna_prepare_context** | Core value prop - surfacing context |
-| 4 | **kahuna_ask** | Assistance using context + KB |
-| 5 | **kahuna_sync** | Nice-to-have automation (deferred) |
+| 1 | **kai_initialize** | Required to start any project |
+| 2 | **kai_learn** | Builds knowledge base (already in progress) |
+| 3 | **kai_prepare_context** | Core value prop - surfacing context |
+| 4 | **kai_ask** | Assistance using context + KB |
+| 5 | **kai_sync** | Nice-to-have automation (deferred) |
 
 **MVP Target:** Tools 1-4 working, tool 5 deferred.
 
@@ -795,16 +795,16 @@ Tool descriptions contain full steering context. The agent always knows when to 
 - v1.0 (2026-02-05): Initial tool specifications
 - v2.0 (2026-02-05): Rewrote with Sentry MCP steering approach; added MVP scope vs future enhancements
 - v3.0 (2026-02-05): Finalized tool names: setup, learn, prepare_context, ask, review, sync
-- v4.0 (2026-02-05): kahuna_learn accepts folders; assistance tools use context + KB; tool categories
-- v4.1 (2026-02-05): Expanded kahuna_setup to show full output structure including copilot configuration
-- v4.2 (2026-02-05): Fixed kahuna_learn response to correctly show storage location (~/.kahuna)
+- v4.0 (2026-02-05): kai_learn accepts folders; assistance tools use context + KB; tool categories
+- v4.1 (2026-02-05): Expanded kai_setup to show full output structure including copilot configuration
+- v4.2 (2026-02-05): Fixed kai_learn response to correctly show storage location (~/.kai)
 - v5.0 (2026-02-05): Promoted to docs/design/; updated links and status to Final
-- v6.0 (2026-02-09): Renamed kahuna_setup → kahuna_initialize; removed kahuna_review (now skill-based verification); 4 active tools + 1 deferred
+- v6.0 (2026-02-09): Renamed kai_setup → kai_initialize; removed kai_review (now skill-based verification); 4 active tools + 1 deferred
 - v7.0 (2026-02-24): Onboarding design updates:
-  - Rewrote kahuna_initialize: now deploys agent-dev rules + returns onboarding instructions (no longer scaffolds projects)
-  - Added kahuna_provide_context: stores org/user context from onboarding or conversation
+  - Rewrote kai_initialize: now deploys agent-dev rules + returns onboarding instructions (no longer scaffolds projects)
+  - Added kai_provide_context: stores org/user context from onboarding or conversation
   - Updated tool count: 5 active tools + 1 deferred
 - v7.1 (2026-03-09): Added project-level context behavior:
-  - kahuna_learn stores files in general or project-specific subfolders
-  - kahuna_prepare_context and kahuna_ask retrieve from general + current project only
+  - kai_learn stores files in general or project-specific subfolders
+  - kai_prepare_context and kai_ask retrieve from general + current project only
   - Project subfolders use hash of project directory path

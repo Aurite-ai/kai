@@ -5,7 +5,7 @@
 
 ## Overview
 
-This document defines the repository infrastructure for Kahuna 2.0, covering directory structure, package management, TypeScript configuration, code quality tooling, and development workflows.
+This document defines the repository infrastructure for Kai 2.0, covering directory structure, package management, TypeScript configuration, code quality tooling, and development workflows.
 
 ---
 
@@ -27,7 +27,7 @@ This document defines the repository infrastructure for Kahuna 2.0, covering dir
 ## 1. Directory Structure
 
 ```
-kahuna/
+kai/
 ├── .github/                    # GitHub Actions (future)
 ├── .roo/                       # Copilot rules and mode configs
 ├── .vscode/
@@ -76,8 +76,8 @@ packages:
 ### Package Naming Convention
 
 - Scope: `@aurite-ai`
-- Apps: `@aurite-ai/kahuna`
-- Packages: `@aurite-ai/kahuna-testing`
+- Apps: `@aurite-ai/kai`
+- Packages: `@aurite-ai/kai-testing`
 
 ### Workspace Dependencies
 
@@ -86,7 +86,7 @@ Use `workspace:*` protocol for internal dependencies:
 ```json
 {
   "dependencies": {
-    "@aurite-ai/kahuna-file-router": "workspace:*"
+    "@aurite-ai/kai-file-router": "workspace:*"
   }
 }
 ```

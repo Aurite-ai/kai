@@ -1,5 +1,5 @@
 /**
- * Kahuna Usage Tool - View project usage summary
+ * Kai Usage Tool - View project usage summary
  *
  * Displays token usage and cost information for the current project.
  * Shows cumulative totals and per-tool breakdown.
@@ -19,7 +19,7 @@ import { type MCPToolResponse, type ToolContext, markdownResponse } from './type
  * Tool definition for MCP registration.
  */
 export const usageToolDefinition = {
-  name: 'kahuna_usage',
+  name: 'kai_usage',
   description: `View token usage and cost summary for the current project.
 
 USE THIS TOOL WHEN:
@@ -31,13 +31,13 @@ Shows cumulative project totals and breakdown by tool.
 
 <examples>
 ### Check usage
-kahuna_usage()
+kai_usage()
 </examples>
 
 <hints>
 - Shows project-level cumulative usage (persisted across sessions)
 - Costs are estimates based on Anthropic's published pricing
-- Usage data is stored in .kahuna/usage.json
+- Usage data is stored in .kai/usage.json
 </hints>`,
 
   inputSchema: {
@@ -84,7 +84,7 @@ function buildUsageSummaryMarkdown(data: ProjectUsageData): string {
     for (const toolName of sortedTools) {
       const toolData = data.byTool[toolName];
       const toolTokens = toolData.inputTokens + toolData.outputTokens;
-      const displayName = toolName.replace('kahuna_', '');
+      const displayName = toolName.replace('kai_', '');
       parts.push(
         `| ${displayName} | ${toolData.callCount} | ${formatTokens(toolTokens)} | ${formatCost(toolData.estimatedCostUSD)} |`
       );
@@ -100,8 +100,8 @@ function buildUsageSummaryMarkdown(data: ProjectUsageData): string {
 
   parts.push('\n<hints>');
   parts.push('- Costs are estimates based on Anthropic pricing');
-  parts.push('- Usage is persisted across sessions in .kahuna/usage.json');
-  parts.push('- Each Kahuna tool call may involve multiple LLM calls');
+  parts.push('- Usage is persisted across sessions in .kai/usage.json');
+  parts.push('- Each Kai tool call may involve multiple LLM calls');
   parts.push('</hints>');
 
   return parts.join('\n');
@@ -113,9 +113,9 @@ function buildNoUsageMarkdown(): string {
 No usage recorded yet for this project.
 
 <hints>
-- Usage is tracked when you use Kahuna tools (learn, ask, prepare_context)
-- Data is stored in .kahuna/usage.json
-- Call this tool again after using Kahuna tools
+- Usage is tracked when you use Kai tools (learn, ask, prepare_context)
+- Data is stored in .kai/usage.json
+- Call this tool again after using Kai tools
 </hints>`;
 }
 
@@ -124,10 +124,10 @@ No usage recorded yet for this project.
 // =============================================================================
 
 /**
- * Handle the kahuna_usage tool call.
+ * Handle the kai_usage tool call.
  *
  * Pipeline:
- * 1. Load project usage data from .kahuna/usage.json
+ * 1. Load project usage data from .kai/usage.json
  * 2. Build markdown summary
  * 3. Return response
  */
@@ -148,7 +148,7 @@ export async function usageToolHandler(
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     return markdownResponse(
-      `Failed to load usage data: ${errorMessage}\n\n<hints>\n- Usage data is stored in .kahuna/usage.json\n- Try using a Kahuna tool first to generate usage data\n</hints>`,
+      `Failed to load usage data: ${errorMessage}\n\n<hints>\n- Usage data is stored in .kai/usage.json\n- Try using a Kai tool first to generate usage data\n</hints>`,
       true
     );
   }
