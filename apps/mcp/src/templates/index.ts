@@ -9,7 +9,6 @@
 import * as fs from 'node:fs/promises';
 import * as path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { readEnv } from '../kai-home.js';
 
 // =============================================================================
 // Types
@@ -66,7 +65,7 @@ function getTemplatesDir(): string {
   }
 
   // 1. Check KAI_TEMPLATES_DIR env var first (Docker, explicit config)
-  const envPath = readEnv('KAI_TEMPLATES_DIR');
+  const envPath = process.env.KAI_TEMPLATES_DIR;
   if (envPath) {
     _templatesDir = envPath;
     return _templatesDir;

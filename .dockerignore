@@ -74,4 +74,3 @@ __pycache__/
 # Local knowledge base (mounted as volume in production)
 # =============================================================================
 .kai/
-.kahuna/

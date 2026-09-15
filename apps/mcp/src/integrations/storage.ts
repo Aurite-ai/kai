@@ -7,15 +7,20 @@
 
 import { existsSync } from 'node:fs';
 import { mkdir, readFile, readdir, unlink, writeFile } from 'node:fs/promises';
+import { homedir } from 'node:os';
 import { join } from 'node:path';
-import { getKaiHomeDir } from '../kai-home.js';
 import type { IntegrationDescriptor, IntegrationSummary } from './types.js';
+
+/**
+ * Default path for integration storage
+ */
+const DEFAULT_INTEGRATIONS_DIR = join(homedir(), '.kai', 'integrations');
 
 /**
  * Get the integrations directory path
  */
 export function getIntegrationsDir(customPath?: string): string {
-  return customPath ?? join(getKaiHomeDir(), 'integrations');
+  return customPath ?? DEFAULT_INTEGRATIONS_DIR;
 }
 
 /**

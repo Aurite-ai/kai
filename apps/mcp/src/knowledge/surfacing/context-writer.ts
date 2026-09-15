@@ -7,8 +7,8 @@
  */
 
 import * as fs from 'node:fs/promises';
+import * as os from 'node:os';
 import * as path from 'node:path';
-import { getKnowledgeDir as resolveKnowledgeDir } from '../../kai-home.js';
 import type { KnowledgeEntry } from '../storage/types.js';
 import type { FrameworkCopyResult } from './framework-copier.js';
 
@@ -33,10 +33,10 @@ export interface ReferencedFile {
 
 /**
  * Get the default KB directory path.
- * Uses KAI_KNOWLEDGE_DIR (or legacy KAHUNA_KNOWLEDGE_DIR) if set, otherwise ~/.kai/knowledge/
+ * Uses KAI_KNOWLEDGE_DIR env var if set, otherwise defaults to ~/.kai/knowledge/
  */
 function getKBDir(): string {
-  return resolveKnowledgeDir();
+  return process.env.KAI_KNOWLEDGE_DIR || path.join(os.homedir(), '.kai', 'knowledge');
 }
 
 /**

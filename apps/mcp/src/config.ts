@@ -8,8 +8,6 @@
  * Last updated: 2026-02
  */
 
-import { readEnv } from './kai-home.js';
-
 // =============================================================================
 // FEATURE FLAGS
 // =============================================================================
@@ -273,7 +271,7 @@ function validateModel(model: string, taskName: string): string {
  * @returns Model identifier
  */
 function getModelFromEnv(envVar: string, taskName: string, defaultModel: string): string {
-  const envValue = readEnv(envVar)?.trim();
+  const envValue = process.env[envVar]?.trim();
   if (envValue) {
     return validateModel(envValue, taskName);
   }

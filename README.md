@@ -171,6 +171,7 @@ Your copilot builds it right the first time — no reminders needed.
 - [Features](#features)
 - [Available Tools](#available-tools)
 - [Documentation](#documentation)
+- [Migrating from Kahuna](#migrating-from-kahuna)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -229,6 +230,95 @@ Kai is not a replacement for built-in copilot memory — it's what copilot memor
 - [Product Design](docs/design/README.md) — Core concepts, tool specifications
 - [Architecture: Repository Infrastructure](docs/architecture/01-repository-infrastructure.md)
 - [Architecture: Context Management System](docs/architecture/02-context-management-system.md)
+
+---
+
+## Migrating from Kahuna
+
+Kai was previously named **Kahuna**. Kai does not read any of the old Kahuna paths or settings, so everyone with an existing install needs to do these steps once.
+
+> **Before you start:** check that `~/.kahuna` holds Kai data (`knowledge/`, `integrations/`, `connectors/`, `.env`) and not files from another Kahuna project.
+
+**1. Update your local clone** (contributors only)
+
+```bash
+git remote set-url origin https://github.com/Aurite-ai/kai.git
+git checkout main && git pull
+pnpm install
+pnpm clean && pnpm build
+```
+
+**2. Move your data directory**
+
+```bash
+mv ~/.kahuna ~/.kai
+```
+
+**3. Rename environment variables and secrets**
+
+Every `KAHUNA_*` variable is now `KAI_*` (for example, `KAHUNA_KNOWLEDGE_DIR` is now `KAI_KNOWLEDGE_DIR`).
+
+```bash
+# Secrets stored by Kai
+sed -i '' 's/KAHUNA_/KAI_/g' ~/.kai/.env
+
+# Local MCP server config (contributors only)
+sed -i '' 's/KAHUNA_/KAI_/g; s/\.kahuna-knowledge/.kai-knowledge/g' apps/mcp/.env
+
+# Find leftovers in your shell profile, then rename them by hand
+grep -n KAHUNA_ ~/.zshrc ~/.bashrc ~/.profile 2>/dev/null
+```
+
+> On Linux, use `sed -i` instead of `sed -i ''`.
+
+If you used `apps/mcp/scripts/setup-claude.sh`, also rename the repo-local knowledge base: `mv .kahuna-knowledge .kai-knowledge`.
+
+**4. Re-register the MCP server**
+
+Remove the old server:
+
+```bash
+claude mcp remove kahuna -s user
+claude mcp remove kahuna -s project
+```
+
+Then add Kai back, using the published package or your local build:
+
+```bash
+# Published package
+claude mcp add kai -s user -e ANTHROPIC_API_KEY="your-anthropic-api-key" -- npx @aurite-ai/kai
+
+# Local build of this repo (contributors)
+pnpm mcp:setup
+```
+
+Restart Claude Code, run `claude mcp list`, and confirm `kai` is connected and `kahuna` is gone.
+
+**5. Update projects that use Kai**
+
+Tool names changed from `kahuna_*` to `kai_*` (for example, `kahuna_learn` is now `kai_learn`). In each project where Kai was set up:
+
+```bash
+[ -d .kahuna ] && mv .kahuna .kai                                # usage history and context guide
+[ -f .kahuna-test.json ] && mv .kahuna-test.json .kai-test.json  # test projects only
+```
+
+Then refresh the copilot rules so they use the new tool names. `kai_initialize` skips files that already exist, so run it with overwrite:
+
+1. Commit or back up any rules you customized (for example, `.claude/CLAUDE.md`).
+2. Tell your copilot: **"Run kai_initialize with overwrite=true"**
+3. Review the changes with `git diff` and restore any customizations.
+
+Also replace any `.kahuna` entries in the project's `.gitignore` with `.kai`.
+
+**6. Verify**
+
+```bash
+ls -d ~/.kahuna 2>/dev/null
+grep -n KAHUNA_ ~/.kai/.env apps/mcp/.env 2>/dev/null
+```
+
+Neither command should print anything.
 
 ---
 
