@@ -10,7 +10,6 @@ import * as fs from 'node:fs/promises';
 import * as os from 'node:os';
 import * as path from 'node:path';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { getKnowledgeDir } from '../../../kai-home.js';
 import type { KnowledgeEntry } from '../../storage/types.js';
 import {
   clearContextDir,
@@ -75,8 +74,8 @@ describe('context-writer', () => {
     it('returns KB path for a slug', () => {
       const kbPath = getKBPath('api-guidelines');
 
-      // ~/.kai, or legacy ~/.kahuna when only that exists on this machine
-      expect(kbPath.startsWith(getKnowledgeDir())).toBe(true);
+      expect(kbPath).toContain('.kai');
+      expect(kbPath).toContain('knowledge');
       expect(kbPath).toContain('api-guidelines.mdc');
     });
 

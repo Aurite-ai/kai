@@ -14,7 +14,7 @@
     "typecheck": "turbo typecheck",
     "test": "turbo test",
     "clean": "rm -rf apps/*/dist packages/*/dist apps/*/tsconfig.tsbuildinfo packages/*/tsconfig.tsbuildinfo node_modules/.cache .turbo",
-    "mcp:clean": "rm -rf apps/mcp/dist && claude mcp remove kai -s user 2>/dev/null; claude mcp remove kai -s project 2>/dev/null; claude mcp remove kahuna -s user 2>/dev/null; claude mcp remove kahuna -s project 2>/dev/null; echo 'Cleaned MCP dist and removed kai from Claude Code'",
+    "mcp:clean": "rm -rf apps/mcp/dist && claude mcp remove kai -s user 2>/dev/null; claude mcp remove kai -s project 2>/dev/null; echo 'Cleaned MCP dist and removed kai from Claude Code'",
     "mcp:setup": "pnpm --filter @aurite-ai/kai build && pnpm --filter @aurite-ai/kai bundle && claude mcp remove kai -s user 2>/dev/null; claude mcp add kai -s user -e ANTHROPIC_API_KEY=\"$(grep ANTHROPIC_API_KEY apps/mcp/.env | cut -d= -f2)\" -- node \"$(pwd)/apps/mcp/dist/kai-mcp.cjs\" && echo 'MCP server built and configured. Restart Claude Code to use it.'",
     "mcp:reset": "pnpm mcp:clean && pnpm mcp:setup",
     "mcp:reset-and-test": "pnpm mcp:reset && pnpm test:create",

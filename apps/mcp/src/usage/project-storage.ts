@@ -7,11 +7,10 @@
 
 import * as fs from 'node:fs/promises';
 import * as path from 'node:path';
-import { KAI_DIR_NAME, LEGACY_DIR_NAME } from '../kai-home.js';
 import type { CostBreakdown, ProjectUsageData, ProjectUsageTotals, TokenUsage } from './types.js';
 
 /** Default path for usage data relative to project root */
-const USAGE_DIR = KAI_DIR_NAME;
+const USAGE_DIR = '.kai';
 const USAGE_FILE = 'usage.json';
 
 /**
@@ -71,9 +70,7 @@ export class ProjectUsageStorage {
    */
   async load(): Promise<ProjectUsageData> {
     try {
-      const content = await fs
-        .readFile(this.usagePath, 'utf-8')
-        .catch(() => fs.readFile(path.join(this.projectDir, LEGACY_DIR_NAME, USAGE_FILE), 'utf-8'));
+      const content = await fs.readFile(this.usagePath, 'utf-8');
       const data = JSON.parse(content) as ProjectUsageData;
       this.cachedData = data;
       return data;
