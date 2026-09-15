@@ -9,9 +9,9 @@
  */
 
 import * as fs from 'node:fs/promises';
+import * as os from 'node:os';
 import * as path from 'node:path';
 import { z } from 'zod';
-import { getKnowledgeDir as resolveKnowledgeDir } from '../kai-home.js';
 import { type MCPToolResponse, type ToolContext, markdownResponse } from './types.js';
 
 /**
@@ -89,10 +89,10 @@ const provideContextInputSchema = z.object({
 
 /**
  * Get the knowledge base directory path.
- * Uses KAI_KNOWLEDGE_DIR (or legacy KAHUNA_KNOWLEDGE_DIR) if set, otherwise ~/.kai/knowledge/
+ * Uses KAI_KNOWLEDGE_DIR env var if set, otherwise defaults to ~/.kai/knowledge/
  */
 function getKnowledgeDir(): string {
-  return resolveKnowledgeDir();
+  return process.env.KAI_KNOWLEDGE_DIR || path.join(os.homedir(), '.kai', 'knowledge');
 }
 
 /**

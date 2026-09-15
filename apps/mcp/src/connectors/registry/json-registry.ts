@@ -13,8 +13,8 @@
 
 import { existsSync } from 'node:fs';
 import { mkdir, readFile, readdir, unlink, writeFile } from 'node:fs/promises';
+import { homedir } from 'node:os';
 import { join } from 'node:path';
-import { getKaiHomeDir } from '../../kai-home.js';
 import {
   type ConnectorInstallation,
   type ConnectorManifest,
@@ -26,6 +26,8 @@ import {
 // =============================================================================
 // CONSTANTS
 // =============================================================================
+
+const DEFAULT_CONNECTORS_DIR = join(homedir(), '.kai', 'connectors');
 
 const TIER_DIRECTORIES: Record<ConnectorManifest['metadata']['tier'], string> = {
   native: 'native',
@@ -50,7 +52,7 @@ export class JsonConnectorRegistry implements ConnectorRegistry {
   private baseDir: string;
 
   constructor(baseDir?: string) {
-    this.baseDir = baseDir ?? join(getKaiHomeDir(), 'connectors');
+    this.baseDir = baseDir ?? DEFAULT_CONNECTORS_DIR;
   }
 
   /**

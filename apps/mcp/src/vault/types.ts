@@ -7,8 +7,8 @@
  * See: docs/design/secure-integrations.md
  */
 
+import { homedir } from 'node:os';
 import { join } from 'node:path';
-import { ENV_PREFIX, getKaiHomeDir } from '../kai-home.js';
 
 /**
  * Supported vault providers
@@ -129,8 +129,8 @@ export const DEFAULT_VAULT_CONFIG: VaultConfig = {
   fallbackProviders: [],
   providerConfig: {
     env: {
-      filePath: join(getKaiHomeDir(), '.env'),
-      prefix: ENV_PREFIX,
+      filePath: join(homedir(), '.kai', '.env'),
+      prefix: 'KAI_',
     },
   },
 };

@@ -12,7 +12,6 @@
  */
 
 import { randomUUID } from 'node:crypto';
-import { readEnv } from '../kai-home.js';
 import {
   addToSummary,
   calculateCost,
@@ -324,12 +323,12 @@ export class UsageTracker {
  * @returns Configured UsageTracker instance
  */
 export function createUsageTrackerFromEnv(): UsageTracker {
-  const apiEndpoint = readEnv('KAI_USAGE_API_ENDPOINT');
-  const apiKey = readEnv('KAI_USAGE_API_KEY');
-  const userId = readEnv('KAI_USER_ID');
-  const orgId = readEnv('KAI_ORG_ID');
-  const teamId = readEnv('KAI_TEAM_ID');
-  const includeInResponses = readEnv('KAI_INCLUDE_USAGE_IN_RESPONSES') !== 'false';
+  const apiEndpoint = process.env.KAI_USAGE_API_ENDPOINT;
+  const apiKey = process.env.KAI_USAGE_API_KEY;
+  const userId = process.env.KAI_USER_ID;
+  const orgId = process.env.KAI_ORG_ID;
+  const teamId = process.env.KAI_TEAM_ID;
+  const includeInResponses = process.env.KAI_INCLUDE_USAGE_IN_RESPONSES !== 'false';
 
   const config: Partial<UsageTrackerConfig> = {
     includeInResponses,

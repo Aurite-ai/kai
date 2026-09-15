@@ -8,15 +8,15 @@
  */
 
 import * as fs from 'node:fs/promises';
+import * as os from 'node:os';
 import * as path from 'node:path';
-import { ENV_PREFIX, LEGACY_ENV_PREFIX, getKaiHomeDir, toLegacyEnvName } from '../kai-home.js';
 import type { VaultProvider } from './types.js';
 
 /**
  * Get the path to the Kai env file
  */
 function getEnvFilePath(): string {
-  return path.join(getKaiHomeDir(), '.env');
+  return path.join(os.homedir(), '.kai', '.env');
 }
 
 /**
@@ -81,7 +81,7 @@ function pathToEnvKey(secretPath: string): string {
     .replace(/[^A-Z0-9]/g, '_')
     .replace(/_+/g, '_')
     .replace(/^_|_$/g, '');
-  return `${ENV_PREFIX}${normalized}`;
+  return `KAI_${normalized}`;
 }
 
 /**
@@ -89,16 +89,8 @@ function pathToEnvKey(secretPath: string): string {
  * e.g., "KAI_GMAIL_CLIENT_SECRET" -> "gmail/client_secret"
  */
 function envKeyToPath(envKey: string): string {
-  const prefix = [ENV_PREFIX, LEGACY_ENV_PREFIX].find((p) => envKey.startsWith(p));
-  if (!prefix) return envKey;
-  return envKey.slice(prefix.length).toLowerCase().replace(/_/g, '/');
-}
-
-/**
- * Check if an env var name holds a Kai secret (KAI_* or legacy KAHUNA_*)
- */
-function isSecretEnvKey(key: string): boolean {
-  return key.startsWith(ENV_PREFIX) || key.startsWith(LEGACY_ENV_PREFIX);
+  if (!envKey.startsWith('KAI_')) return envKey;
+  return envKey.replace(/^KAI_/, '').toLowerCase().replace(/_/g, '/');
 }
 
 /**
@@ -126,12 +118,10 @@ export class EnvVaultProvider implements VaultProvider {
    */
   async getSecret(secretPath: string): Promise<string | null> {
     const envKey = pathToEnvKey(secretPath);
-    const legacyKey = toLegacyEnvName(envKey);
 
     // First check process.env (already loaded environment)
-    const fromProcess = process.env[envKey] || process.env[legacyKey];
-    if (fromProcess) {
-      return fromProcess;
+    if (process.env[envKey]) {
+      return process.env[envKey] ?? null;
     }
 
     // Fall back to reading from file
@@ -139,7 +129,7 @@ export class EnvVaultProvider implements VaultProvider {
       const envPath = getEnvFilePath();
       const content = await fs.readFile(envPath, 'utf-8');
       const env = parseEnvFile(content);
-      return env.get(envKey) ?? env.get(legacyKey) ?? null;
+      return env.get(envKey) ?? null;
     } catch {
       // File doesn't exist or can't be read
       return null;
@@ -170,7 +160,6 @@ export class EnvVaultProvider implements VaultProvider {
 
     // Update/add the secret
     env.set(envKey, value);
-    env.delete(toLegacyEnvName(envKey));
 
     // Write back
     await fs.writeFile(envPath, serializeEnvFile(env), 'utf-8');
@@ -184,7 +173,7 @@ export class EnvVaultProvider implements VaultProvider {
 
     // Check process.env
     for (const key of Object.keys(process.env)) {
-      if (isSecretEnvKey(key)) {
+      if (key.startsWith('KAI_')) {
         const secretPath = envKeyToPath(key);
         if (!prefix || secretPath.startsWith(prefix)) {
           secrets.push(secretPath);
@@ -199,7 +188,7 @@ export class EnvVaultProvider implements VaultProvider {
       const env = parseEnvFile(content);
 
       for (const key of env.keys()) {
-        if (isSecretEnvKey(key)) {
+        if (key.startsWith('KAI_')) {
           const secretPath = envKeyToPath(key);
           if (!prefix || secretPath.startsWith(prefix)) {
             if (!secrets.includes(secretPath)) {
