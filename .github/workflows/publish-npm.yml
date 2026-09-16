@@ -37,7 +37,8 @@ jobs:
           cache: 'pnpm'
 
       - name: Set version in package.json
-        run: npm version "${{ inputs.version }}" --no-git-tag-version
+        # --allow-same-version: stable releases publish the version already in package.json
+        run: npm version "${{ inputs.version }}" --no-git-tag-version --allow-same-version
         working-directory: apps/mcp
 
       - name: Install dependencies
